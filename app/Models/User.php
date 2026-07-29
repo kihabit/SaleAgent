@@ -30,7 +30,7 @@ class User extends Authenticatable
 
         if(!$this->role)
         {
-            return false;
+            return true;
         }
 
 
