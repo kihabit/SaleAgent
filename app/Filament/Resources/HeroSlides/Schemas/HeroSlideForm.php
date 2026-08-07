@@ -22,10 +22,21 @@ class HeroSlideForm
                 ->label('Description')
                 ->rows(3),
 
-            FileUpload::make('image')
-                ->image()
-                ->directory('hero-slides')
-                ->label('Slide Image'),
+           FileUpload::make('image')
+    ->image()
+    ->disk('public')
+    ->directory('hero-slides')
+    ->label('Slide Image')
+    ->required()
+    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+    ->maxSize(2048)
+    ->helperText('Required. JPG, PNG or WEBP. Max size 2MB.'),
+
+            TextInput::make('image_alt_text')
+                ->label('Image Alt Text')
+                ->placeholder('Digital Transaction Management Assistant dashboard')
+                ->maxLength(255)
+                ->required(),
 
             TextInput::make('btn1_text')->label('Button 1 Text'),
             TextInput::make('btn1_url')->label('Button 1 URL'),

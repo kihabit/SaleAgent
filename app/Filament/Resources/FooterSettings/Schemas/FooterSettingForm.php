@@ -12,10 +12,16 @@ class FooterSettingForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-            FileUpload::make('logo_image')
-                ->image()
-                ->directory('logos')
-                ->label('Footer Logo'),
+          FileUpload::make('logo_image')
+    ->image()
+    ->disk('public')
+    ->directory('logos')
+    ->label('Footer Logo'),
+
+            TextInput::make('logo_alt_text')
+                ->label('Logo Alt Text')
+                ->placeholder('KDS ERP Crew')
+                ->maxLength(255),
 
             TextInput::make('about_heading')
                 ->label('About Heading')

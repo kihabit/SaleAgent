@@ -13,10 +13,21 @@ class HeaderSettingForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-            FileUpload::make('logo_image')
-                ->image()
-                ->directory('logos')
-                ->label('Logo Image'),
+FileUpload::make('logo_image')
+    ->image()
+    ->disk('public')
+    ->directory('logos')
+    ->label('Logo Image')
+    ->visibility('public')
+    ->fetchFileInformation(false)
+    ->required()
+    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+    ->maxSize(10240)
+    ->helperText('Required. JPG, PNG or WEBP. Max size 10MB.'),
+            TextInput::make('logo_alt_text')
+                ->label('Logo Alt Text')
+                ->placeholder('KDS ERP Crew')
+                ->maxLength(255),
 
             TextInput::make('logo_text')
                 ->label('Logo Text')

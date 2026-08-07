@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\HeaderSettings\Tables;
 
 use Filament\Actions\BulkActionGroup;
+use Filament\Actions\DeleteAction;
 use Filament\Actions\DeleteBulkAction;
 use Filament\Actions\EditAction;
 use Filament\Tables\Columns\IconColumn;
@@ -16,7 +17,8 @@ class HeaderSettingsTable
     {
         return $table
             ->columns([
-                ImageColumn::make('logo_image'),
+                ImageColumn::make('logo_image')
+                    ->disk('public'),
                 TextColumn::make('logo_text')
                     ->searchable(),
                 TextColumn::make('logo_link')
@@ -49,6 +51,7 @@ class HeaderSettingsTable
             ])
             ->recordActions([
                 EditAction::make(),
+                DeleteAction::make(),
             ])
             ->toolbarActions([
                 BulkActionGroup::make([

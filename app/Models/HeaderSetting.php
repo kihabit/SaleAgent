@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class HeaderSetting extends Model
 {
     protected $fillable = [
-        'logo_image', 'logo_text', 'logo_link', 'is_sticky',
+        'logo_image', 'logo_alt_text', 'logo_text', 'logo_link', 'is_sticky',
         'cta_text', 'cta_url', 'cta_style', 'created_by', 'updated_by'
     ];
 

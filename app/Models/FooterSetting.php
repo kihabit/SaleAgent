@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class FooterSetting extends Model
 {
     protected $fillable = [
-        'logo_image', 'about_heading', 'about_text',
+        'logo_image', 'logo_alt_text', 'about_heading', 'about_text',
         'info_heading', 'info_text', 'info_link_text', 'info_link_url',
         'connect_heading', 'connect_text', 'copyright_text',
         'created_by', 'updated_by'
