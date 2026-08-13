@@ -57,4 +57,27 @@ class AgentSectionController extends Controller
             ],
         ]);
     }
+
+    public function showBySlug($slug): JsonResponse
+    {
+        $settings = AgentSectionSetting::where('slug', $slug)->first();
+
+        if (!$settings) {
+            return response()->json([
+                'success' => false,
+                'message' => 'Not found',
+            ], 404);
+        }
+
+        return response()->json([
+            'success' => true,
+            'data' => [
+                'badge_text'      => $settings->badge_text,
+                'heading'         => $settings->heading,
+                'description'     => $settings->description,
+                'cta_button_text' => $settings->cta_button_text,
+                'cta_button_url'  => $settings->cta_button_url,
+            ],
+        ]);
+    }
 }

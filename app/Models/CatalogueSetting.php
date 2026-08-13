@@ -4,11 +4,11 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AgentSectionSetting extends Model
+class CatalogueSetting extends Model
 {
     protected $fillable = [
-        'slug', 'badge_text', 'heading', 'description',
-        'cta_heading', 'cta_description', 'cta_button_text', 'cta_button_url',
+        'badge_text', 'heading', 'slug', 'description',
+        'notice_text', 'notice_link_text', 'notice_link_url',
         'created_by', 'updated_by'
     ];
 

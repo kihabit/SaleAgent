@@ -4,12 +4,15 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class AgentSectionSetting extends Model
+class BottomStepSlider extends Model
 {
     protected $fillable = [
-        'slug', 'badge_text', 'heading', 'description',
-        'cta_heading', 'cta_description', 'cta_button_text', 'cta_button_url',
+        'badge_text', 'heading', 'slug', 'description', 'steps',
         'created_by', 'updated_by'
+    ];
+
+    protected $casts = [
+        'steps' => 'array',
     ];
 
     protected static function boot()

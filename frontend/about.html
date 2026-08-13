@@ -1,0 +1,1207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>About Us — KDS ERP Crew</title>
+  <meta name="description" content="About Key Dynamics Solutions — Empowering businesses through innovation, quality, and customer satisfaction." />
+  <link rel="icon" href="favicon.ico" type="image/x-icon" />
+  <style>
+    @font-face {
+      font-family: 'Inter';
+      src: url('assets/fonts/inter.woff2') format('woff2');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+  <link rel="stylesheet" href="css/styles.css" />
+  <style>
+    html { scroll-behavior: smooth; }
+
+    /* ── About Hero ──────────────────────────────────────── */
+    .about-hero {
+      position: relative;
+      overflow: hidden;
+      min-height: 420px;
+      display: flex;
+      align-items: stretch;
+    }
+    .about-hero-bg {
+      position: absolute;
+      inset: 0;
+      z-index: 0;
+    }
+    .about-hero-bg img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center right;
+      display: block;
+    }
+    /* Dark blue overlay covering the left portion */
+    .about-hero-overlay {
+      position: absolute;
+      inset: 0;
+      z-index: 1;
+      /* Solid dark on left, fades to transparent before mid-image */
+      background: linear-gradient(
+        to right,
+        #051895 0%,
+        #051895 38%,
+        rgba(5, 24, 149, 0.80) 52%,
+        rgba(5, 24, 149, 0.20) 68%,
+        transparent 82%
+      );
+    }
+    /* Mobile: full dark tint */
+    @media (max-width: 767px) {
+      .about-hero-overlay {
+        background: rgba(5, 24, 149, 0.82);
+      }
+    }
+    .about-hero-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      align-items: center;
+      width: 100%;
+      max-width: 1440px;
+      margin: 0 auto;
+      padding: 3.5rem 2.5rem;
+    }
+    @media (min-width: 768px) {
+      .about-hero-content {
+        padding: 4rem 2.5rem;
+        min-height: 420px;
+      }
+    }
+    .about-hero-left {
+      max-width: 480px;
+      width: 100%;
+    }
+    .about-hero-logo {
+      height: 3.5rem;
+      object-fit: contain;
+      margin-bottom: 1.75rem;
+    }
+    .about-hero-heading {
+      font-size: 2rem;
+      font-weight: 700;
+      line-height: 1.15;
+      color: #fff;
+      margin: 0 0 1rem;
+    }
+    @media (min-width: 768px) {
+      .about-hero-heading { font-size: 2.5rem; }
+    }
+    .about-hero-sub {
+      font-size: 1.0625rem;
+      line-height: 1.65;
+      color: rgba(255,255,255,0.88);
+      margin: 0;
+      max-width: 40ch;
+    }
+
+    /* ── Mission / Values section ─────────────────────────── */
+    .about-section {
+      background: #fff;
+      padding: 4rem 1.5rem;
+    }
+    @media (min-width: 768px) {
+      .about-section { padding: 5rem 2.5rem; }
+    }
+    .about-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+    }
+    .about-label {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #2ababe;
+      color: #fff;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 0.375rem;
+      padding: 0.3rem 0.75rem;
+      margin-bottom: 0.75rem;
+    }
+    .about-h2 {
+      font-size: 1.875rem;
+      font-weight: 800;
+      color: #051895;
+      margin: 0 0 1rem;
+      letter-spacing: -0.01em;
+    }
+    @media (min-width: 768px) {
+      .about-h2 { font-size: 2.25rem; }
+    }
+    .about-lead {
+      font-size: 1rem;
+      line-height: 1.75;
+      color: #6b7280;
+      max-width: 72ch;
+      margin: 0 0 3rem;
+    }
+    /* Values grid */
+    .values-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+    }
+    @media (min-width: 640px) {
+      .values-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+    @media (min-width: 1024px) {
+      .values-grid { grid-template-columns: repeat(3, 1fr); }
+    }
+    .value-card {
+      border: 1px solid #e5e7eb;
+      border-radius: 1rem;
+      padding: 2rem;
+      background: #f9fafb;
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+    .value-icon {
+      width: 2.75rem;
+      height: 2.75rem;
+      border-radius: 0.625rem;
+      background: #051895;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #fff;
+      flex-shrink: 0;
+    }
+    .value-title {
+      font-size: 1.0625rem;
+      font-weight: 700;
+      color: #111827;
+    }
+    .value-desc {
+      font-size: 0.9rem;
+      line-height: 1.65;
+      color: #6b7280;
+    }
+
+    /* ── Stats band ────────────────────────────────────────── */
+    .stats-band {
+      background: #051895;
+      padding: 3rem 1.5rem;
+    }
+    @media (min-width: 768px) { .stats-band { padding: 3.5rem 2.5rem; } }
+    .stats-inner {
+      max-width: 1440px;
+      margin: 0 auto;
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 2rem;
+    }
+    @media (min-width: 768px) {
+      .stats-inner { grid-template-columns: repeat(4, 1fr); }
+    }
+    .stat-item { text-align: center; }
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 800;
+      color: #2ababe;
+      line-height: 1;
+      margin-bottom: 0.375rem;
+    }
+    .stat-label {
+      font-size: 0.875rem;
+      color: rgba(255,255,255,0.80);
+      font-weight: 500;
+    }
+
+    /* ── CTA Band ────────────────────────────────────────── */
+    .cta-band {
+      background: #f0f4ff;
+      border-top: 1px solid #dce3f7;
+      padding: 3.5rem 1.5rem;
+      text-align: center;
+    }
+    @media (min-width: 768px) { .cta-band { padding: 4rem 2.5rem; } }
+    .cta-band h3 {
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: #051895;
+      margin: 0 0 0.75rem;
+    }
+    @media (min-width: 768px) { .cta-band h3 { font-size: 1.875rem; } }
+    .cta-band p {
+      color: #6b7280;
+      font-size: 1rem;
+      line-height: 1.7;
+      max-width: 52ch;
+      margin: 0 auto 2rem;
+    }
+    .cta-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: #051895;
+      color: #fff;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      padding: 0.8rem 1.75rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      transition: filter 0.15s;
+    }
+    .cta-btn:hover { filter: brightness(1.15); }
+    .cta-btn-outline {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: transparent;
+      color: #051895;
+      border: 2px solid #051895;
+      font-size: 0.9375rem;
+      font-weight: 600;
+      padding: 0.8rem 1.75rem;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      transition: background 0.15s, color 0.15s;
+      margin-left: 1rem;
+    }
+    .cta-btn-outline:hover { background: #051895; color: #fff; }
+
+    /* ── Footer (shared) ─────────────────────────────────── */
+    .footer-inner {
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 3rem;
+    }
+    @media (min-width: 768px) {
+      .footer-inner { flex-direction: row; align-items: flex-start; }
+    }
+    .footer-right {
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+    @media (min-width: 768px) {
+      .footer-right { align-items: flex-end; text-align: right; align-self: flex-start; }
+    }
+    .footer-divider { width: 100%; border-top: 1px solid rgba(255,255,255,0.10); }
+    .footer-social-btn {
+      display: flex;
+      height: 2.25rem;
+      width: 2.25rem;
+      align-items: center;
+      justify-content: center;
+      border-radius: 9999px;
+      background-color: rgba(255,255,255,0.10);
+      color: #fff;
+      transition: background-color 0.15s;
+    }
+    .footer-social-btn:hover { background-color: rgba(255,255,255,0.25); }
+    .footer-kds-link { transition: opacity 0.15s; }
+    .footer-kds-link:hover { opacity: 0.80; }
+    .footer-copyright {
+      margin-top: 2.5rem;
+      border-top: 1px solid rgba(255,255,255,0.10);
+      padding-top: 1.5rem;
+    }
+  </style>
+</head>
+<body class="bg-background text-foreground">
+
+  <!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
+  <header class="sticky top-0 z-50 w-full border-b border-gray-200 bg-white shadow-sm">
+    <div class="mx-auto flex max-w-screen-2xl items-center justify-between px-6 py-3 md:px-10">
+      <a href="index.html">
+        <img src="assets/images/kds-logo-header.png" alt="KDS ERP Crew" class="h-[3.75rem] object-contain" />
+      </a>
+      <div class="hidden items-center gap-8 md:flex">
+        <nav class="flex items-center gap-8">
+          <a href="index.html" class="text-[15.4px] font-medium text-gray-700 transition hover:text-[#051895]">Home</a>
+          <a href="agent-library.html" class="text-[15.4px] font-medium text-gray-700 transition hover:text-[#051895]">Agent Library</a>
+          <a href="about.html" class="text-[15.4px] font-medium transition hover:text-[#051895]" style="color:#051895">About Us</a>
+        </nav>
+        <a href="https://keydynamicssolutions.com/" target="_blank" rel="noopener noreferrer"
+           class="inline-flex items-center rounded-md px-5 py-2.5 text-sm font-semibold text-white transition hover:brightness-110"
+           style="background-color:#051895">Schedule Your AI Audit</a>
+      </div>
+    </div>
+  </header>
+
+  <!-- ═══════════════════════════════ HERO ═══════════════════════════════ -->
+  <section class="about-hero">
+    <!-- Background photo -->
+    <div class="about-hero-bg">
+      <img src="assets/images/about-hero-bg.png" alt="Key Dynamics Solutions" />
+    </div>
+    <!-- Dark blue gradient overlay -->
+    <div class="about-hero-overlay"></div>
+    <!-- Content -->
+    <div class="about-hero-content">
+      <div class="about-hero-left">
+        <img src="assets/images/kds-logo-full.png" alt="KDS ERP Crew" class="about-hero-logo" />
+        <h1 class="about-hero-heading">
+          About<br />Key Dynamics Solutions
+        </h1>
+        <p class="about-hero-sub">
+          Empowering businesses through innovation, quality, and customer satisfaction.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ WELCOME SECTION ═══════════════════════════════ -->
+  <section style="background:#fff;padding:4rem 1.5rem;">
+    <style>
+      @media(min-width:768px){.welcome-section-inner{padding-left:2.5rem!important;padding-right:2.5rem!important}}
+      .welcome-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        align-items: center;
+      }
+      @media (min-width: 1024px) {
+        .welcome-grid { grid-template-columns: 1fr 1fr; gap: 4rem; }
+      }
+      .welcome-eyebrow {
+        display: inline-block;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.1em;
+        color: #2ababe;
+        margin-bottom: 0.75rem;
+      }
+      .welcome-h2 {
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: #051895;
+        line-height: 1.2;
+        margin: 0 0 1.25rem;
+      }
+      @media (min-width: 768px) { .welcome-h2 { font-size: 2.125rem; } }
+      .welcome-lead {
+        font-size: 1rem;
+        font-weight: 500;
+        color: #374151;
+        line-height: 1.7;
+        margin: 0 0 1rem;
+      }
+      .welcome-body {
+        font-size: 0.9375rem;
+        color: #6b7280;
+        line-height: 1.75;
+        margin: 0 0 1rem;
+      }
+      .welcome-body:last-of-type { margin-bottom: 1.75rem; }
+      .welcome-btn {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #051895;
+        color: #fff;
+        font-size: 0.9375rem;
+        font-weight: 600;
+        padding: 0.75rem 1.625rem;
+        border-radius: 0.5rem;
+        text-decoration: none;
+        transition: filter 0.15s;
+      }
+      .welcome-btn:hover { filter: brightness(1.15); }
+      .welcome-img-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .welcome-img-wrap img {
+        width: 100%;
+        max-width: 540px;
+        height: auto;
+        display: block;
+      }
+    </style>
+    <div class="mx-auto max-w-screen-2xl welcome-section-inner">
+      <div class="welcome-grid">
+
+        <!-- Left: text -->
+        <div>
+          <span class="welcome-eyebrow">Welcome</span>
+          <h2 class="welcome-h2">Welcome to Key Dynamics Solutions</h2>
+          <p class="welcome-lead">
+            We provide intelligent business solutions to help our clients in creating the better future.
+          </p>
+          <p class="welcome-body">
+            With expertise across ERP, CRM, Business Intelligence, AI, and cloud technologies, KDS delivers end-to-end consulting, implementation, customization, integration, migration, support, and managed services tailored to each organization's unique business needs.
+          </p>
+          <p class="welcome-body">
+            Serving clients across multiple industries, KDS combines deep domain expertise with a customer-centric approach to build scalable, future-ready solutions that drive measurable business value. From modernizing business processes to enabling intelligent decision-making, KDS empowers organizations to transform with confidence.
+          </p>
+          <p class="welcome-body">
+            Driven by innovation, quality, and long-term partnerships, Key Dynamics Solutions continues to help businesses embrace digital transformation and achieve sustainable success.
+          </p>
+          <a href="https://keydynamicssolutions.com/" target="_blank" rel="noopener noreferrer" class="welcome-btn">
+            Know More About KDS
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+          </a>
+        </div>
+
+        <!-- Right: stats image -->
+        <div class="welcome-img-wrap">
+          <img src="assets/images/about-stats-grid.png" alt="KDS key statistics — 11+ years, 100+ experts, 200+ projects, 90+ adoption rate" />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ MEET ERP CREW ═══════════════════════════════ -->
+  <section style="background:#f8faff;padding:4rem 1.5rem;border-top:1px solid #e5e7eb;">
+    <style>
+      @media(min-width:768px){.erpcrew-section-inner{padding-left:2.5rem!important;padding-right:2.5rem!important}}
+      .erpcrew-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        align-items: center;
+      }
+      @media (min-width: 1024px) {
+        .erpcrew-grid { grid-template-columns: 1fr 1fr; gap: 4rem; }
+      }
+      .erpcrew-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #2ababe;
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        border-radius: 0.375rem;
+        padding: 0.3rem 0.75rem;
+        margin-bottom: 0.75rem;
+      }
+      .erpcrew-h2 {
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: #051895;
+        line-height: 1.2;
+        margin: 0 0 0.75rem;
+      }
+      @media (min-width: 768px) { .erpcrew-h2 { font-size: 2.125rem; } }
+      .erpcrew-tagline {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #2ababe;
+        line-height: 1.5;
+        margin: 0 0 1.25rem;
+      }
+      .erpcrew-body {
+        font-size: 0.9375rem;
+        color: #6b7280;
+        line-height: 1.75;
+        margin: 0 0 1rem;
+      }
+      .erpcrew-img-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .erpcrew-img-wrap img {
+        width: 100%;
+        max-width: 520px;
+        height: auto;
+        display: block;
+      }
+    </style>
+    <div class="mx-auto max-w-screen-2xl erpcrew-section-inner">
+      <div class="erpcrew-grid">
+
+        <!-- Left: text -->
+        <div>
+          <span class="erpcrew-eyebrow">
+            <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z"/></svg>
+            KDS ERP Crew
+          </span>
+          <h2 class="erpcrew-h2">Meet KDS ERP Crew</h2>
+          <p class="erpcrew-tagline">AI-powered ERP automation with real-time business insights.</p>
+          <p class="erpcrew-body">
+            KDS ERP Crew is an AI-powered ERP assistant platform that simplifies enterprise operations by enabling users to interact with ERP systems through natural language. It combines intelligent automation with role-based AI assistants to streamline business processes, improve productivity, and provide real-time insights for faster, data-driven decision-making.
+          </p>
+          <p class="erpcrew-body">
+            KDS ERP Crew also delivers on-demand analytics, KPIs, and dashboards through simple natural language interactions, making enterprise data easily accessible to users across the organization. With AI-powered governance, it accelerates approval workflows, reduces manual effort, enhances operational efficiency, and enables organizations to make smarter business decisions with greater speed and accuracy.
+          </p>
+        </div>
+
+        <!-- Right: image -->
+        <div class="erpcrew-img-wrap">
+          <img src="assets/images/about-erpcrew.png" alt="KDS ERP Crew — AI-powered ERP automation platform" />
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ WHY ERP CREW ═══════════════════════════════ -->
+  <section style="background:#fff;padding:4rem 1.5rem;border-top:1px solid #e5e7eb;">
+    <style>
+      @media(min-width:768px){.why-wrap{padding-left:2.5rem!important;padding-right:2.5rem!important}}
+      .why-inner { max-width: 1440px; margin: 0 auto; }
+      .why-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #2ababe;
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        border-radius: 0.375rem;
+        padding: 0.3rem 0.75rem;
+        margin-bottom: 0.75rem;
+      }
+      .why-h2 {
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: #051895;
+        margin: 0 0 0.875rem;
+        line-height: 1.2;
+      }
+      @media(min-width:768px){ .why-h2 { font-size: 2.125rem; } }
+      .why-tagline {
+        font-size: 1rem;
+        font-weight: 600;
+        color: #2ababe;
+        line-height: 1.6;
+        margin: 0 0 2rem;
+        max-width: 72ch;
+      }
+      .why-card-row {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+      @media(min-width:768px){
+        .why-card-row { grid-template-columns: 1fr 1fr; gap: 2rem; }
+      }
+      .why-card {
+        border-radius: 1rem;
+        padding: 2rem 2.25rem;
+        display: flex;
+        flex-direction: column;
+        gap: 0.875rem;
+      }
+      .why-card-problem {
+        background: #f8faff;
+        border: 1px solid #dce3f7;
+      }
+      .why-card-solution {
+        background: #051895;
+        border: 1px solid #051895;
+        color: #fff;
+      }
+      .why-card-label {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.4rem;
+        font-size: 0.72rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        border-radius: 99px;
+        padding: 0.25rem 0.75rem;
+      }
+      .why-card-problem .why-card-label {
+        background: #fee2e2;
+        color: #b91c1c;
+      }
+      .why-card-solution .why-card-label {
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+      }
+      .why-card-title {
+        font-size: 1.0625rem;
+        font-weight: 700;
+        line-height: 1.3;
+      }
+      .why-card-problem .why-card-title { color: #051895; }
+      .why-card-solution .why-card-title { color: #fff; }
+      .why-card-body {
+        font-size: 0.9rem;
+        line-height: 1.75;
+      }
+      .why-card-problem .why-card-body { color: #4b5563; }
+      .why-card-solution .why-card-body { color: rgba(255,255,255,0.85); }
+    </style>
+    <div class="mx-auto max-w-screen-2xl why-wrap">
+      <div class="why-inner">
+        <div class="why-eyebrow">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M12 16v-4"/><path d="M12 8h.01"/></svg>
+          Why KDS ERP Crew
+        </div>
+        <h2 class="why-h2">Why KDS ERP Crew?</h2>
+        <p class="why-tagline">Connect multiple ERP systems with AI-powered automation, real-time insights, and centralized governance.</p>
+
+        <div class="why-card-row">
+
+          <!-- Problem card -->
+          <div class="why-card why-card-problem">
+            <div class="why-card-label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+              The Challenge
+            </div>
+            <div class="why-card-title">Fragmented operations across multiple ERP systems</div>
+            <p class="why-card-body">
+              Organizations often operate multiple ERP systems across different business entities, with each ERP managing its own procurement, vendors, purchase orders, approvals, and reporting. While this supports entity-level operations, it often results in fragmented data, inconsistent workflows, and limited enterprise-wide visibility.
+            </p>
+          </div>
+
+          <!-- Solution card -->
+          <div class="why-card why-card-solution">
+            <div class="why-card-label">
+              <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+              The Solution
+            </div>
+            <div class="why-card-title">A unified AI layer — without replacing your ERPs</div>
+            <p class="why-card-body">
+              KDS ERP Crew addresses these challenges by providing a centralized AI-powered operations layer that works seamlessly across existing ERP systems — without replacing them. It unifies procurement intelligence, streamlines approval processes, delivers real-time business insights, and strengthens governance across the enterprise, enabling organizations to make faster and smarter business decisions.
+            </p>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ KEY CHALLENGES ═══════════════════════════════ -->
+  <section style="background:#f8faff;padding:4rem 1.5rem;border-top:1px solid #e5e7eb;">
+    <style>
+      @media(min-width:768px){.challenges-wrap{padding-left:2.5rem!important;padding-right:2.5rem!important}}
+
+      .ch-eyebrow {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: #2ababe;
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        border-radius: 0.375rem;
+        padding: 0.3rem 0.75rem;
+        margin-bottom: 0.75rem;
+      }
+      .ch-heading {
+        font-size: 1.75rem;
+        font-weight: 800;
+        color: #051895;
+        margin: 0 0 2.5rem;
+        line-height: 1.2;
+      }
+      @media(min-width:768px){ .ch-heading { font-size: 2.125rem; } }
+
+      /* ── Timeline wrapper ── */
+      .ch-timeline {
+        display: flex;
+        gap: 0;
+        overflow-x: auto;
+        padding-bottom: 0.5rem;
+        -webkit-overflow-scrolling: touch;
+        scrollbar-width: none;
+        position: relative;
+      }
+      .ch-timeline::-webkit-scrollbar { display: none; }
+
+      /* Each column */
+      .ch-item {
+        flex: 1 0 0%;
+        min-width: 148px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        padding: 0 0.5rem;
+        position: relative;
+        z-index: 1;
+      }
+
+      /* ── Pill box ── fixed height so line position is predictable */
+      .ch-pill {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        width: 100%;
+        max-width: 140px;
+        height: 3.25rem;          /* fixed height for reliable line calc */
+        padding: 0 0.85rem;
+        border-radius: 0.4rem;
+        font-size: 0.78rem;
+        font-weight: 700;
+        color: #fff;
+        line-height: 1.3;
+        position: relative;
+        z-index: 2;
+        flex-shrink: 0;
+      }
+
+      /* ── Connector zone: holds dot + anchors the horizontal line ── */
+      .ch-connector {
+        position: relative;
+        width: 100%;
+        height: 2.25rem;           /* space between pill bottom and icon top */
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-shrink: 0;
+        z-index: 2;
+      }
+
+      /* Horizontal dotted line runs across the full timeline,
+         centred inside .ch-connector (1.125rem = half of 2.25rem) */
+      .ch-timeline::before {
+        content: '';
+        position: absolute;
+        /* top of timeline = pill (3.25rem) + half connector (1.125rem) = 4.375rem */
+        top: 4.375rem;
+        left: calc(100% / 12);   /* start at centre of first item */
+        right: calc(100% / 12);  /* end at centre of last item */
+        height: 2px;
+        background-image: repeating-linear-gradient(
+          to right,
+          #94a3b8 0, #94a3b8 5px,
+          transparent 5px, transparent 13px
+        );
+        z-index: 0;
+        pointer-events: none;
+      }
+
+      /* Small circular dot — colour set via inline style per item */
+      .ch-dot {
+        width: 13px;
+        height: 13px;
+        border-radius: 50%;
+        border: 2.5px solid #fff;
+        flex-shrink: 0;
+        position: relative;
+        z-index: 3;
+        /* box-shadow ring colour set inline */
+      }
+
+      /* Icon circle — border & colour set inline per item */
+      .ch-icon-wrap {
+        width: 70px;
+        height: 70px;
+        border-radius: 50%;
+        border: 2.5px solid currentColor;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background: #fff;
+        margin-bottom: 1rem;
+        flex-shrink: 0;
+      }
+
+      /* Description */
+      .ch-desc {
+        font-size: 0.82rem;
+        line-height: 1.65;
+        color: #4b5563;
+        text-align: center;
+        max-width: 175px;
+      }
+      .ch-desc strong {
+        display: block;
+        font-weight: 700;
+        margin-bottom: 0.3rem;
+        font-size: 0.84rem;
+        /* colour set inline */
+      }
+
+      /* ── Mobile: vertical stack ── */
+      @media(max-width: 767px) {
+        .ch-timeline { flex-direction: column; gap: 1.5rem; }
+        .ch-timeline::before { display: none; }
+        .ch-item { flex-direction: row; align-items: flex-start; gap: 1rem; min-width: 0; padding: 0; }
+        .ch-pill { height: auto; min-height: 2.5rem; max-width: 140px; font-size: 0.78rem; }
+        .ch-connector { display: none; }
+        .ch-icon-wrap { width: 52px; height: 52px; flex-shrink: 0; margin-bottom: 0; margin-top: 0.25rem; }
+        .ch-desc { text-align: left; max-width: none; }
+      }
+    </style>
+
+    <div class="mx-auto max-w-screen-2xl challenges-wrap">
+      <div class="ch-eyebrow">
+        <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        Challenges Solved
+      </div>
+      <h2 class="ch-heading">Key Challenges Solved by KDS ERP Crew</h2>
+
+      <div class="ch-timeline">
+
+        <!-- 1. Fragmented Data — Deep Navy #051895 -->
+        <div class="ch-item">
+          <div class="ch-pill" style="background:#051895;">Fragmented<br>Data</div>
+          <div class="ch-connector">
+            <div class="ch-dot" style="background:#051895;box-shadow:0 0 0 2px #051895;"></div>
+          </div>
+          <div class="ch-icon-wrap" style="color:#051895;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v4c0 1.657 4.029 3 9 3s9-1.343 9-3V5"/><path d="M3 13v4c0 1.657 4.029 3 9 3s9-1.343 9-3v-4"/></svg>
+          </div>
+          <div class="ch-desc">
+            <strong style="color:#051895;">Fragmented Data</strong>
+            Gain a unified view of enterprise-wide procurement and spend.
+          </div>
+        </div>
+
+        <!-- 2. Approval Gaps — Orange #f97316 -->
+        <div class="ch-item">
+          <div class="ch-pill" style="background:#f97316;">Approval<br>Gaps</div>
+          <div class="ch-connector">
+            <div class="ch-dot" style="background:#f97316;box-shadow:0 0 0 2px #f97316;"></div>
+          </div>
+          <div class="ch-icon-wrap" style="color:#f97316;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+          </div>
+          <div class="ch-desc">
+            <strong style="color:#f97316;">Approval Gaps</strong>
+            Standardize and automate approval workflows with AI-powered governance.
+          </div>
+        </div>
+
+        <!-- 3. Planning Blind Spots — Teal #2ababe -->
+        <div class="ch-item">
+          <div class="ch-pill" style="background:#2ababe;">Planning<br>Blind Spots</div>
+          <div class="ch-connector">
+            <div class="ch-dot" style="background:#2ababe;box-shadow:0 0 0 2px #2ababe;"></div>
+          </div>
+          <div class="ch-icon-wrap" style="color:#2ababe;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+          </div>
+          <div class="ch-desc">
+            <strong style="color:#2ababe;">Planning Blind Spots</strong>
+            Connect procurement, vendor, item, and entity data for better planning.
+          </div>
+        </div>
+
+        <!-- 4. Limited Spend Control — Medium Blue #1e6bb8 -->
+        <div class="ch-item">
+          <div class="ch-pill" style="background:#1e6bb8;">Limited Spend<br>Control</div>
+          <div class="ch-connector">
+            <div class="ch-dot" style="background:#1e6bb8;box-shadow:0 0 0 2px #1e6bb8;"></div>
+          </div>
+          <div class="ch-icon-wrap" style="color:#1e6bb8;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+          </div>
+          <div class="ch-desc">
+            <strong style="color:#1e6bb8;">Limited Spend Control</strong>
+            Improve spend visibility and identify cost-saving opportunities.
+          </div>
+        </div>
+
+        <!-- 5. Manual Reporting — Indigo #6366f1 -->
+        <div class="ch-item">
+          <div class="ch-pill" style="background:#6366f1;">Manual<br>Reporting</div>
+          <div class="ch-connector">
+            <div class="ch-dot" style="background:#6366f1;box-shadow:0 0 0 2px #6366f1;"></div>
+          </div>
+          <div class="ch-icon-wrap" style="color:#6366f1;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="20" x2="18" y2="10"/><line x1="12" y1="20" x2="12" y2="4"/><line x1="6" y1="20" x2="6" y2="14"/></svg>
+          </div>
+          <div class="ch-desc">
+            <strong style="color:#6366f1;">Manual Reporting</strong>
+            Replace spreadsheets with real-time analytics, KPIs, and dashboards.
+          </div>
+        </div>
+
+        <!-- 6. Weak Governance — Emerald Teal #0d9488 -->
+        <div class="ch-item">
+          <div class="ch-pill" style="background:#0d9488;">Weak<br>Governance</div>
+          <div class="ch-connector">
+            <div class="ch-dot" style="background:#0d9488;box-shadow:0 0 0 2px #0d9488;"></div>
+          </div>
+          <div class="ch-icon-wrap" style="color:#0d9488;">
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+          </div>
+          <div class="ch-desc">
+            <strong style="color:#0d9488;">Weak Governance</strong>
+            Strengthen audit trails, compliance, and approval controls across all entities.
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ KEY TAKEAWAY ═══════════════════════════════ -->
+  <section style="background:#051895;padding:3rem 1.5rem;">
+    <style>
+      @media(min-width:768px){.takeaway-wrap{padding-left:2.5rem!important;padding-right:2.5rem!important}}
+      .takeaway-inner {
+        max-width: 860px;
+        margin: 0 auto;
+        text-align: center;
+      }
+      .takeaway-badge {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        background: rgba(255,255,255,0.12);
+        border: 1px solid rgba(255,255,255,0.25);
+        color: #fff;
+        font-size: 0.75rem;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.09em;
+        border-radius: 99px;
+        padding: 0.35rem 1rem;
+        margin-bottom: 1.25rem;
+      }
+      .takeaway-label {
+        font-size: 0.95rem;
+        font-weight: 700;
+        color: #fff;
+        margin-bottom: 0.75rem;
+        letter-spacing: 0.02em;
+      }
+      .takeaway-text {
+        font-size: 1.125rem;
+        line-height: 1.8;
+        color: rgba(255,255,255,0.90);
+        font-weight: 400;
+      }
+      @media(min-width:768px){ .takeaway-text { font-size: 1.1875rem; } }
+    </style>
+    <div class="mx-auto max-w-screen-2xl takeaway-wrap">
+      <div class="takeaway-inner">
+        <div class="takeaway-badge">
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"/></svg>
+          Key Takeaway
+        </div>
+        <p class="takeaway-text">
+          KDS ERP Crew acts as an intelligent operations layer on top of existing ERP systems, helping organizations automate processes, improve visibility, accelerate approvals, and drive smarter, more governed business operations.
+        </p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ CONSULTATION FORM ═══════════════════════════════ -->
+  <section style="background:#fff;padding:4rem 1.5rem;border-top:1px solid #e5e7eb;">
+    <style>
+      @media(min-width:768px){.consult-wrap{padding-left:2.5rem!important;padding-right:2.5rem!important}}
+      .consult-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 3rem;
+        align-items: center;
+        max-width: 1440px;
+        margin: 0 auto;
+      }
+      @media(min-width:1024px){
+        .consult-grid { grid-template-columns: 1fr 1fr; gap: 4rem; }
+      }
+      .consult-img-wrap {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+      }
+      .consult-img-wrap img {
+        width: 100%;
+        max-width: 460px;
+        height: auto;
+        display: block;
+      }
+      /* Form side */
+      .consult-form-wrap { width: 100%; }
+      .consult-form-title {
+        font-size: 1.625rem;
+        font-weight: 800;
+        color: #051895;
+        margin: 0 0 1.75rem;
+        line-height: 1.2;
+      }
+      @media(min-width:768px){ .consult-form-title { font-size: 1.875rem; } }
+      .cf-row {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 0.875rem;
+        margin-bottom: 0.875rem;
+      }
+      @media(max-width:599px){ .cf-row { grid-template-columns: 1fr; } }
+      .cf-full { margin-bottom: 0.875rem; }
+      .cf-input,
+      .cf-select,
+      .cf-textarea {
+        width: 100%;
+        border: 1.5px solid #d1d5db;
+        border-radius: 0.5rem;
+        padding: 0.7rem 1rem;
+        font-size: 0.9rem;
+        color: #111827;
+        background: #fff;
+        outline: none;
+        transition: border-color 0.15s, box-shadow 0.15s;
+        font-family: inherit;
+        box-sizing: border-box;
+      }
+      .cf-input::placeholder,
+      .cf-select,
+      .cf-textarea::placeholder { color: #9ca3af; }
+      .cf-select { color: #9ca3af; }
+      .cf-select:valid,
+      .cf-select option:not([value=""]) { color: #111827; }
+      .cf-input:focus,
+      .cf-select:focus,
+      .cf-textarea:focus {
+        border-color: #2ababe;
+        box-shadow: 0 0 0 3px rgba(42,186,190,0.15);
+      }
+      .cf-textarea { resize: vertical; min-height: 120px; }
+      .cf-submit {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        background: #2ababe;
+        color: #fff;
+        font-size: 0.9375rem;
+        font-weight: 700;
+        padding: 0.8rem 2.25rem;
+        border-radius: 0.5rem;
+        border: none;
+        cursor: pointer;
+        transition: filter 0.15s;
+        margin-top: 0.5rem;
+      }
+      .cf-submit:hover { filter: brightness(1.1); }
+    </style>
+    <div class="mx-auto max-w-screen-2xl consult-wrap">
+      <div class="consult-grid">
+
+        <!-- Left: illustration -->
+        <div class="consult-img-wrap">
+          <img src="assets/images/about-form-illustration.png" alt="Get Free Consultation — KDS ERP Crew" />
+        </div>
+
+        <!-- Right: form -->
+        <div class="consult-form-wrap">
+          <h2 class="consult-form-title">Get Free Consultation</h2>
+          <form action="#" method="post" onsubmit="return false;">
+
+            <div class="cf-row">
+              <input class="cf-input" type="text" name="first_name" placeholder="First Name" required />
+              <input class="cf-input" type="text" name="last_name" placeholder="Last Name" required />
+            </div>
+
+            <div class="cf-row">
+              <input class="cf-input" type="text" name="company" placeholder="Company Name" />
+              <select class="cf-select" name="country">
+                <option value="">Select Country</option>
+                <option>United Arab Emirates</option>
+                <option>Saudi Arabia</option>
+                <option>United States</option>
+                <option>United Kingdom</option>
+                <option>India</option>
+                <option>Australia</option>
+                <option>Canada</option>
+                <option>Singapore</option>
+                <option>Other</option>
+              </select>
+            </div>
+
+            <div class="cf-row">
+              <input class="cf-input" type="email" name="email" placeholder="Email Address" required />
+              <input class="cf-input" type="tel" name="phone" placeholder="Phone Number" />
+            </div>
+
+            <div class="cf-full">
+              <input class="cf-input" type="text" name="looking_for" placeholder="Looking For?" />
+            </div>
+
+            <div class="cf-full">
+              <textarea class="cf-textarea" name="message" placeholder="Message"></textarea>
+            </div>
+
+            <button type="submit" class="cf-submit">
+              Submit
+              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+            </button>
+
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- ═══════════════════════════════ FOOTER ═══════════════════════════════ -->
+  <footer class="text-hero-foreground" style="background-color:#051895;padding:3.5rem 1.5rem;">
+    <style>@media(min-width:768px){footer{padding-left:2.5rem!important;padding-right:2.5rem!important}}</style>
+    <div class="mx-auto max-w-screen-2xl">
+      <div class="footer-inner">
+
+        <!-- Left: About -->
+        <div style="max-width:32rem">
+          <div class="flex items-center">
+            <img src="assets/images/kds-logo-full.png" alt="KDS ERP Crew" style="height:3.75rem;object-fit:contain;" />
+          </div>
+          <h3 class="text-hero-foreground" style="margin-top:1.5rem;font-size:1rem;font-weight:700;">About Key Dynamics Solutions (KDS)</h3>
+          <p class="text-hero-muted" style="margin-top:0.5rem;font-size:0.875rem;line-height:1.625;">
+            KDS ERP Crew is an AI-powered enterprise automation platform developed and owned by Key Dynamics Solutions. KDS empowers organizations with AI, ERP, CRM, Data Analytics, and Microsoft Power Platform solutions to simplify operations, automate business processes, and accelerate digital transformation.
+          </p>
+        </div>
+
+        <!-- Right: Want to know + Connect -->
+        <div class="footer-right">
+          <p class="text-hero-foreground" style="font-size:0.875rem;font-weight:600;">Want to know more about KDS?</p>
+          <p class="text-hero-muted" style="max-width:20rem;font-size:0.875rem;line-height:1.625;">Discover our solutions, services, and success stories by visiting the KDS website.</p>
+          <a href="https://keydynamicssolutions.com/" target="_blank" rel="noopener noreferrer"
+             class="footer-kds-link"
+             style="display:inline-flex;align-items:center;gap:0.25rem;font-size:0.875rem;font-weight:600;color:#fff;text-decoration:underline;text-underline-offset:2px;">
+            Visit KDS Website →
+          </a>
+
+          <div class="footer-divider"></div>
+
+          <h3 class="text-hero-foreground" style="font-size:1rem;font-weight:700;">Connect With KDS</h3>
+          <p class="text-hero-muted" style="max-width:20rem;font-size:0.875rem;line-height:1.625;">
+            Stay connected for the latest updates, AI innovations, ERP insights, and digital transformation stories.
+          </p>
+
+          <div style="display:flex;align-items:center;gap:1rem;">
+            <a href="https://www.linkedin.com/company/key-dynamics-solutions/" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn" class="footer-social-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 0 1-2.063-2.065 2.064 2.064 0 1 1 2.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+            </a>
+            <a href="https://www.facebook.com/KeyDynamicsSolutions/" target="_blank" rel="noopener noreferrer" aria-label="Facebook" class="footer-social-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+            </a>
+            <a href="https://x.com/keydynamics_365" target="_blank" rel="noopener noreferrer" aria-label="X" class="footer-social-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></svg>
+            </a>
+            <a href="https://www.youtube.com/@keydynamicssolutions" target="_blank" rel="noopener noreferrer" aria-label="YouTube" class="footer-social-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M23.498 6.186a3.016 3.016 0 0 0-2.122-2.136C19.505 3.545 12 3.545 12 3.545s-7.505 0-9.377.505A3.017 3.017 0 0 0 .502 6.186C0 8.07 0 12 0 12s0 3.93.502 5.814a3.016 3.016 0 0 0 2.122 2.136c1.871.505 9.376.505 9.376.505s7.505 0 9.377-.505a3.015 3.015 0 0 0 2.122-2.136C24 15.93 24 12 24 12s0-3.93-.502-5.814zM9.545 15.568V8.432L15.818 12l-6.273 3.568z"/></svg>
+            </a>
+            <a href="https://www.instagram.com/keydynamicssolutions" target="_blank" rel="noopener noreferrer" aria-label="Instagram" class="footer-social-btn">
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" width="20" height="20"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zM12 0C8.741 0 8.333.014 7.053.072 2.695.272.273 2.69.073 7.052.014 8.333 0 8.741 0 12c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.741 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 1 0 0 12.324 6.162 6.162 0 0 0 0-12.324zM12 16a4 4 0 1 1 0-8 4 4 0 0 1 0 8zm6.406-11.845a1.44 1.44 0 1 0 0 2.881 1.44 1.44 0 0 0 0-2.881z"/></svg>
+            </a>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Copyright -->
+      <div class="footer-copyright">
+        <p class="text-hero-muted" style="font-size:0.75rem;">© 2026 Key Dynamics Solutions Pvt. Ltd. All Rights Reserved. KDS ERP Crew™ is a product of Key Dynamics Solutions.</p>
+      </div>
+
+    </div>
+  </footer>
+
+</body>
+</html>

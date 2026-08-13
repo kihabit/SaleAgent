@@ -8,7 +8,6 @@ use Filament\Schemas\Components\Tabs\Tab;
 
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
-use Filament\Forms\Components\RichEditor;
 
 use Filament\Schemas\Components\Utilities\Get;
 use Filament\Schemas\Components\Utilities\Set;
@@ -67,8 +66,10 @@ class PageForm
                                     ->maxLength(1000),
 
 
-                                RichEditor::make('content')
-                                    ->columnSpanFull(),
+                                Textarea::make('content')
+                                    ->columnSpanFull()
+                                    ->rows(30)
+                                    ->extraInputAttributes(['style' => 'font-family: monospace; font-size: 13px;']),
 
                             ]),
 

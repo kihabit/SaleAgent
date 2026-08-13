@@ -1,0 +1,39 @@
+<?php
+
+namespace App\Filament\Resources\Solutions\Schemas;
+
+use Filament\Forms\Components\TextInput;
+use Filament\Forms\Components\Textarea;
+use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Schema;
+
+class SolutionForm
+{
+    public static function configure(Schema $schema): Schema
+    {
+        return $schema
+            ->components([
+                TextInput::make('title')
+                    ->required(),
+                Textarea::make('description')
+                    ->required()
+                    ->columnSpanFull(),
+                TextInput::make('steps_count')
+                    ->required()
+                    ->numeric(),
+                TextInput::make('automation_percentage')
+                    ->required()
+                    ->numeric(),
+                TextInput::make('outcome_label')
+                    ->required(),
+                TextInput::make('slug')
+                    ->default(null),
+                TextInput::make('sort_order')
+                    ->required()
+                    ->numeric()
+                    ->default(0),
+                Toggle::make('is_active')
+                    ->required(),
+            ]);
+    }
+}
