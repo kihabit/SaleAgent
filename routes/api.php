@@ -30,3 +30,4 @@ Route::get('/agent-section/slug/{slug}', [AgentSectionController::class, 'showBy
 Route::get('/catalogue-settings', [CatalogueSettingController::class, 'index']);
 Route::get('/bottom-sliders', [BottomSliderController::class, 'index']);
 Route::get('/bottom-step-sliders', [BottomStepSliderController::class, 'index']);
+Route::get('/footer-socials', [App\Http\Controllers\Api\FooterSocialController::class, 'index']);
