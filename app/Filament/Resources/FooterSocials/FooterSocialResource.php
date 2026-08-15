@@ -22,6 +22,9 @@ class FooterSocialResource extends Resource
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
     protected static string|UnitEnum|null $navigationGroup = 'Appearance';
+    protected static ?string $navigationLabel = 'Social Links';
+    protected static ?string $modelLabel = 'Social Links';
+    protected static ?string $pluralModelLabel = 'Social Links';
 
     protected static ?int $navigationSort = 3;
 

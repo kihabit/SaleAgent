@@ -18,7 +18,10 @@ class AgentSectionSettingResource extends Resource
 {
     protected static ?string $model = AgentSectionSetting::class;
     protected static string|\UnitEnum|null $navigationGroup = 'Content';
-protected static ?int $navigationSort = 2;
+    protected static ?int $navigationSort = 2; 
+    protected static ?string $navigationLabel = 'Agent Highlights';
+    protected static ?string $modelLabel = 'Agent Highlight';
+    protected static ?string $pluralModelLabel = 'Agent Highlights';
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
