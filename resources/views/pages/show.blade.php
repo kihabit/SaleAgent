@@ -6,6 +6,17 @@
   <title>{{ $page->title }} — KDS ERP Crew</title>
   <meta name="description" content="{{ $page->excerpt }}" />
   <link rel="icon" href="/frontend/favicon.ico" type="image/x-icon" />
+
+  <style>
+    @font-face {
+      font-family: 'Inter';
+      src: url('/frontend/assets/fonts/inter.woff2') format('woff2');
+      font-weight: 100 900;
+      font-style: normal;
+      font-display: swap;
+    }
+  </style>
+
   <link rel="stylesheet" href="/frontend/css/styles.css" />
   <style>
     .footer-inner {
@@ -74,7 +85,6 @@
   <div class="mx-auto max-w-screen-2xl">
     <div class="footer-inner">
 
-      <!-- Left: About -->
       <div style="max-width:32rem">
         <div class="flex items-center">
           <img id="footer-logo-img" src="/frontend/assets/images/kds-logo-full.png" alt="KDS ERP Crew" style="height:3.75rem;object-fit:contain;" />
@@ -85,7 +95,6 @@
         </p>
       </div>
 
-      <!-- Right: Want to know + Connect -->
       <div class="footer-right">
         <p id="footer-info-heading" class="text-hero-foreground" style="font-size:0.875rem;font-weight:600;">Want to know more about KDS?</p>
         <p id="footer-info-text" class="text-hero-muted" style="max-width:20rem;font-size:0.875rem;line-height:1.625;">Discover our solutions, services, and success stories by visiting the KDS website.</p>
@@ -107,7 +116,6 @@
 
     </div>
 
-    <!-- Copyright -->
     <div class="footer-copyright">
       <p id="footer-copyright" class="text-hero-muted" style="font-size:0.75rem;">© 2026 Key Dynamics Solutions Pvt. Ltd. All Rights Reserved. KDS ERP Crew™ is a product of Key Dynamics Solutions.</p>
     </div>

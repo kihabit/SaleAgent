@@ -13,6 +13,7 @@ use App\Http\Controllers\Api\SolutionController;
 use App\Http\Controllers\Api\CatalogueSettingController;
 use App\Http\Controllers\Api\BottomSliderController;
 use App\Http\Controllers\Api\BottomStepSliderController;
+use App\Http\Controllers\Api\ConsultationController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -31,3 +32,5 @@ Route::get('/catalogue-settings', [CatalogueSettingController::class, 'index']);
 Route::get('/bottom-sliders', [BottomSliderController::class, 'index']);
 Route::get('/bottom-step-sliders', [BottomStepSliderController::class, 'index']);
 Route::get('/footer-socials', [App\Http\Controllers\Api\FooterSocialController::class, 'index']);
+
+Route::post('/consultation', [ConsultationController::class, 'store']);

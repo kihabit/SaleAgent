@@ -12,14 +12,14 @@ class AgentController extends Controller
     {
         $query = Agent::with('category');
 
-        // सिर्फ active agents चाहिए तो
+       
         if ($request->has('is_active')) {
             $query->where('is_active', $request->is_active);
         } else {
-            $query->where('is_active', 1); // default: सिर्फ active
+            $query->where('is_active', 1); 
         }
 
-        // optional: किसी particular category के agents चाहिए तो
+       
         if ($request->has('category_id')) {
             $query->where('category_id', $request->category_id);
         }
