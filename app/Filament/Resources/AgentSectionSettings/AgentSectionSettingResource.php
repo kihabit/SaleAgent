@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\AgentSectionSettings;
 
+use App\Filament\Concerns\HasPermissionAuthorization;
 use App\Filament\Resources\AgentSectionSettings\Pages\CreateAgentSectionSetting;
 use App\Filament\Resources\AgentSectionSettings\Pages\EditAgentSectionSetting;
 use App\Filament\Resources\AgentSectionSettings\Pages\ListAgentSectionSettings;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class AgentSectionSettingResource extends Resource
 {
+    use HasPermissionAuthorization;
+
     protected static ?string $model = AgentSectionSetting::class;
     protected static string|\UnitEnum|null $navigationGroup = 'Content';
     protected static ?int $navigationSort = 2; 

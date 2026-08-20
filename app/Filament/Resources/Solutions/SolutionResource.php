@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Solutions;
 
+use App\Filament\Concerns\HasPermissionAuthorization;
 use App\Filament\Resources\Solutions\Pages\CreateSolution;
 use App\Filament\Resources\Solutions\Pages\EditSolution;
 use App\Filament\Resources\Solutions\Pages\ListSolutions;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class SolutionResource extends Resource
 {
+    use HasPermissionAuthorization;
+
     protected static ?string $model = Solution::class;
     protected static string|\UnitEnum|null $navigationGroup = 'Content';
 

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Users;
 
+use App\Filament\Concerns\HasPermissionAuthorization;
 use App\Filament\Resources\Users\Pages\CreateUser;
 use App\Filament\Resources\Users\Pages\EditUser;
 use App\Filament\Resources\Users\Pages\ListUsers;
@@ -18,6 +19,8 @@ use Filament\Tables\Table;
 
 class UserResource extends Resource
 {
+    use HasPermissionAuthorization;
+
     protected static ?string $model = User::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
@@ -54,32 +57,5 @@ class UserResource extends Resource
             'view' => ViewUser::route('/{record}'),
             'edit' => EditUser::route('/{record}/edit'),
         ];
-    }
-    public static function canViewAny(): bool
-    {
-        // return auth()->user()
-        //     ->hasPermission('pages.view');
-        return true;
-    }
-
-
-    public static function canCreate(): bool
-    {
-        return auth()->user()
-            ->hasPermission('pages.create');
-    }
-
-
-    public static function canEdit($record): bool
-    {
-        return auth()->user()
-            ->hasPermission('pages.edit');
-    }
-
-
-    public static function canDelete($record): bool
-    {
-        return auth()->user()
-            ->hasPermission('pages.delete');
     }
 }

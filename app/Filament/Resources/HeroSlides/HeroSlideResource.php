@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\HeroSlides;
 
+use App\Filament\Concerns\HasPermissionAuthorization;
 use App\Filament\Resources\HeroSlides\Pages\CreateHeroSlide;
 use App\Filament\Resources\HeroSlides\Pages\EditHeroSlide;
 use App\Filament\Resources\HeroSlides\Pages\ListHeroSlides;
@@ -17,6 +18,8 @@ use UnitEnum;
 
 class HeroSlideResource extends Resource
 {
+    use HasPermissionAuthorization;
+
     protected static ?string $model = HeroSlide::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\FooterSettings;
 
+use App\Filament\Concerns\HasPermissionAuthorization;
 use App\Filament\Resources\FooterSettings\Pages\CreateFooterSetting;
 use App\Filament\Resources\FooterSettings\Pages\EditFooterSetting;
 use App\Filament\Resources\FooterSettings\Pages\ListFooterSettings;
@@ -17,6 +18,8 @@ use UnitEnum;
 
 class FooterSettingResource extends Resource
 {
+    use HasPermissionAuthorization;
+
     protected static ?string $model = FooterSetting::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

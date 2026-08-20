@@ -21,10 +21,12 @@ Route::get('/', function () {
 |--------------------------------------------------------------------------
 */
 
+use App\Models\CatalogueSetting;
+
 Route::get('/agent-library', function () {
-    return response()->file(
-        base_path('frontend/agent-library.html')
-    );
+    $catalogue = CatalogueSetting::first();
+
+    return view('agent-library', compact('catalogue'));
 });
 
 /*

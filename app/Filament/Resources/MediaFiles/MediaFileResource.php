@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\MediaFiles;
 
+use App\Filament\Concerns\HasPermissionAuthorization;
 use App\Filament\Resources\MediaFiles\Pages\CreateMediaFile;
 use App\Filament\Resources\MediaFiles\Pages\EditMediaFile;
 use App\Filament\Resources\MediaFiles\Pages\ListMediaFiles;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class MediaFileResource extends Resource
 {
+    use HasPermissionAuthorization;
+
     protected static ?string $model = MediaFile::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

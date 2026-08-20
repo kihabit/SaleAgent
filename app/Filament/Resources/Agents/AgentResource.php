@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\Agents;
 
+use App\Filament\Concerns\HasPermissionAuthorization;
 use App\Filament\Resources\Agents\Pages\CreateAgent;
 use App\Filament\Resources\Agents\Pages\EditAgent;
 use App\Filament\Resources\Agents\Pages\ListAgents;
@@ -16,9 +17,11 @@ use Filament\Tables\Table;
 
 class AgentResource extends Resource
 {
+    use HasPermissionAuthorization;
+
     protected static ?string $model = Agent::class;
     protected static string|\UnitEnum|null $navigationGroup = 'Content';
-protected static ?int $navigationSort = 3;
+    protected static ?int $navigationSort = 3;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 

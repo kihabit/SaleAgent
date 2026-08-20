@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\FooterSocials;
 
+use App\Filament\Concerns\HasPermissionAuthorization;
 use App\Filament\Resources\FooterSocials\Pages\CreateFooterSocial;
 use App\Filament\Resources\FooterSocials\Pages\EditFooterSocial;
 use App\Filament\Resources\FooterSocials\Pages\ListFooterSocials;
@@ -17,6 +18,8 @@ use UnitEnum;
 
 class FooterSocialResource extends Resource
 {
+    use HasPermissionAuthorization;
+
     protected static ?string $model = FooterSocial::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

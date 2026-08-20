@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\CatalogueSettings;
 
+use App\Filament\Concerns\HasPermissionAuthorization;
 use App\Filament\Resources\CatalogueSettings\Pages\CreateCatalogueSetting;
 use App\Filament\Resources\CatalogueSettings\Pages\EditCatalogueSetting;
 use App\Filament\Resources\CatalogueSettings\Pages\ListCatalogueSettings;
@@ -17,6 +18,8 @@ use UnitEnum;
 
 class CatalogueSettingResource extends Resource
 {
+    use HasPermissionAuthorization;
+
     protected static ?string $model = CatalogueSetting::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

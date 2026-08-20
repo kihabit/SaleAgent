@@ -2,10 +2,13 @@
 
 namespace App\Filament\Resources\Roles\Schemas;
 
+use App\Models\Permission;
+use Filament\Forms\Components\CheckboxList;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
+use Filament\Schemas\Components\Section;
 use Filament\Schemas\Schema;
 
 class RoleForm
@@ -38,7 +41,27 @@ class RoleForm
                 Toggle::make('is_system')
                     ->default(false),
 
+                Section::make('Permissions')
+                    ->description('Select which actions this role is allowed to perform.')
+                    ->columnSpanFull()
+                    ->schema([
+                        CheckboxList::make('permissions')
+                            ->relationship('permissions', 'name')
+                            ->options(
+                                Permission::query()
+                                    ->orderBy('module')
+                                    ->orderBy('name')
+                                    ->get()
+                                    ->mapWithKeys(fn ($permission) => [
+                                        $permission->id => "{$permission->module} — {$permission->name}",
+                                    ])
+                            )
+                            ->searchable()
+                            ->bulkToggleable()
+                            ->columns(2)
+                            ->columnSpanFull(),
+                    ]),
+
             ]);
     }
 }
-

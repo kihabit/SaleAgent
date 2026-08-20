@@ -25,21 +25,25 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
+
     public function hasPermission($permission)
     {
-
-        if(!$this->role)
-        {
+        // System roles (Super Admin, Administrator, Manager, etc.)
+        
+        if ($this->role && $this->role->is_system) {
             return true;
         }
 
+        if (!$this->role) {
+            return false;
+        }
 
         return $this->role
             ->permissions()
-            ->where('slug',$permission)
+            ->where('slug', $permission)
             ->exists();
-
     }
+
     public function role(): BelongsTo
     {
         return $this->belongsTo(Role::class);

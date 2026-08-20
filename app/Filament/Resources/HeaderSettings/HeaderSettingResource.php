@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\HeaderSettings;
 
+use App\Filament\Concerns\HasPermissionAuthorization;
 use App\Filament\Resources\HeaderSettings\Pages\CreateHeaderSetting;
 use App\Filament\Resources\HeaderSettings\Pages\EditHeaderSetting;
 use App\Filament\Resources\HeaderSettings\Pages\ListHeaderSettings;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class HeaderSettingResource extends Resource
 {
+    use HasPermissionAuthorization;
+
     protected static ?string $model = HeaderSetting::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\BottomSliders;
 
+use App\Filament\Concerns\HasPermissionAuthorization;
 use App\Filament\Resources\BottomSliders\Pages\CreateBottomSlider;
 use App\Filament\Resources\BottomSliders\Pages\EditBottomSlider;
 use App\Filament\Resources\BottomSliders\Pages\ListBottomSliders;
@@ -17,6 +18,8 @@ use Filament\Tables\Table;
 
 class BottomSliderResource extends Resource
 {
+    use HasPermissionAuthorization;
+
     protected static ?string $model = BottomSlider::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;

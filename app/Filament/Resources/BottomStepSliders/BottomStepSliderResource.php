@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\BottomStepSliders;
 
+use App\Filament\Concerns\HasPermissionAuthorization;
 use App\Filament\Resources\BottomStepSliders\Pages\CreateBottomStepSlider;
 use App\Filament\Resources\BottomStepSliders\Pages\EditBottomStepSlider;
 use App\Filament\Resources\BottomStepSliders\Pages\ListBottomStepSliders;
@@ -16,9 +17,11 @@ use Filament\Tables\Table;
 
 class BottomStepSliderResource extends Resource
 {
+    use HasPermissionAuthorization;
+
     protected static ?string $model = BottomStepSlider::class;
     protected static string|\UnitEnum|null $navigationGroup = 'Content';
-protected static ?int $navigationSort = 6;
+    protected static ?int $navigationSort = 6;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 

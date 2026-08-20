@@ -2,6 +2,7 @@
 
 namespace App\Filament\Resources\ConsultationRequests;
 
+use App\Filament\Concerns\HasPermissionAuthorization;
 use App\Filament\Resources\ConsultationRequests\Pages\CreateConsultationRequest;
 use App\Filament\Resources\ConsultationRequests\Pages\EditConsultationRequest;
 use App\Filament\Resources\ConsultationRequests\Pages\ListConsultationRequests;
@@ -16,6 +17,8 @@ use Filament\Tables\Table;
 
 class ConsultationRequestResource extends Resource
 {
+    use HasPermissionAuthorization;
+
     protected static ?string $model = ConsultationRequest::class;
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
