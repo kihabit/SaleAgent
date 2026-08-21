@@ -63,14 +63,18 @@ export default function AICoWorker() {
 
   if (!item) return null;
 
+  const bgImage = item.background_image || "/images/erpcrew-section-bg.png";
+
   return (
     <section
       className="relative w-full overflow-hidden"
       style={{
-        backgroundImage: "url('/images/erpcrew-section-bg.png')",
+        backgroundImage: `url('${bgImage}')`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
+      role="img"
+      aria-label={item.background_image_alt || ""}
     >
       <div className="relative z-10 mx-auto flex max-w-screen-2xl flex-col items-center gap-12 px-6 py-24 md:flex-row md:items-center md:gap-16 md:px-10 lg:gap-28">
         <div className="flex-1">
@@ -103,6 +107,7 @@ export default function AICoWorker() {
           <div className="mt-8 flex flex-wrap gap-4">
             {item.primary_btn_link && (
               <a
+              
                 href={item.primary_btn_link}
                 className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90"
                 style={{ background: "#051895" }}
@@ -112,6 +117,7 @@ export default function AICoWorker() {
             )}
             {item.secondary_btn_link && (
               <a
+              
                 href={item.secondary_btn_link}
                 className="inline-flex items-center gap-2 rounded-full border-2 px-6 py-3 text-sm font-semibold transition hover:bg-slate-50"
                 style={{ borderColor: "#051895", color: "#051895" }}

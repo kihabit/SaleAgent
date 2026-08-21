@@ -274,7 +274,9 @@ export default function AgentLibraryPage() {
   return (
     <>
       <Header />
-      <main className="bg-white px-6 py-16 md:px-10 md:py-20">
+
+      {/* ═══════════════════════ CATALOGUE SECTION ═══════════════════════ */}
+      <section className="bg-white px-6 py-16 md:px-10 md:py-20">
         <div className="mx-auto max-w-screen-2xl">
           <div className="flex items-center gap-2">
             <div className="rounded-lg bg-foreground p-1.5 text-background">
@@ -322,10 +324,13 @@ export default function AgentLibraryPage() {
             </div>
           )}
 
-          {/* Filter bar */}
+          {/* Filter bar — sticky, but only within this section since the
+              section itself is the sticky positioning container. Once the
+              user scrolls past this section into Solutions, it scrolls
+              away naturally instead of staying pinned. */}
           <div
             className="sticky z-10 -mx-6 mt-8 border-b border-border bg-white/90 px-6 py-3 backdrop-blur md:-mx-10 md:px-10"
-            style={{ top: "5.375rem" }}
+            style={{ top: "86px" }}
           >
             <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
               <div className="flex flex-wrap gap-1.5">
@@ -421,17 +426,58 @@ export default function AgentLibraryPage() {
               No agents match your filter.
             </div>
           )}
+        </div>
+      </section>
 
-          {/* -------------------- Solutions section -------------------- */}
-          <div className="mt-24 border-t border-border pt-16">
-            <div
-              className="mb-2 inline-flex items-center gap-2 rounded-md px-2 py-1 text-xs font-semibold uppercase tracking-widest text-white"
-              style={{ background: "#2ababe" }}
+      {/* ═════════════════════ SOLUTIONS SECTION ═════════════════════ */}
+      <section className="border-b border-border bg-surface px-6 py-16 md:px-10 md:py-20">
+        <div className="mx-auto max-w-screen-2xl">
+          <div
+            className="mb-2 inline-flex items-center gap-2 rounded-md px-2 py-1 text-xs font-semibold uppercase tracking-widest text-white"
+            style={{ background: "#2ababe" }}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="14"
+              height="14"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
             >
+              <rect x="16" y="16" width="6" height="6" rx="1" />
+              <rect x="2" y="16" width="6" height="6" rx="1" />
+              <rect x="9" y="2" width="6" height="6" rx="1" />
+              <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" />
+              <path d="M12 12V8" />
+            </svg>
+            <span>{solutionsHeader.badge_text || "How AI Agents Work Together"}</span>
+          </div>
+
+          <h2 className="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl" style={{ color: "#051895" }}>
+            {solutionsHeader.heading || "End-to-End Business Process Automation"}
+          </h2>
+
+          <div className="mt-3 flex flex-wrap items-end justify-between gap-3">
+            <p className="max-w-full text-base leading-relaxed text-muted-foreground">
+              {solutionsHeader.description ||
+                "KDS ERP Crew brings together intelligent AI agents that work seamlessly across Microsoft Dynamics 365 to automate business processes from start to finish. Each agent performs specialized tasks, shares contextual data, and orchestrates workflows to deliver faster decisions, higher productivity, and intelligent business outcomes."}
+            </p>
+            <button
+              onClick={() =>
+                alert(
+                  "Contact Key Dynamics Solutions to view all AI solutions:\nhttps://keydynamicssolutions.com/"
+                )
+              }
+              className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-brand hover:underline"
+            >
+              <span>{solutionsHeader.cta_button_text || "View All AI Solutions"}</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
-                width="14"
-                height="14"
+                width="16"
+                height="16"
                 viewBox="0 0 24 24"
                 fill="none"
                 stroke="currentColor"
@@ -439,94 +485,52 @@ export default function AgentLibraryPage() {
                 strokeLinecap="round"
                 strokeLinejoin="round"
               >
-                <rect x="16" y="16" width="6" height="6" rx="1" />
-                <rect x="2" y="16" width="6" height="6" rx="1" />
-                <rect x="9" y="2" width="6" height="6" rx="1" />
-                <path d="M5 16v-3a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3" />
-                <path d="M12 12V8" />
+                <path d="M5 12h14" />
+                <path d="m12 5 7 7-7 7" />
               </svg>
-              <span>{solutionsHeader.badge_text || "How AI Agents Work Together"}</span>
-            </div>
-
-            <h2 className="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl" style={{ color: "#051895" }}>
-              {solutionsHeader.heading || "End-to-End Business Process Automation"}
-            </h2>
-
-            <div className="mt-3 flex flex-wrap items-end justify-between gap-3">
-              <p className="max-w-full text-base leading-relaxed text-muted-foreground">
-                {solutionsHeader.description ||
-                  "KDS ERP Crew brings together intelligent AI agents that work seamlessly across Microsoft Dynamics 365 to automate business processes from start to finish. Each agent performs specialized tasks, shares contextual data, and orchestrates workflows to deliver faster decisions, higher productivity, and intelligent business outcomes."}
-              </p>
-              <button
-                onClick={() =>
-                  alert(
-                    "Contact Key Dynamics Solutions to view all AI solutions:\nhttps://keydynamicssolutions.com/"
-                  )
-                }
-                className="inline-flex shrink-0 items-center gap-1 text-sm font-semibold text-brand hover:underline"
-              >
-                <span>{solutionsHeader.cta_button_text || "View All AI Solutions"}</span>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                >
-                  <path d="M5 12h14" />
-                  <path d="m12 5 7 7-7 7" />
-                </svg>
-              </button>
-            </div>
-
-            {solutionsError && !solutions.length ? (
-              <p className="mt-6 text-sm text-muted-foreground">Could not load solutions right now.</p>
-            ) : (
-              <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                {solutions.map((sol) => (
-                  <button
-                    key={sol.id}
-                    type="button"
-                    onClick={() => setSelectedSolution(sol)}
-                    className="group flex h-full flex-col rounded-xl border border-border bg-white p-6 text-left transition hover:-translate-y-0.5 hover:border-brand hover:shadow-lg"
-                  >
-                    <div className="mb-3 inline-flex w-fit items-center gap-1.5 rounded-full bg-brand-soft px-2.5 py-1 text-xs font-semibold text-brand">
-                      {sol.steps} steps
-                    </div>
-                    <h3 className="text-base font-bold leading-snug text-foreground">{sol.title}</h3>
-                    <p className="mt-3 line-clamp-4 flex-1 text-sm leading-relaxed text-muted-foreground">
-                      {sol.desc}
-                    </p>
-                    <div className="mt-4 flex items-center gap-3 border-t border-border pt-3 text-xs">
-                      <span className="inline-flex items-center gap-1 font-semibold text-foreground">
-                        <ZapIcon /> {sol.automation}
-                      </span>
-                      <span className="text-muted-foreground">·</span>
-                      <span className="inline-flex items-center gap-1 text-muted-foreground">
-                        <ClockIcon /> {sol.outcome}
-                      </span>
-                    </div>
-                  </button>
-                ))}
-              </div>
-            )}
+            </button>
           </div>
+
+          {solutionsError && !solutions.length ? (
+            <p className="mt-6 text-sm text-muted-foreground">Could not load solutions right now.</p>
+          ) : (
+            <div className="mt-8 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {solutions.map((sol) => (
+                <button
+                  key={sol.id}
+                  type="button"
+                  onClick={() => setSelectedSolution(sol)}
+                  className="group flex h-full flex-col rounded-xl border border-border bg-white p-6 text-left transition hover:-translate-y-0.5 hover:border-brand hover:shadow-lg"
+                >
+                  <div className="mb-3 inline-flex w-fit items-center gap-1.5 rounded-full bg-brand-soft px-2.5 py-1 text-xs font-semibold text-brand">
+                    {sol.steps} steps
+                  </div>
+                  <h3 className="text-base font-bold leading-snug text-foreground">{sol.title}</h3>
+                  <p className="mt-3 line-clamp-4 flex-1 text-sm leading-relaxed text-muted-foreground">
+                    {sol.desc}
+                  </p>
+                  <div className="mt-4 flex items-center gap-3 border-t border-border pt-3 text-xs">
+                    <span className="inline-flex items-center gap-1 font-semibold text-foreground">
+                      <ZapIcon /> {sol.automation}
+                    </span>
+                    <span className="text-muted-foreground">·</span>
+                    <span className="inline-flex items-center gap-1 text-muted-foreground">
+                      <ClockIcon /> {sol.outcome}
+                    </span>
+                  </div>
+                </button>
+              ))}
+            </div>
+          )}
         </div>
-      </main>
+      </section>
 
       <DemoModal agent={selected?.agent || null} category={selected?.category} onClose={() => setSelected(null)} />
 
       {/* Solution modal */}
       {selectedSolution && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
-          <div
-            className="absolute inset-0 bg-black/60"
-            onClick={() => setSelectedSolution(null)}
-          />
+          <div className="absolute inset-0 bg-black/60" onClick={() => setSelectedSolution(null)} />
           <div className="relative z-10 w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
             <button
               onClick={() => setSelectedSolution(null)}

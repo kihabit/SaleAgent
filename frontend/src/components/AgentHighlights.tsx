@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { CheckCircle2, PlayCircle, ArrowRight } from "lucide-react";
+import { Sparkles, PlayCircle, ArrowRight, CheckCircle2 } from "lucide-react";
 import { apiGet } from "@/lib/api";
 import type { Agent, AgentCategory, AgentSection } from "@/types";
 import DemoModal from "./DemoModal";
@@ -33,10 +33,10 @@ export default function AgentHighlights() {
   return (
     <section id="highlights" className="border-b border-border bg-white px-6 py-16 md:px-10 md:py-20">
       <div className="mx-auto max-w-screen-2xl">
-        <div className="mb-2 inline-flex items-center gap-2 rounded-md bg-brand px-2 py-1 text-xs font-semibold uppercase tracking-widest text-brand-foreground">
-          <CheckCircle2 className="h-4 w-4" />
-          {data?.badge_text || "Agent Highlights"}
-        </div>
+       <div className="mb-2 inline-flex items-center gap-2 rounded-md bg-brand px-2 py-1 text-xs font-semibold uppercase tracking-widest text-brand-foreground">
+  <Sparkles className="h-3.5 w-3.5" />
+  {data?.badge_text || "Agent Highlights"}
+</div>
 
         <h2 className="mt-3 text-3xl font-extrabold tracking-tight md:text-4xl" style={{ color: "#051895" }}>
           {data?.heading || "Experience AI Agents in Action"}
@@ -50,17 +50,23 @@ export default function AgentHighlights() {
         <div className="mt-8 overflow-x-auto">
           <div className="flex min-w-max gap-1 border-b border-border">
             {categories.map((cat: AgentCategory) => (
-           <button
+        <button
   key={cat.id}
   onClick={() => setActive(cat.id)}
-  className={`flex items-center gap-2 px-4 py-3 text-[15px] font-semibold transition border-b-2 ${
+  className={`flex items-center gap-2 px-4 py-3 text-sm font-medium transition border-b-2 ${
     cat.id === category?.id
       ? "border-brand text-brand"
       : "border-transparent text-muted-foreground hover:text-foreground"
   }`}
 >
   {cat.name}
-  <span className="inline-flex items-center justify-center rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+  <span
+    className={`inline-flex items-center justify-center rounded-full px-2 py-0.5 text-xs font-medium ${
+      cat.id === category?.id
+        ? "bg-brand text-brand-foreground"
+        : "bg-gray-100 text-gray-600"
+    }`}
+  >
     {cat.count ?? cat.agents.length}
   </span>
 </button>
@@ -130,4 +136,4 @@ export default function AgentHighlights() {
       <DemoModal agent={selected?.agent || null} category={selected?.category} onClose={() => setSelected(null)} />
     </section>
   );
-}
+}                        
