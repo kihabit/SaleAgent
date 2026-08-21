@@ -7,7 +7,7 @@ use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
-
+use Illuminate\Support\Str;
 class HeaderSettingForm
 {
     public static function configure(Schema $schema): Schema
@@ -23,6 +23,24 @@ FileUpload::make('logo_image')
     ->required()
     ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
     ->maxSize(10240)
+    ->getUploadedFileNameForStorageUsing(
+        function ($file): string {
+            $originalName = pathinfo(
+                $file->getClientOriginalName(),
+                PATHINFO_FILENAME
+            );
+
+            $extension = $file->getClientOriginalExtension();
+
+            return Str::slug($originalName)
+                . '_'
+                . now('Asia/Kolkata')->format('Ymd_Hisv')
+                . '_IST_'
+                . Str::lower(Str::random(6))
+                . '.'
+                . $extension;
+        }
+    )
     ->helperText('Required. JPG, PNG or WEBP. Max size 10MB.'),
             TextInput::make('logo_alt_text')
                 ->label('Logo Alt Text')

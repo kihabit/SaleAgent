@@ -7,7 +7,7 @@ use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Textarea;
 use Filament\Schemas\Schema;
-
+use Illuminate\Support\Str;
 class BottomStepSliderForm
 {
     public static function configure(Schema $schema): Schema
@@ -57,12 +57,31 @@ class BottomStepSliderForm
                         ->required(),
 
                     FileUpload::make('image')
-                        ->label('Step Image')
-                        ->image()
-                        ->directory('bottom-step-sliders')
-                        ->required()
-                        ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
-                        ->maxSize(10240),
+                    ->label('Step Image')
+                    ->image()
+                    ->disk('public')
+                    ->directory('bottom-step-sliders')
+                    ->required()
+                    ->acceptedFileTypes(['image/jpeg', 'image/png', 'image/webp'])
+                    ->maxSize(10240)
+                    ->getUploadedFileNameForStorageUsing(
+                        function ($file): string {
+                            $originalName = pathinfo(
+                                $file->getClientOriginalName(),
+                                PATHINFO_FILENAME
+                            );
+
+                            $extension = $file->getClientOriginalExtension();
+
+                            return Str::slug($originalName)
+                                . '_'
+                                . now('Asia/Kolkata')->format('Ymd_Hisv')
+                                . '_IST_'
+                                . Str::lower(Str::random(6))
+                                . '.'
+                                . $extension;
+                        }
+                    ),
 
                     TextInput::make('image_alt')
                         ->label('Image Alt Text')
