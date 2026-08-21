@@ -5,15 +5,6 @@ import Link from "next/link";
 import { apiGet, assetUrl } from "@/lib/api";
 import type { HeaderSettings, MenuItem } from "@/types";
 
-/**
- * Maps API-provided menu URLs to the actual Next.js route paths
- * that exist in src/app. Add an entry here any time the CMS/API
- * sends a URL slug that doesn't exactly match your folder name
- * under src/app, instead of hunting down 404s later.
- *
- * Key   = possible value coming from the API
- * Value = actual route that exists in src/app
- */
 const ROUTE_ALIASES: Record<string, string> = {
   "/about": "/about-us",
   "/about/": "/about-us",
@@ -23,16 +14,11 @@ const ROUTE_ALIASES: Record<string, string> = {
 
 function normalizeHref(rawHref: string): string {
   if (!rawHref) return "#";
-
-  // Leave external / anchor / hash links untouched
   if (/^https?:\/\//i.test(rawHref) || rawHref.startsWith("#")) {
     return rawHref;
   }
-
-  // Strip trailing slash for lookup (except root "/")
   const trimmed =
     rawHref.length > 1 && rawHref.endsWith("/") ? rawHref.slice(0, -1) : rawHref;
-
   return ROUTE_ALIASES[trimmed] || ROUTE_ALIASES[rawHref] || rawHref;
 }
 
@@ -64,6 +50,7 @@ export default function Header() {
             className="h-[3.75rem] object-contain"
           />
         </Link>
+
         <div className="hidden items-center gap-8 md:flex">
           <nav className="flex items-center gap-8">
             {items.map((item) => {
@@ -72,23 +59,33 @@ export default function Header() {
               const href = normalizeHref(rawHref);
               const external = /^https?:\/\//i.test(href);
 
-              return external ? (
-                <a
+              if (external) {
+                return (
+                  <a
+
+                    key={item.id}
+                    href={href}
+                    target={item.target || "_blank"}
+                    rel="noopener noreferrer"
+                    className="text-[15.4px] font-medium text-gray-700 transition hover:text-[#051895]"
+                  >
+                    {label}
+                  </a>
+                );
+              }
+
+              return (
+                <Link
                   key={item.id}
                   href={href}
-                  target={item.target || "_blank"}
-                  rel="noopener noreferrer"
-                  className="text-sm font-medium"
+                  className="text-[15.4px] font-medium text-gray-700 transition hover:text-[#051895]"
                 >
-                  {label}
-                </a>
-              ) : (
-                <Link key={item.id} href={href} className="text-sm font-medium">
                   {label}
                 </Link>
               );
             })}
           </nav>
+
           <a
             href={ctaUrl}
             target="_blank"

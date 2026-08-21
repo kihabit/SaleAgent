@@ -263,8 +263,12 @@ export default function HeroSlider() {
       className="relative flex flex-col overflow-clip"
       style={{ minHeight: `calc(100svh - ${headerHeight}px - 45px)` }}
     >
-      {/* Background layers — all slides pre-rendered, crossfaded via opacity,
-          with a slow zoom on the active layer (matches .hero-bg-layer img CSS) */}
+      {/* Background layers — full-bleed, crossfaded via opacity, with a slow
+          zoom on the active layer (matches original .hero-bg-layer img CSS).
+          NOTE: this must stay `inset-0` / full width — do NOT constrain it to
+          a right-hand column (e.g. `right-0 md:w-[58%]`), or it will collide
+          with the text column below and the text will render over the image
+          edge instead of sitting on a clean solid-color backdrop. */}
       <div className="absolute inset-0 bg-[#051895]">
         {slides.map((s: any, i: number) => {
           const bgImage = assetUrl(s.image || s.background_image || s.image_url);
@@ -291,17 +295,15 @@ export default function HeroSlider() {
             </div>
           );
         })}
-        <div className="absolute inset-0 bg-gradient-to-r from-[#051895] from-10% via-[#051895]/85 via-45% to-[#051895]/25" />
-        {/* Extra left-side scrim purely behind the text column, independent of the main gradient,
-            so the heading/description always stay readable no matter what the background image looks like. */}
-        <div className="pointer-events-none absolute inset-y-0 left-0 w-full max-w-3xl bg-gradient-to-r from-[#051895]/70 to-transparent md:max-w-4xl" />
+        {/* Readability overlay — a soft dark wash over the full image so white
+            text stays legible everywhere, instead of only over a partial
+            gradient column. Tune the opacity if it looks too light/dark. */}
+        <div className="absolute inset-0 bg-black/35" />
       </div>
 
       {/* Content */}
       <div className="relative z-10 mx-auto flex w-full max-w-screen-2xl flex-1 flex-col px-6 pt-10 md:px-10 md:pt-14">
-        <div
-          className="hero-content-stack mt-14 flex max-w-5xl flex-1 flex-col justify-end gap-10 pb-[85px] md:mt-20"
-        >
+        <div className="hero-content-stack mt-14 flex max-w-5xl flex-1 flex-col justify-end gap-10 pb-[85px] md:mt-20">
           {/* Text */}
           <div
             className="hero-copy flex flex-col gap-10 transition-all duration-300"
@@ -341,7 +343,7 @@ export default function HeroSlider() {
                       href={href}
                       target={isExternal ? "_blank" : undefined}
                       rel={isExternal ? "noopener noreferrer" : undefined}
-                      className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-medium shadow-lg transition hover:brightness-110"
+                  className="inline-flex items-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold shadow-lg transition hover:brightness-110"
                       style={{ backgroundColor: style.bg, color: style.text }}
                     >
                       <Icon />

@@ -50,17 +50,20 @@ export default function AgentHighlights() {
         <div className="mt-8 overflow-x-auto">
           <div className="flex min-w-max gap-1 border-b border-border">
             {categories.map((cat: AgentCategory) => (
-              <button
-                key={cat.id}
-                onClick={() => setActive(cat.id)}
-                className={`px-4 py-2.5 text-sm font-semibold transition border-b-2 ${
-                  cat.id === category?.id
-                    ? "border-brand text-brand"
-                    : "border-transparent text-muted-foreground hover:text-foreground"
-                }`}
-              >
-                {cat.name} <span className="text-xs opacity-70">({cat.count ?? cat.agents.length})</span>
-              </button>
+           <button
+  key={cat.id}
+  onClick={() => setActive(cat.id)}
+  className={`flex items-center gap-2 px-4 py-3 text-[15px] font-semibold transition border-b-2 ${
+    cat.id === category?.id
+      ? "border-brand text-brand"
+      : "border-transparent text-muted-foreground hover:text-foreground"
+  }`}
+>
+  {cat.name}
+  <span className="inline-flex items-center justify-center rounded-full bg-gray-100 px-2 py-0.5 text-xs font-medium text-gray-600">
+    {cat.count ?? cat.agents.length}
+  </span>
+</button>
             ))}
           </div>
         </div>
