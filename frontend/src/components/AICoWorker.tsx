@@ -9,15 +9,17 @@ export default function AICoWorker() {
   const [active, setActive] = useState(0);
   const [loading, setLoading] = useState(true);
 
-  // Data fetch
   useEffect(() => {
     let cancelled = false;
 
     apiGet<any>("/api/bottom-sliders")
       .then((res) => {
         if (cancelled) return;
-        // Support both response shapes: a raw array, or { success, data }
-        const list: CoworkerSlider[] = Array.isArray(res) ? res : res?.data ?? [];
+
+        const list: CoworkerSlider[] = Array.isArray(res)
+          ? res
+          : res?.data ?? [];
+
         setItem(list?.[0] ?? null);
       })
       .catch((err) => {
@@ -32,9 +34,9 @@ export default function AICoWorker() {
     };
   }, []);
 
-  // Rotation timer — resets active index whenever item changes
   useEffect(() => {
     setActive(0);
+
     if (!item?.features?.length) return;
 
     const timer = window.setInterval(() => {
@@ -45,10 +47,10 @@ export default function AICoWorker() {
   }, [item]);
 
   const features = item?.features || [];
+
   const featureText = (f: CoworkerFeature) =>
     typeof f === "string" ? f : f.title || f.text || f.label || "";
 
-  // Avoid rendering broken/empty UI before data arrives or if it's missing
   if (loading) {
     return (
       <section className="relative w-full overflow-hidden py-24">
@@ -63,7 +65,8 @@ export default function AICoWorker() {
 
   if (!item) return null;
 
-  const bgImage = item.background_image || "/images/erpcrew-section-bg.png";
+  const bgImage =
+    item.background_image || "/images/erpcrew-section-bg.png";
 
   return (
     <section
@@ -92,7 +95,9 @@ export default function AICoWorker() {
             style={{ color: "#051895" }}
           >
             {item.heading_normal}{" "}
-            <span style={{ color: "#fba226" }}>{item.heading_highlighted}</span>
+            <span style={{ color: "#fba226" }}>
+              {item.heading_highlighted}
+            </span>
           </h2>
 
           {item.description && (
@@ -107,7 +112,6 @@ export default function AICoWorker() {
           <div className="mt-8 flex flex-wrap gap-4">
             {item.primary_btn_link && (
               <a
-              
                 href={item.primary_btn_link}
                 className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90"
                 style={{ background: "#051895" }}
@@ -115,12 +119,15 @@ export default function AICoWorker() {
                 {item.primary_btn_text} →
               </a>
             )}
+
             {item.secondary_btn_link && (
               <a
-              
                 href={item.secondary_btn_link}
                 className="inline-flex items-center gap-2 rounded-full border-2 px-6 py-3 text-sm font-semibold transition hover:bg-slate-50"
-                style={{ borderColor: "#051895", color: "#051895" }}
+                style={{
+                  borderColor: "#051895",
+                  color: "#051895",
+                }}
               >
                 {item.secondary_btn_text} →
               </a>
@@ -131,7 +138,11 @@ export default function AICoWorker() {
         {features.length > 0 && (
           <div
             className="w-full flex-shrink-0 md:w-[440px] lg:w-[520px]"
-            style={{ position: "relative", height: 360, overflow: "hidden" }}
+            style={{
+              position: "relative",
+              height: 360,
+              overflow: "hidden",
+            }}
           >
             <div
               style={{
@@ -163,12 +174,14 @@ export default function AICoWorker() {
                   >
                     ▶
                   </span>
+
                   <span
                     style={{
                       fontSize: "1.5rem",
                       transition: "all 0.3s ease",
                       fontWeight: i === active ? 700 : 500,
-                      color: i === active ? "#051895" : "#94a3b8",
+                      color:
+                        i === active ? "#051895" : "#94a3b8",
                     }}
                   >
                     {featureText(feature)}

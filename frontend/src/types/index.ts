@@ -68,6 +68,8 @@ export type CoworkerSlider = {
   heading_normal?: string;
   heading_highlighted?: string;
   description?: string;
+  background_image?: string;
+  background_image_alt?: string;
   primary_btn_text?: string;
   primary_btn_link?: string;
   secondary_btn_text?: string;

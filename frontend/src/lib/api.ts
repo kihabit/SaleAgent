@@ -1,7 +1,11 @@
 import type { ApiResponse } from "@/types";
 
+const API_BASE_URL = process.env.LARAVEL_API_UR || "http://127.0.0.1:8000";
+
 export async function apiGet<T>(path: string, init?: RequestInit): Promise<T> {
-  const response = await fetch(path, {
+  const url = path.startsWith("http") ? path : `${API_BASE_URL}${path}`;
+
+  const response = await fetch(url, {
     ...init,
     headers: { Accept: "application/json", ...(init?.headers || {}) },
   });
@@ -26,5 +30,6 @@ export function assetUrl(value?: string | null): string {
   if (value.startsWith("/frontend/assets/fonts/")) return value.replace("/frontend/assets/fonts/", "/fonts/");
   if (value.startsWith("/assets/images/")) return value.replace("/assets/images/", "/images/");
   if (value.startsWith("assets/images/")) return `/${value.replace("assets/images/", "images/")}`;
+  if (!value.startsWith("/")) return `/images/${value}`;
   return value;
 }

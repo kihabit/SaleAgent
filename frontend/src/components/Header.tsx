@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 import { apiGet, assetUrl } from "@/lib/api";
 import type { HeaderSettings, MenuItem } from "@/types";
 
@@ -25,6 +26,7 @@ function normalizeHref(rawHref: string): string {
 export default function Header() {
   const [settings, setSettings] = useState<HeaderSettings>({});
   const [items, setItems] = useState<MenuItem[]>([]);
+  const [logoLoaded, setLogoLoaded] = useState(false);
 
   useEffect(() => {
     Promise.allSettled([
@@ -44,10 +46,17 @@ export default function Header() {
     <header className="sticky top-0 z-50 w-full border-b border-gray-200 bg-white shadow-sm">
       <div className="mx-auto flex max-w-screen-2xl items-center justify-between px-6 py-3 md:px-10">
         <Link href="/" aria-label="KDS ERP Crew home">
-          <img
+          <Image
             src={logo}
             alt={settings.logo_alt_text || "KDS ERP Crew"}
-            className="h-[3.75rem] object-contain"
+            width={200}
+            height={60}
+            priority
+            unoptimized
+            onLoad={() => setLogoLoaded(true)}
+            className={`h-[3.75rem] w-auto object-contain transition-opacity duration-200 ${
+              logoLoaded ? "opacity-100" : "opacity-0"
+            }`}
           />
         </Link>
 
@@ -62,7 +71,6 @@ export default function Header() {
               if (external) {
                 return (
                   <a
-
                     key={item.id}
                     href={href}
                     target={item.target || "_blank"}

@@ -19,6 +19,10 @@ class HeroSlideForm
                 ->label('Heading')
                 ->maxLength(255),
 
+            TextInput::make('slug')
+                ->label('Page Slug')
+                ->maxLength(255),
+
             Textarea::make('description')
                 ->label('Description')
                 ->rows(3),
