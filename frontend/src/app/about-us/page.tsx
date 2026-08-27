@@ -25,6 +25,25 @@ export default function AboutPage() {
       });
   }, []);
 
+  // Re-run any <script> tags inside the CMS HTML content
+  // (scripts inside dangerouslySetInnerHTML don't execute automatically)
+  useEffect(() => {
+    if (!page) return;
+
+    const container = document.getElementById("cms-page-content");
+    if (!container) return;
+
+    const scripts = container.querySelectorAll("script");
+    scripts.forEach((oldScript) => {
+      const newScript = document.createElement("script");
+      Array.from(oldScript.attributes).forEach((attr) =>
+        newScript.setAttribute(attr.name, attr.value)
+      );
+      newScript.textContent = oldScript.textContent;
+      oldScript.parentNode?.replaceChild(newScript, oldScript);
+    });
+  }, [page]);
+
   return (
     <>
       <Header />
@@ -34,7 +53,9 @@ export default function AboutPage() {
             Unable to load page content.
           </p>
         )}
-        {page && <div dangerouslySetInnerHTML={{ __html: page.content }} />}
+        {page && (
+          <div id="cms-page-content" dangerouslySetInnerHTML={{ __html: page.content }} />
+        )}
       </main>
       <Footer />
     </>

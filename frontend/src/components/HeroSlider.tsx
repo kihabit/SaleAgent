@@ -12,11 +12,21 @@ const DEFAULT_HERO_IMAGE = "/images/erp-crew-management.webp";
 
 const DEFAULT_SLIDE: HeroSlide = {
   image: DEFAULT_HERO_IMAGE,
-  image_alt_text: "ERP Crew Management",
-  heading: [""],
-  description: "",
-  stats: [],
-  buttons: [],
+  image_alt_text: "AI-Powered Data Insights — KDS ERP Crew",
+  heading: ["AI-Powered Data", "Insights"],
+  description:
+    "Unlock meaningful business intelligence with AI-driven analytics, interactive dashboards, and real-time performance monitoring.",
+  stats: [
+    { value: "100+", number: "100+", label: "Data Connectors", icon: false },
+    { value: "21+", number: "21+", label: "Business Functions", icon: false },
+    { value: "10+", number: "10+", label: "Analytics Modules", icon: false },
+    { value: "", number: "", label: "Always-On Decision Intelligence Assistant", icon: true },
+  ],
+  buttons: [
+    { text: "Agent Highlights", url: "#highlights" },
+    { text: "Complete AI Agent Catalogue", url: "#catalogue" },
+    { text: "Back to Key Dynamic Solutions", url: "https://keydynamicssolutions.com/" },
+  ],
 };
 
 /* ------------------------------------------------------------------ */
