@@ -1,0 +1,27 @@
+1:"$Sreact.fragment"
+2:I[28037,["/_next/static/chunks/1cq1h_-0ihhcs.js","/_next/static/chunks/11n9tqp53d01d.js","/_next/static/chunks/02p75xhtp6a2l.js"],"default"]
+3:I[89042,["/_next/static/chunks/1cq1h_-0ihhcs.js","/_next/static/chunks/11n9tqp53d01d.js","/_next/static/chunks/02p75xhtp6a2l.js"],"default"]
+4:I[19661,["/_next/static/chunks/1cq1h_-0ihhcs.js","/_next/static/chunks/11n9tqp53d01d.js","/_next/static/chunks/02p75xhtp6a2l.js"],"default"]
+5:I[39294,["/_next/static/chunks/1cq1h_-0ihhcs.js","/_next/static/chunks/11n9tqp53d01d.js","/_next/static/chunks/02p75xhtp6a2l.js"],"default"]
+6:I[19707,["/_next/static/chunks/1cq1h_-0ihhcs.js","/_next/static/chunks/11n9tqp53d01d.js","/_next/static/chunks/02p75xhtp6a2l.js"],"default"]
+7:I[78685,["/_next/static/chunks/1cq1h_-0ihhcs.js","/_next/static/chunks/11n9tqp53d01d.js","/_next/static/chunks/02p75xhtp6a2l.js"],"default"]
+8:I[64381,["/_next/static/chunks/1cq1h_-0ihhcs.js"],"OutletBoundary"]
+9:"$Sreact.suspense"
+d:I[64381,["/_next/static/chunks/1cq1h_-0ihhcs.js"],"ViewportBoundary"]
+e:I[64381,["/_next/static/chunks/1cq1h_-0ihhcs.js"],"MetadataBoundary"]
+f:I[12843,["/_next/static/chunks/1cq1h_-0ihhcs.js"],"IconMark"]
+11:I[32035,["/_next/static/chunks/1cq1h_-0ihhcs.js"],"default"]
+12:I[91168,["/_next/static/chunks/1cq1h_-0ihhcs.js"],"default"]
+:HL["/_next/static/chunks/0j03wbshzdlin.css","style"]
+:HL["/_next/static/chunks/2-gi8lnaqgn77.css","style"]
+:HL["/images/erp-crew-management.webp","image",{"fetchPriority":"high"}]
+c:X
+0:{"buildId":"VUF6aP4ajW5Kv8-ExJI1s","data":[{"rsc":["$","$1","c",{"children":[[["$","$L2",null,{}],["$","main",null,{"children":[["$","$L3",null,{}],["$","$L4",null,{}],["$","$L5",null,{}],["$","$L6",null,{}]]}],["$","$L7",null,{}]],[["$","script","script-0",{"src":"/_next/static/chunks/11n9tqp53d01d.js","async":true}],["$","script","script-1",{"src":"/_next/static/chunks/02p75xhtp6a2l.js","async":true}]],["$","$L8",null,{"children":["$","$9",null,{"name":"Next.MetadataOutlet","children":"$@a"}]}]]}],"isPartial":"$@b","staleTime":"$c","varyParams":null},{"rsc":["$","$1","h",{"children":[null,["$","$Ld",null,{"children":[["$","meta","0",{"charSet":"utf-8"}],["$","meta","1",{"name":"viewport","content":"width=device-width, initial-scale=1"}]]}],["$","div",null,{"hidden":true,"children":["$","$Le",null,{"children":["$","$9",null,{"name":"Next.Metadata","children":[["$","title","0",{"children":"Enterprise AI Agent Catalogue — KDS ERP Crew"}],["$","meta","1",{"name":"description","content":"A comprehensive library of enterprise AI agents built to automate, orchestrate, and optimize business processes across Microsoft Dynamics 365."}],["$","link","2",{"rel":"icon","href":"/favicon.ico"}],["$","$Lf","3",{}]]}]}]}],["$","meta",null,{"name":"next-size-adjust","content":""}]]}],"isPartial":"$@10","staleTime":"$c","varyParams":null},{"rsc":["$","$1","c",{"children":[[["$","link","0",{"rel":"stylesheet","href":"/_next/static/chunks/0j03wbshzdlin.css","precedence":"next"}],["$","link","1",{"rel":"stylesheet","href":"/_next/static/chunks/2-gi8lnaqgn77.css","precedence":"next"}],["$","script","script-0",{"src":"/_next/static/chunks/1cq1h_-0ihhcs.js","async":true}]],["$","html",null,{"lang":"en","children":[["$","head",null,{"children":["$","link",null,{"rel":"preload","as":"image","href":"/images/erp-crew-management.webp","fetchPriority":"high"}]}],["$","body",null,{"className":"inter_526f73fa-module__FXKE3W__className","children":["$","$L11",null,{"parallelRouterKey":"children","template":["$","$L12",null,{}],"notFound":[[["$","title",null,{"children":"404: This page could not be found."}],["$","div",null,{"style":{"fontFamily":"system-ui,\"Segoe UI\",Roboto,Helvetica,Arial,sans-serif,\"Apple Color Emoji\",\"Segoe UI Emoji\"","height":"100vh","textAlign":"center","display":"flex","flexDirection":"column","alignItems":"center","justifyContent":"center"},"children":["$","div",null,{"children":[["$","style",null,{"dangerouslySetInnerHTML":{"__html":"body{color:#000;background:#fff;margin:0}.next-error-h1{border-right:1px solid rgba(0,0,0,.3)}@media (prefers-color-scheme:dark){body{color:#fff;background:#000}.next-error-h1{border-right:1px solid rgba(255,255,255,.3)}}"}}],["$","h1",null,{"className":"next-error-h1","style":{"display":"inline-block","margin":"0 20px 0 0","padding":"0 23px 0 0","fontSize":24,"fontWeight":500,"verticalAlign":"top","lineHeight":"49px"},"children":404}],["$","div",null,{"style":{"display":"inline-block"},"children":["$","h2",null,{"style":{"fontSize":14,"fontWeight":400,"lineHeight":"49px","margin":0},"children":"This page could not be found."}]}]]}]}]],[]]}]}]]}]]}],"isPartial":"$@13","staleTime":"$c","varyParams":null}],"isUpgradeableISRFallback":false,"a":"$@14","rootVaryParams":null,"needsRuntimeRequest":"$@15"}
+a:null
+c:300
+15:true
+c:C
+14:0
+10:"$undefined"
+13:"$undefined"
+b:"$undefined"

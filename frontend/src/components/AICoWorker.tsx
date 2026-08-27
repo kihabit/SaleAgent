@@ -35,15 +35,17 @@ export default function AICoWorker() {
   }, []);
 
   useEffect(() => {
-    setActive(0);
-
-    if (!item?.features?.length) return;
+    const resetTimer = window.setTimeout(() => setActive(0), 0);
+    if (!item?.features?.length) return () => window.clearTimeout(resetTimer);
 
     const timer = window.setInterval(() => {
       setActive((v) => (v + 1) % item.features!.length);
     }, 2400);
 
-    return () => window.clearInterval(timer);
+    return () => {
+      window.clearTimeout(resetTimer);
+      window.clearInterval(timer);
+    };
   }, [item]);
 
   const features = item?.features || [];
@@ -79,8 +81,8 @@ export default function AICoWorker() {
       role="img"
       aria-label={item.background_image_alt || ""}
     >
-      <div className="relative z-10 mx-auto flex max-w-screen-2xl flex-col items-center gap-12 px-6 py-24 md:flex-row md:items-center md:gap-16 md:px-10 lg:gap-28">
-        <div className="flex-1">
+      <div className="relative z-10 mx-auto flex max-w-screen-2xl min-w-0 flex-col items-center gap-10 px-4 py-16 sm:px-6 sm:py-20 md:flex-row md:gap-16 md:px-10 md:py-24 lg:gap-28">
+        <div className="min-w-0 w-full flex-1">
           {item.badge_text && (
             <span
               className="inline-block rounded-md px-3 py-1 text-xs font-semibold uppercase tracking-widest text-white"
@@ -91,7 +93,7 @@ export default function AICoWorker() {
           )}
 
           <h2
-            className="mt-5 text-4xl font-extrabold leading-tight tracking-tight md:text-5xl"
+            className="mt-5 break-words text-[2rem] font-extrabold leading-tight tracking-tight sm:text-[2.35rem] md:text-5xl"
             style={{ color: "#051895" }}
           >
             {item.heading_normal}{" "}
@@ -102,18 +104,17 @@ export default function AICoWorker() {
 
           {item.description && (
             <p
-              className="mt-5 text-base leading-relaxed text-slate-600"
-              style={{ paddingRight: "5%" }}
+              className="mt-5 max-w-2xl text-sm leading-relaxed text-slate-600 sm:text-base md:pr-[5%]"
             >
               {item.description}
             </p>
           )}
 
-          <div className="mt-8 flex flex-wrap gap-4">
+          <div className="mt-8 flex w-full flex-col gap-3 sm:w-fit sm:flex-row sm:flex-wrap sm:gap-4">
             {item.primary_btn_link && (
               <a
                 href={item.primary_btn_link}
-                className="inline-flex items-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90"
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-6 py-3 text-sm font-semibold text-white transition hover:opacity-90 sm:w-auto"
                 style={{ background: "#051895" }}
               >
                 {item.primary_btn_text} →
@@ -123,7 +124,7 @@ export default function AICoWorker() {
             {item.secondary_btn_link && (
               <a
                 href={item.secondary_btn_link}
-                className="inline-flex items-center gap-2 rounded-full border-2 px-6 py-3 text-sm font-semibold transition hover:bg-slate-50"
+                className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full border-2 px-6 py-3 text-sm font-semibold transition hover:bg-slate-50 sm:w-auto"
                 style={{
                   borderColor: "#051895",
                   color: "#051895",
@@ -137,12 +138,7 @@ export default function AICoWorker() {
 
         {features.length > 0 && (
           <div
-            className="w-full flex-shrink-0 md:w-[440px] lg:w-[520px]"
-            style={{
-              position: "relative",
-              height: 360,
-              overflow: "hidden",
-            }}
+            className="relative h-[280px] w-full min-w-0 flex-shrink-0 overflow-hidden sm:h-[320px] md:h-[360px] md:w-[440px] lg:h-[360px] lg:w-[520px]"
           >
             <div
               style={{
@@ -177,7 +173,7 @@ export default function AICoWorker() {
 
                   <span
                     style={{
-                      fontSize: "1.5rem",
+                      fontSize: "clamp(1rem, 4.5vw, 1.5rem)",
                       transition: "all 0.3s ease",
                       fontWeight: i === active ? 700 : 500,
                       color:

@@ -1,0 +1,5 @@
+:HL["/_next/static/chunks/0j03wbshzdlin.css","style"]
+:HL["/_next/static/chunks/2-gi8lnaqgn77.css","style"]
+:HL["/_next/static/media/83afe278b6a6bb3c-s.p.2bn3s6zvc0dyp.woff2","font",{"crossOrigin":"","type":"font/woff2"}]
+:HL["/images/erp-crew-management.webp","image",{"fetchPriority":"high"}]
+0:{"tree":{"name":"","param":null,"prefetchHints":4176,"slots":{"children":{"name":"__PAGE__","param":null,"prefetchHints":4256,"slots":null}}},"staleTime":300,"buildId":"VUF6aP4ajW5Kv8-ExJI1s"}

@@ -19,6 +19,16 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
+      <head>
+
+        {/* Preload default hero image immediately */}
+        <link
+          rel="preload"
+          as="image"
+          href="/images/erp-crew-management.webp"
+          fetchPriority="high"
+        />
+      </head> 
       <body className={inter.className}>{children}</body>
     </html>
   );

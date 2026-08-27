@@ -276,7 +276,7 @@ export default function AgentLibraryPage() {
       <Header />
 
       {/* ═══════════════════════ CATALOGUE SECTION ═══════════════════════ */}
-      <section className="bg-white px-6 py-16 md:px-10 md:py-20">
+      <section className="bg-white px-4 py-12 sm:px-6 sm:py-16 md:px-10 md:py-20">
         <div className="mx-auto max-w-screen-2xl">
           <div className="flex items-center gap-2">
             <div className="rounded-lg bg-foreground p-1.5 text-background">
@@ -329,14 +329,14 @@ export default function AgentLibraryPage() {
               user scrolls past this section into Solutions, it scrolls
               away naturally instead of staying pinned. */}
           <div
-            className="sticky z-10 -mx-6 mt-8 border-b border-border bg-white/90 px-6 py-3 backdrop-blur md:-mx-10 md:px-10"
+            className="sticky z-10 -mx-4 mt-6 border-b border-border bg-white/95 px-4 py-3 backdrop-blur sm:-mx-6 sm:px-6 md:-mx-10 md:mt-8 md:px-10"
             style={{ top: "86px" }}
           >
-            <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-              <div className="flex flex-wrap gap-1.5">
+            <div className="flex min-w-0 flex-col gap-3 md:flex-row md:items-center md:justify-between">
+              <div className="flex min-w-0 gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:flex-wrap md:overflow-visible md:pb-0">
                 <button
                   onClick={() => setFilter("All")}
-                  className={`rounded-full border px-3 py-1 text-xs font-medium ${
+                  className={`shrink-0 whitespace-nowrap rounded-full border px-3 py-1 text-xs font-medium ${
                     filter === "All" ? "border-brand bg-brand text-white" : "border-border bg-white text-foreground"
                   }`}
                 >
@@ -346,7 +346,7 @@ export default function AgentLibraryPage() {
                   <button
                     key={cat.id}
                     onClick={() => setFilter(label)}
-                    className={`rounded-full border px-3 py-1 text-xs font-medium ${
+                    className={`shrink-0 whitespace-nowrap rounded-full border px-3 py-1 text-xs font-medium ${
                       filter === label ? "border-brand bg-brand text-white" : "border-border bg-white text-foreground"
                     }`}
                   >
@@ -400,7 +400,7 @@ export default function AgentLibraryPage() {
                 return (
                   <div
                     key={agent.id}
-                    className="group flex h-full flex-col rounded-xl border border-border bg-white p-4 transition hover:border-brand hover:shadow-sm"
+                    className="group flex h-full min-w-0 flex-col rounded-xl border border-border bg-white p-4 transition hover:border-brand hover:shadow-sm"
                   >
                     <div className="flex items-start justify-between gap-2">
                       <span className="inline-flex shrink-0 items-center rounded-full bg-brand-soft px-2 py-0.5 text-[10px] font-semibold uppercase tracking-wider text-brand">
@@ -415,8 +415,8 @@ export default function AgentLibraryPage() {
                         </button>
                       )}
                     </div>
-                    <h2 className="mt-3 text-sm font-semibold leading-snug text-foreground">{agent.name}</h2>
-                    <p className="mt-2 text-xs leading-relaxed text-muted-foreground">{agent.description}</p>
+                    <h2 className="mt-3 min-w-0 break-words text-sm font-semibold leading-snug text-foreground">{agent.name}</h2>
+                    <p className="mt-2 min-w-0 break-words text-xs leading-relaxed text-muted-foreground">{agent.description}</p>
                   </div>
                 );
               })}
@@ -430,7 +430,7 @@ export default function AgentLibraryPage() {
       </section>
 
       {/* ═════════════════════ SOLUTIONS SECTION ═════════════════════ */}
-      <section className="border-b border-border bg-surface px-6 py-16 md:px-10 md:py-20">
+      <section className="border-b border-border bg-surface px-4 py-12 sm:px-6 sm:py-16 md:px-10 md:py-20">
         <div className="mx-auto max-w-screen-2xl">
           <div
             className="mb-2 inline-flex items-center gap-2 rounded-md px-2 py-1 text-xs font-semibold uppercase tracking-widest text-white"
@@ -460,7 +460,7 @@ export default function AgentLibraryPage() {
             {solutionsHeader.heading || "End-to-End Business Process Automation"}
           </h2>
 
-          <div className="mt-3 flex flex-wrap items-end justify-between gap-3">
+          <div className="mt-3 flex flex-col items-start gap-3 sm:flex-row sm:flex-wrap sm:items-end sm:justify-between">
             <p className="max-w-full text-base leading-relaxed text-muted-foreground">
               {solutionsHeader.description ||
                 "KDS ERP Crew brings together intelligent AI agents that work seamlessly across Microsoft Dynamics 365 to automate business processes from start to finish. Each agent performs specialized tasks, shares contextual data, and orchestrates workflows to deliver faster decisions, higher productivity, and intelligent business outcomes."}
@@ -500,12 +500,12 @@ export default function AgentLibraryPage() {
                   key={sol.id}
                   type="button"
                   onClick={() => setSelectedSolution(sol)}
-                  className="group flex h-full flex-col rounded-xl border border-border bg-white p-6 text-left transition hover:-translate-y-0.5 hover:border-brand hover:shadow-lg"
+                  className="group flex h-full min-w-0 flex-col rounded-xl border border-border bg-white p-4 text-left transition hover:-translate-y-0.5 hover:border-brand hover:shadow-lg sm:p-6"
                 >
                   <div className="mb-3 inline-flex w-fit items-center gap-1.5 rounded-full bg-brand-soft px-2.5 py-1 text-xs font-semibold text-brand">
                     {sol.steps} steps
                   </div>
-                  <h3 className="text-base font-bold leading-snug text-foreground">{sol.title}</h3>
+                  <h3 className="break-words text-base font-bold leading-snug text-foreground">{sol.title}</h3>
                   <p className="mt-3 line-clamp-4 flex-1 text-sm leading-relaxed text-muted-foreground">
                     {sol.desc}
                   </p>
@@ -531,7 +531,7 @@ export default function AgentLibraryPage() {
       {selectedSolution && (
         <div className="fixed inset-0 z-[60] flex items-center justify-center p-4">
           <div className="absolute inset-0 bg-black/60" onClick={() => setSelectedSolution(null)} />
-          <div className="relative z-10 w-full max-w-lg rounded-xl bg-white p-6 shadow-xl">
+          <div className="relative z-10 max-h-[calc(100dvh-2rem)] w-full max-w-lg overflow-y-auto rounded-xl bg-white p-4 shadow-xl sm:p-6">
             <button
               onClick={() => setSelectedSolution(null)}
               aria-label="Close"

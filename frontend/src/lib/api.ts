@@ -1,6 +1,6 @@
 import type { ApiResponse } from "@/types";
 
-const API_BASE_URL = process.env.LARAVEL_API_UR || "http://127.0.0.1:8000";
+const API_BASE_URL = process.env.NEXT_PUBLIC_LARAVEL_API_URL || "http://127.0.0.1:8000";
 
 export async function apiGet<T>(path: string, init?: RequestInit): Promise<T> {
   const url = path.startsWith("http") ? path : `${API_BASE_URL}${path}`;
