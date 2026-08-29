@@ -976,3 +976,53 @@ canvas {
     font-size: 0.84rem;
   }
 }
+
+/* ===== CMS Content Responsive Override ===== */
+@media (max-width: 767px) {
+
+  #cms-page-content [style*="grid-template-columns:1fr 1fr"] {
+    grid-template-columns: 1fr !important;
+    gap: 2rem !important;
+  }
+
+  #cms-page-content [style*="padding:4rem 4rem"] {
+    padding: 2.5rem 1.25rem !important;
+  }
+  #cms-page-content [style*="padding:3rem 4rem"] {
+    padding: 2rem 1.25rem !important;
+  }
+  #cms-page-content [style*="padding:4rem 2.5rem"] {
+    padding: 2.5rem 1.25rem !important;
+  }
+
+  #cms-page-content h1 {
+    font-size: 1.9rem !important;
+  }
+  #cms-page-content h2 {
+    font-size: 1.5rem !important;
+  }
+
+  #cms-page-content img {
+    max-width: 100% !important;
+    height: auto !important;
+  }
+
+  #cms-page-content [style*="min-height:420px"] {
+    min-height: 320px !important;
+  }
+
+  #cms-page-content [style*="grid-template-columns:1fr 1fr"] input,
+  #cms-page-content [style*="grid-template-columns:1fr 1fr"] select {
+    width: 100% !important;
+  }
+}
+
+#cms-page-content {
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
+}
+#cms-page-content * {
+  max-width: 100%;
+  box-sizing: border-box;
+}

@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./styles.css";
 import "./globals.css";
@@ -16,11 +16,15 @@ export const metadata: Metadata = {
   icons: { icon: "/favicon.ico" },
 };
 
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+};
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en">
       <head>
-
         {/* Preload default hero image immediately */}
         <link
           rel="preload"
@@ -28,7 +32,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           href="/images/erp-crew-management.webp"
           fetchPriority="high"
         />
-      </head> 
+      </head>
       <body className={inter.className}>{children}</body>
     </html>
   );
