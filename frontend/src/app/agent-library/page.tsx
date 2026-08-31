@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import Header from "@/components/Header";
+
 import Footer from "@/components/Footer";
 import DemoModal from "@/components/DemoModal";
 import { apiGet } from "@/lib/api";
@@ -273,7 +273,7 @@ export default function AgentLibraryPage() {
 
   return (
     <>
-      <Header />
+      
 
       {/* ═══════════════════════ CATALOGUE SECTION ═══════════════════════ */}
       <section className="bg-white px-4 py-12 sm:px-6 sm:py-16 md:px-10 md:py-20">

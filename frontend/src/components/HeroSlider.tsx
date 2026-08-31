@@ -30,6 +30,19 @@ const DEFAULT_SLIDE: HeroSlide = {
 };
 
 /* ------------------------------------------------------------------ */
+/* Static CTA buttons                                                  */
+/* These are the same on every slide (matches the approved design),   */
+/* so they are NOT part of per-slide data and never fade/refresh when */
+/* the slide changes.                                                  */
+/* ------------------------------------------------------------------ */
+
+const STATIC_BUTTONS = [
+  { text: "Agent Highlights", url: "#highlights" },
+  { text: "Complete AI Agent Catalogue", url: "#catalogue" },
+  { text: "Back to Key Dynamic Solutions", url: "https://keydynamicssolutions.com/" },
+];
+
+/* ------------------------------------------------------------------ */
 /* Helpers                                                             */
 /* ------------------------------------------------------------------ */
 
@@ -64,26 +77,6 @@ function mapHeroSlide(slide: any): HeroSlide {
         };
   });
 
-  const buttons = [
-    {
-      text: slide.btn1_text,
-      url: slide.btn1_url,
-    },
-    {
-      text: slide.btn2_text,
-      url: slide.btn2_url,
-    },
-    {
-      text: slide.btn3_text,
-      url: slide.btn3_url,
-    },
-  ]
-    .filter((button) => button.text)
-    .map((button) => ({
-      text: button.text,
-      url: button.url || "#",
-    }));
-
   return {
     ...slide,
 
@@ -95,13 +88,20 @@ function mapHeroSlide(slide: any): HeroSlide {
 
     image_alt_text: slide.image_alt_text || "",
 
-    heading: [slide.heading || ""],
+    // Heading is split on "|" so admins control exactly where the
+    // line break falls (e.g. "Smart AI Approval|Assistant").
+    heading: (slide.heading || "")
+      .split("|")
+      .map((line: string) => line.trim())
+      .filter(Boolean),
 
     description: slide.description || "",
 
     stats,
 
-    buttons,
+    // Buttons are intentionally NOT taken from per-slide data anymore.
+    // They are static across all slides (see STATIC_BUTTONS above).
+    buttons: STATIC_BUTTONS,
   };
 }
 
@@ -626,7 +626,8 @@ export default function HeroSlider() {
     ? slide.heading
     : [slide.heading || ""];
 
-  const buttons = slide.buttons || [];
+  // Buttons are static across every slide, not per-slide data.
+  const buttons = STATIC_BUTTONS;
 
   /* ---------------------------------------------------------------- */
   /* Navigation                                                        */
@@ -711,7 +712,7 @@ export default function HeroSlider() {
                   }
                   decoding="async"
                   className="hero-background-image h-full w-full object-cover object-top"
-                                   style={{
+                  style={{
                     objectPosition:
                       "50% 0%",
                     transform: "scale(1)",
@@ -735,10 +736,14 @@ export default function HeroSlider() {
 
       <div className="relative z-10 mx-auto flex w-full max-w-screen-2xl flex-1 flex-col px-4 pt-7 sm:px-6 sm:pt-10 md:px-10 md:pt-14">
         <div className="hero-content-stack mt-8 flex max-w-5xl flex-1 flex-col justify-end gap-7 pb-16 sm:mt-12 sm:gap-8 sm:pb-20 md:mt-20 md:gap-10 md:pb-[85px]">
-          {/* Text */}
+
+          {/* ---------------------------------------------------------- */}
+          {/* Text (heading + description) — this is the ONLY part that */}
+          {/* fades/refreshes when the slide changes.                    */}
+          {/* ---------------------------------------------------------- */}
 
           <div
-            className="hero-copy flex min-w-0 flex-col gap-7 transition-all duration-300 sm:gap-8 md:gap-10"
+            className="hero-copy flex min-w-0 flex-col transition-all duration-300"
             style={{
               opacity: textVisible ? 1 : 0,
               transform: textVisible
@@ -746,136 +751,139 @@ export default function HeroSlider() {
                 : "translateY(16px)",
             }}
           >
-            <div>
-              <h1 className="max-h-[none] max-w-[20ch] overflow-hidden break-words text-[2rem] font-bold leading-[1.08] tracking-tight text-white sm:text-[2.35rem] md:max-h-[2.6em] md:max-w-[24ch] md:text-[3.1875rem]">
-                {heading.map(
-                  (line, index) => (
-                    <span
-                      key={index}
-                      className="block"
-                    >
-                      {line}
-                    </span>
-                  )
-                )}
-              </h1>
+            <h1 className="max-h-[none] max-w-[20ch] overflow-hidden break-words text-[2rem] font-bold leading-[1.08] tracking-tight text-white sm:text-[2.35rem] md:max-h-[2.6em] md:max-w-[24ch] md:text-[3.1875rem]">
+              {heading.map(
+                (line, index) => (
+                  <span
+                    key={index}
+                    className="block"
+                  >
+                    {line}
+                  </span>
+                )
+              )}
+            </h1>
 
-              <p className="mt-4 max-h-[none] max-w-[40ch] overflow-hidden break-words text-sm leading-relaxed text-white/90 sm:text-base md:max-h-[4.5em] md:max-w-[52ch] md:text-lg">
-                {slide.description}
-              </p>
+            <p className="mt-4 max-h-[none] max-w-[40ch] overflow-hidden break-words text-sm leading-relaxed text-white/90 sm:text-base md:max-h-[4.5em] md:max-w-[52ch] md:text-lg">
+              {slide.description}
+            </p>
+          </div>
+
+          {/* ---------------------------------------------------------- */}
+          {/* Controls (buttons + stats) — moved OUTSIDE hero-copy so    */}
+          {/* the buttons never fade/refresh on slide change.            */}
+          {/* Only the stats grid still fades (per-slide data).          */}
+          {/* ---------------------------------------------------------- */}
+
+          <div className="hero-controls mt-7 flex w-full min-w-0 max-w-full flex-col gap-7 sm:mt-8 sm:w-fit sm:gap-8 md:mt-10 md:gap-10">
+
+            {/* Buttons — static, no fade */}
+
+            <div className="hero-cta-row flex min-h-[44px] w-full max-w-full flex-col items-stretch gap-2.5 sm:w-fit sm:flex-row sm:items-center sm:gap-3">
+              {buttons.map(
+                (
+                  button: any,
+                  index: number
+                ) => {
+                  const text =
+                    button.text ||
+                    button.label ||
+                    "Learn More";
+
+                  const href =
+                    button.url ||
+                    button.href ||
+                    "#";
+
+                  const isExternal =
+                    /^https?:\/\//i.test(
+                      href
+                    );
+
+                  const style =
+                    BTN_STYLES[index] ||
+                    BTN_STYLES[
+                      BTN_STYLES.length - 1
+                    ];
+
+                  const { Icon } = style;
+
+                  return (
+                    <a
+                      key={`${text}-${index}`}
+                      href={href}
+                      target={
+                        isExternal
+                          ? "_blank"
+                          : undefined
+                      }
+                      rel={
+                        isExternal
+                          ? "noopener noreferrer"
+                          : undefined
+                      }
+                      className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold shadow-lg transition hover:brightness-110 sm:w-auto"
+                      style={{
+                        backgroundColor:
+                          style.bg,
+                        color: style.text,
+                      }}
+                    >
+                      <Icon />
+
+                      {text}
+                    </a>
+                  );
+                }
+              )}
             </div>
 
-            {/* Controls */}
+            {/* Stats — still fades per-slide (data differs per slide) */}
 
-            <div className="hero-controls flex w-full min-w-0 max-w-full flex-col gap-7 sm:w-fit sm:gap-8 md:gap-10">
-              {/* Buttons */}
+            <div
+              className="hero-stats-grid grid w-full min-w-0 grid-cols-2 gap-3 transition-all duration-500 md:grid-cols-4 md:gap-4"
+              style={{
+                opacity: statsVisible
+                  ? 1
+                  : 0,
 
-              <div className="hero-cta-row flex min-h-[44px] w-full max-w-full flex-col items-stretch gap-2.5 sm:w-fit sm:flex-row sm:items-center sm:gap-3">
-                {buttons.map(
-                  (
-                    button: any,
-                    index: number
-                  ) => {
-                    const text =
-                      button.text ||
-                      button.label ||
-                      "Learn More";
+                transform: statsVisible
+                  ? "translateY(0)"
+                  : "translateY(12px)",
+              }}
+            >
+              {(slide.stats || []).map(
+                (
+                  stat: any,
+                  index: number
+                ) => {
+                  const raw =
+                    stat.number ||
+                    stat.value ||
+                    "";
 
-                    const href =
-                      button.url ||
-                      button.href ||
-                      "#";
-
-                    const isExternal =
-                      /^https?:\/\//i.test(
-                        href
-                      );
-
-                    const style =
-                      BTN_STYLES[index] ||
-                      BTN_STYLES[
-                        BTN_STYLES.length - 1
-                      ];
-
-                    const { Icon } = style;
-
-                    return (
-                      <a
-                        key={`${text}-${index}`}
-                        href={href}
-                        target={
-                          isExternal
-                            ? "_blank"
-                            : undefined
-                        }
-                        rel={
-                          isExternal
-                            ? "noopener noreferrer"
-                            : undefined
-                        }
-                        className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-full px-5 py-2.5 text-sm font-semibold shadow-lg transition hover:brightness-110 sm:w-auto"
-                        style={{
-                          backgroundColor:
-                            style.bg,
-                          color: style.text,
-                        }}
-                      >
-                        <Icon />
-
-                        {text}
-                      </a>
-                    );
-                  }
-                )}
-              </div>
-
-              {/* Stats */}
-
-              <div
-                className="hero-stats-grid grid w-full min-w-0 grid-cols-2 gap-3 transition-all duration-500 md:grid-cols-4 md:gap-4"
-                style={{
-                  opacity: statsVisible
-                    ? 1
-                    : 0,
-
-                  transform: statsVisible
-                    ? "translateY(0)"
-                    : "translateY(12px)",
-                }}
-              >
-                {(slide.stats || []).map(
-                  (
-                    stat: any,
-                    index: number
-                  ) => {
-                    const raw =
-                      stat.number ||
-                      stat.value ||
-                      "";
-
-                    return (
-                      <div
-                        key={index}
-                        className="min-w-0 min-h-[92px] overflow-hidden rounded-xl border border-white/20 bg-white/10 p-3 text-white backdrop-blur sm:min-h-[110px] sm:p-4 md:min-h-[132px]"
-                      >
-                        <div className="flex h-8 items-center text-xl font-bold sm:text-2xl md:text-3xl">
-                          {stat.icon ? (
-                            <CheckCircleIcon />
-                          ) : (
-                            animated[
-                              String(index)
-                            ] || raw
-                          )}
-                        </div>
-
-                        <div className="mt-2 break-words text-[11px] leading-snug text-white/80 sm:text-xs md:text-sm">
-                          {stat.label}
-                        </div>
+                  return (
+                    <div
+                      key={index}
+                      className="min-w-0 min-h-[92px] overflow-hidden rounded-xl border border-white/20 bg-white/10 p-3 text-white backdrop-blur sm:min-h-[110px] sm:p-4 md:min-h-[132px]"
+                    >
+                      <div className="flex h-8 items-center text-xl font-bold sm:text-2xl md:text-3xl">
+                        {stat.icon ? (
+                          <CheckCircleIcon />
+                        ) : (
+                          animated[
+                            String(index)
+                          ] || raw
+                        )}
                       </div>
-                    );
-                  }
-                )}
-              </div>
+
+                      <div className="mt-2 break-words text-[11px] leading-snug text-white/80 sm:text-xs md:text-sm">
+                        {stat.label}
+                      </div>
+                    </div>
+                  );
+                }
+              )}
             </div>
           </div>
         </div>

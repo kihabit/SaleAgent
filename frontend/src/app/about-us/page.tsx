@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Header from "@/components/Header";
+
 import Footer from "@/components/Footer";
 import { apiGet } from "@/lib/api";
 
@@ -46,7 +46,7 @@ export default function AboutPage() {
 
   return (
     <>
-      <Header />
+     
       <main>
         {error && (
           <p style={{ padding: "3rem", textAlign: "center", color: "#b91c1c" }}>
