@@ -58,7 +58,8 @@ body { min-height: 100vh; }
 @media (max-width:767px) {
   #hero-heading { max-width:20ch; }
   #hero-desc { max-width:40ch; }
-  .hero-background-image { object-position:75% top; }
+  .hero-background-image { object-position: left top; }
+  .hero-copy { gap: 20px; }
 }
 
 

@@ -710,11 +710,9 @@ export default function HeroSlider() {
                       ? "high"
                       : "auto"
                   }
-                  decoding="async"
+                                 decoding="async"
                   className="hero-background-image h-full w-full object-cover object-top"
                   style={{
-                    objectPosition:
-                      "50% 0%",
                     transform: "scale(1)",
                     transition:
                       "opacity 0.7s ease",
@@ -764,7 +762,7 @@ export default function HeroSlider() {
               )}
             </h1>
 
-            <p className="mt-4 max-h-[none] max-w-[40ch] overflow-hidden break-words text-sm leading-relaxed text-white/90 sm:text-base md:max-h-[4.5em] md:max-w-[52ch] md:text-lg">
+                       <p className="max-h-[none] max-w-[40ch] overflow-hidden break-words text-sm leading-relaxed text-white/90 sm:text-base md:max-h-[4.5em] md:max-w-[52ch] md:text-lg">
               {slide.description}
             </p>
           </div>
