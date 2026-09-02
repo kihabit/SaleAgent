@@ -459,8 +459,19 @@ export default function HeroSlider() {
     if (!header) return;
 
     const apply = () => {
-      setHeaderHeight(
-        header.getBoundingClientRect().height
+      const height = header.getBoundingClientRect().height;
+
+      setHeaderHeight(height);
+
+      /*
+       * Match the reference Hero Slider: expose the real header
+       * height as a CSS custom property so the hero section's
+       * height calc() (var(--header-h, ...)) reflects the actual
+       * rendered header instead of only ever using the fallback.
+       */
+      document.documentElement.style.setProperty(
+        "--header-h",
+        `${height}px`
       );
     };
 
@@ -657,11 +668,15 @@ export default function HeroSlider() {
 
   return (
     <section
-      className="relative flex min-h-[calc(100svh-72px)] flex-col overflow-clip md:min-h-[calc(100svh-86px-45px)]"
-      style={{
-        minHeight: `calc(100svh - ${headerHeight}px - 45px)`,
-      }}
-    >
+        id="hero-section"
+        className="relative overflow-clip flex flex-col"
+        style={{
+          height:
+            "max(44rem, calc(100svh - var(--header-h, 5.375rem) - 45px))",
+          minHeight:
+            "max(44rem, calc(100svh - var(--header-h, 5.375rem) - 45px))",
+        }}
+      >
       {/* ------------------------------------------------------------ */}
       {/* Background                                                    */}
       {/* ------------------------------------------------------------ */}
@@ -687,7 +702,7 @@ export default function HeroSlider() {
           return (
             <div
               key={i}
-              className="hero-bg-layer pointer-events-none absolute inset-0 transition-opacity duration-700"
+              className="hero-bg-layer pointer-events-none absolute inset-0 transition-opacity duration-700 opacity"
               style={{
                 zIndex: isActive ? 1 : 0,
                 opacity: isActive ? 1 : 0,
@@ -713,9 +728,16 @@ export default function HeroSlider() {
                                  decoding="async"
                   className="hero-background-image h-full w-full object-cover object-top"
                   style={{
-                    transform: "scale(1)",
-                    transition:
-                      "opacity 0.7s ease",
+                    /*
+                     * Match the reference Hero Slider's slow
+                     * Ken-Burns zoom on the active slide. The
+                     * transform/opacity transition durations come
+                     * from the .hero-bg-layer img rule in globals.css
+                     * (transform 6s ease-out, opacity .7s ease).
+                     */
+                    transform: isActive
+                      ? "scale(1.03)"
+                      : "scale(1)",
                   }}
                 />
               )}
@@ -741,7 +763,8 @@ export default function HeroSlider() {
           {/* ---------------------------------------------------------- */}
 
           <div
-            className="hero-copy flex min-w-0 flex-col transition-all duration-300"
+            id="hero-text"
+            className="hero-copy transition-all duration-300"
             style={{
               opacity: textVisible ? 1 : 0,
               transform: textVisible
@@ -950,4 +973,4 @@ export default function HeroSlider() {
       )}
     </section>
   );
-}
+} 
