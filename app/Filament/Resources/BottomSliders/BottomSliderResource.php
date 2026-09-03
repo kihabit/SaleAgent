@@ -28,6 +28,8 @@ class BottomSliderResource extends Resource
 
     protected static string|UnitEnum|null $navigationGroup = 'Content';
 
+    protected static ?int $navigationSort = 5;
+
     public static function form(Schema $schema): Schema
     {
         return BottomSliderForm::configure($schema);

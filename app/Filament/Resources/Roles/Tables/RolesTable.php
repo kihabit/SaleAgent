@@ -73,6 +73,8 @@ class RolesTable
 
             ])
 
+            ->recordActionsColumnLabel('Action')
+
             ->toolbarActions([
 
                 BulkActionGroup::make([

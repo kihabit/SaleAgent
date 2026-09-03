@@ -17,7 +17,7 @@ export default function AboutPage() {
   const [error, setError] = useState(false);
 
   useEffect(() => {
-    apiGet<PageData>("http://127.0.0.1:8000/api/pages/about-us")
+   apiGet<PageData>("/api/pages/about-us")
       .then(setPage)
       .catch((err) => {
         console.error(err);

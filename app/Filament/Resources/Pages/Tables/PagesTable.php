@@ -28,12 +28,6 @@ class PagesTable
                 TextColumn::make('views')
                     ->numeric()
                     ->sortable(),
-                TextColumn::make('created_by')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('updated_by')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -55,6 +49,7 @@ class PagesTable
                 EditAction::make(),
                 DeleteAction::make(),
             ])
+            ->recordActionsColumnLabel('Action')
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),

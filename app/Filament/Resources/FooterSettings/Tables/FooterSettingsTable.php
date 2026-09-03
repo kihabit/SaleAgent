@@ -29,12 +29,6 @@ class FooterSettingsTable
                     ->searchable(),
                 TextColumn::make('copyright_text')
                     ->searchable(),
-                TextColumn::make('created_by')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('updated_by')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -51,6 +45,7 @@ class FooterSettingsTable
                 EditAction::make(),
                 DeleteAction::make(),
             ])
+            ->recordActionsColumnLabel('Action')
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),

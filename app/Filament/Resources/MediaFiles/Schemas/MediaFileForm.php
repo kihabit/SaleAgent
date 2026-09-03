@@ -3,10 +3,12 @@
 namespace App\Filament\Resources\MediaFiles\Schemas;
 
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Placeholder;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
 use Livewire\Features\SupportFileUploads\TemporaryUploadedFile;
 use Illuminate\Support\Str;
+use Illuminate\Support\HtmlString;
 
 class MediaFileForm
 {
@@ -54,6 +56,28 @@ class MediaFileForm
 
             TextInput::make('name')
                 ->required(),
+
+            Placeholder::make('full_url')
+                ->label('Full URL')
+                ->content(function ($record) {
+                    if (! $record?->url) {
+                        return '—';
+                    }
+
+                    $url = e($record->url);
+
+                    return new HtmlString(
+                        '<div style="display:flex;align-items:center;gap:8px;">'
+                        . '<span>' . $url . '</span>'
+                        . '<button type="button" '
+                        . 'onclick="navigator.clipboard.writeText(\'' . $url . '\'); this.innerText=\'Copied!\'; setTimeout(() => this.innerText=\'Copy\', 1500);" '
+                        . 'style="padding:4px 10px;border:1px solid #d1d5db;border-radius:6px;background:#f9fafb;cursor:pointer;font-size:12px;">'
+                        . 'Copy'
+                        . '</button>'
+                        . '</div>'
+                    );
+                })
+                ->columnSpanFull(),
         ]);
     }
 }

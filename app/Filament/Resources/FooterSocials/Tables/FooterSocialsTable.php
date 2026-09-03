@@ -27,12 +27,6 @@ class FooterSocialsTable
                     ->sortable(),
                 IconColumn::make('is_active')
                     ->boolean(),
-                TextColumn::make('created_by')
-                    ->numeric()
-                    ->sortable(),
-                TextColumn::make('updated_by')
-                    ->numeric()
-                    ->sortable(),
                 TextColumn::make('created_at')
                     ->dateTime()
                     ->sortable()
@@ -49,6 +43,7 @@ class FooterSocialsTable
                 EditAction::make(),
                 DeleteAction::make(),
             ])
+            ->recordActionsColumnLabel('Action')
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),

@@ -23,14 +23,16 @@ class MediaFilesTable
                     ->square(),
 
                 TextColumn::make('name')
-                    ->searchable(),
+                    ->searchable()
+                    ->limit(15)
+                    ->tooltip(fn ($state) => $state),
 
                 TextColumn::make('path')
                     ->label('URL')
                     ->formatStateUsing(fn ($state) => asset('storage/' . $state))
                     ->copyable()
                     ->copyMessage('Link copied!')
-                    ->limit(40),
+                    ->wrap(),
 
                 TextColumn::make('created_at')
                     ->label('Created')
@@ -45,6 +47,7 @@ class MediaFilesTable
                 EditAction::make(),
                 DeleteAction::make(),
             ])
+            ->recordActionsColumnLabel('Action')
             ->toolbarActions([
                 BulkActionGroup::make([
                     DeleteBulkAction::make(),
