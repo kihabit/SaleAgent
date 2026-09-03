@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\MenuItems;
 
 use App\Filament\Resources\MenuItems\Pages;
+use App\Filament\Resources\MenuItems\Tables\MenuItemsTable;
 use App\Models\MenuItem;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
@@ -10,8 +11,6 @@ use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\Toggle;
 use Filament\Resources\Resource;
 use Filament\Schemas\Schema;
-use Filament\Tables\Columns\IconColumn;
-use Filament\Tables\Columns\TextColumn;
 use Filament\Tables\Table;
 
 class MenuItemResource extends Resource
@@ -69,46 +68,7 @@ class MenuItemResource extends Resource
 
     public static function table(Table $table): Table
     {
-        return $table
-            ->columns([
-                TextColumn::make('label')
-                    ->searchable()
-                    ->sortable(),
-
-                TextColumn::make('url')
-                    ->searchable(),
-
-                TextColumn::make('parent.label')
-                    ->label('Parent')
-                    ->placeholder('—'),
-
-                TextColumn::make('order')
-                    ->sortable(),
-
-                IconColumn::make('is_active')
-                    ->boolean(),
-
-                TextColumn::make('creator.name')
-                    ->label('Created By')
-                    ->toggleable(),
-
-                TextColumn::make('updater.name')
-                    ->label('Updated By')
-                    ->toggleable(),
-            ])
-            ->defaultSort('order')
-            ->filters([
-                //
-            ])
-            ->recordActions([
-                \Filament\Actions\EditAction::make(),
-                \Filament\Actions\DeleteAction::make(),
-            ])
-            ->toolbarActions([
-                \Filament\Actions\BulkActionGroup::make([
-                    \Filament\Actions\DeleteBulkAction::make(),
-                ]),
-            ]);
+        return MenuItemsTable::configure($table);
     }
 
     public static function getRelations(): array
