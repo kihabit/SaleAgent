@@ -20,10 +20,13 @@ export type HeaderSettings = {
   logo_alt_text?: string;
   cta_text?: string;
   cta_url?: string;
+  meta_title?: string;
+  meta_description?: string;
+  google_analytics_code?: string;
   [key: string]: unknown;
 };
 
-export type HeroStat = { number?: string; value?: string; label?: string };
+export type HeroStat = { number?: string; value?: string; label?: string;  icon?: boolean};
 export type HeroButton = { text?: string; label?: string; url?: string; href?: string };
 export type HeroSlide = {
   id?: number | string;

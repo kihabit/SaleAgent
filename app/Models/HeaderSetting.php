@@ -8,7 +8,8 @@ class HeaderSetting extends Model
 {
     protected $fillable = [
         'logo_image', 'logo_alt_text', 'logo_text', 'logo_link', 'is_sticky',
-        'cta_text', 'cta_url', 'cta_style', 'created_by', 'updated_by'
+        'cta_text', 'cta_url', 'cta_style', 'created_by', 'updated_by',
+        'meta_title', 'meta_description', 'google_analytics_code'
     ];
 
     protected static function boot()

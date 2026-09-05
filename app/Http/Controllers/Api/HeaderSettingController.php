@@ -22,14 +22,17 @@ class HeaderSettingController extends Controller
         return response()->json([
             'success' => true,
             'data' => [
-                'logo_image'     => $header->logo_image ? asset('storage/' . $header->logo_image) : null,
-                'logo_alt_text'  => $header->logo_alt_text,
-                'logo_text'      => $header->logo_text,
-                'logo_link'      => $header->logo_link,
-                'is_sticky'      => $header->is_sticky,
-                'cta_text'       => $header->cta_text,
-                'cta_url'        => $header->cta_url,
-                'cta_style'      => $header->cta_style,
+                'logo_image'             => $header->logo_image ? asset('storage/' . $header->logo_image) : null,
+                'logo_alt_text'          => $header->logo_alt_text,
+                'logo_text'              => $header->logo_text,
+                'logo_link'              => $header->logo_link,
+                'is_sticky'              => $header->is_sticky,
+                'cta_text'               => $header->cta_text,
+                'cta_url'                => $header->cta_url,
+                'cta_style'              => $header->cta_style,
+                'meta_title'             => $header->meta_title,
+                'meta_description'      => $header->meta_description,
+                'google_analytics_code' => $header->google_analytics_code,
             ],
         ]);
     }

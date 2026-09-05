@@ -4,6 +4,7 @@ namespace App\Filament\Resources\HeaderSettings\Schemas;
 
 use Filament\Forms\Components\FileUpload;
 use Filament\Forms\Components\Select;
+use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Forms\Components\Toggle;
 use Filament\Schemas\Schema;
@@ -40,8 +41,7 @@ FileUpload::make('logo_image')
                 . '.'
                 . $extension;
         }
-    )
-    ->helperText('Required. JPG, PNG or WEBP. Max size 10MB.'),
+    ),
             TextInput::make('logo_alt_text')
                 ->label('Logo Alt Text')
                 ->placeholder('KDS ERP Crew')
@@ -77,6 +77,22 @@ FileUpload::make('logo_image')
                     'secondary' => 'Secondary',
                 ])
                 ->default('primary'),
+
+            TextInput::make('meta_title')
+                ->label('Meta Title')
+                ->placeholder('KDS ERP Crew - Trusted AI-Powered ERP Software')
+                ->maxLength(255),
+
+            Textarea::make('meta_description')
+                ->label('Meta Description')
+                ->placeholder('Short description for Google search results...')
+                ->maxLength(500)
+                ->rows(3),
+
+            Textarea::make('google_analytics_code')
+                ->label('Google Analytics Code')
+                ->placeholder('<script async src="https://www.googletagmanager.com/gtag/js?id=G-XXXXXXX"></script>...')
+                ->rows(4),
         ]);
     }
 }
