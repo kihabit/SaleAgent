@@ -20,7 +20,7 @@ class CrewAcademySectionResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static string|\UnitEnum|null $navigationGroup = 'Content';
+    protected static string|\UnitEnum|null $navigationGroup = 'Agent Library';
 
     protected static ?string $navigationLabel = 'Crew Academy Section';
 

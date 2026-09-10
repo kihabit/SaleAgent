@@ -24,7 +24,7 @@ class FooterSettingResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
-    protected static string|UnitEnum|null $navigationGroup = 'Appearance';
+    protected static string|UnitEnum|null $navigationGroup = 'Footer';
 
     protected static ?int $navigationSort = 2;
 

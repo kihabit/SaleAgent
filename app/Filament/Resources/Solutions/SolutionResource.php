@@ -52,4 +52,9 @@ class SolutionResource extends Resource
             'edit' => EditSolution::route('/{record}/edit'),
         ];
     }
+
+    public static function shouldRegisterNavigation(): bool
+    {
+        return false;
+    }
 }

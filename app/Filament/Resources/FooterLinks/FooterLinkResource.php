@@ -20,6 +20,8 @@ class FooterLinkResource extends Resource
 
     protected static string|BackedEnum|null $navigationIcon = Heroicon::OutlinedRectangleStack;
 
+   protected static string|\UnitEnum|null $navigationGroup = 'Footer';
+
     protected static ?string $recordTitleAttribute = 'label';
 
     public static function form(Schema $schema): Schema
