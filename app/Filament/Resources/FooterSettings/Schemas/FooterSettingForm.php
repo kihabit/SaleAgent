@@ -3,6 +3,7 @@
 namespace App\Filament\Resources\FooterSettings\Schemas;
 
 use Filament\Forms\Components\FileUpload;
+use Filament\Forms\Components\Repeater;
 use Filament\Forms\Components\Textarea;
 use Filament\Forms\Components\TextInput;
 use Filament\Schemas\Schema;
@@ -12,11 +13,11 @@ class FooterSettingForm
     public static function configure(Schema $schema): Schema
     {
         return $schema->components([
-          FileUpload::make('logo_image')
-    ->image()
-    ->disk('public')
-    ->directory('logos')
-    ->label('Footer Logo'),
+            FileUpload::make('logo_image')
+                ->image()
+                ->disk('public')
+                ->directory('logos')
+                ->label('Footer Logo'),
 
             TextInput::make('logo_alt_text')
                 ->label('Logo Alt Text')
@@ -32,33 +33,36 @@ class FooterSettingForm
                 ->label('About Text')
                 ->rows(4),
 
-            TextInput::make('info_heading')
-                ->label('Info Section Heading')
-                ->placeholder('Want to know more about KDS?')
+            TextInput::make('contact_heading')
+                ->label('Contact Section Heading')
+                ->placeholder('Contact details')
                 ->maxLength(255),
 
-            Textarea::make('info_text')
-                ->label('Info Section Text')
-                ->rows(3),
+            Repeater::make('contact_addresses')
+                ->label('Contact Addresses')
+                ->schema([
+                    Textarea::make('address')
+                        ->label('Address')
+                        ->rows(2)
+                        ->required(),
+                ])
+                ->defaultItems(1)
+                ->maxItems(4)
+                ->addActionLabel('Add Address')
+                ->collapsible()
+                ->itemLabel(fn (array $state): ?string => $state['address'] ?? null),
 
-            TextInput::make('info_link_text')
-                ->label('Info Link Text')
-                ->placeholder('Visit KDS Website →')
+            TextInput::make('contact_email')
+                ->label('Contact Email')
+                ->email()
+                ->placeholder('Sales@keydynamicssolutions.com')
                 ->maxLength(255),
 
-            TextInput::make('info_link_url')
-                ->label('Info Link URL')
-                ->placeholder('https://kds.com')
+            TextInput::make('contact_phone')
+                ->label('Contact Phone')
+                ->tel()
+                ->placeholder('+91 9217719348')
                 ->maxLength(255),
-
-            TextInput::make('connect_heading')
-                ->label('Connect Section Heading')
-                ->placeholder('Connect With KDS')
-                ->maxLength(255),
-
-            Textarea::make('connect_text')
-                ->label('Connect Section Text')
-                ->rows(3),
 
             TextInput::make('copyright_text')
                 ->label('Copyright Text')

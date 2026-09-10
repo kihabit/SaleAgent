@@ -1,55 +1,139 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
-import { apiGet, assetUrl } from "@/lib/api";
+import { apiGet } from "@/lib/api";
 import type { HeroSlide } from "@/types";
 
-/* ------------------------------------------------------------------ */
-/* Default hero image                                                  */
-/* ------------------------------------------------------------------ */
+/* ------------------------------------------------------------------
+ * Local Hero Slider Images
+ *
+ * IMPORTANT:
+ * These images are loaded ONLY from:
+ *
+ * frontend/public/images/
+ *
+ * They are NOT loaded from the Laravel API.
+ *
+ * Mapping is based on API "order".
+ * ------------------------------------------------------------------ */
 
-const DEFAULT_HERO_IMAGE = "/images/erp-crew-management.webp";
+const DEFAULT_HERO_IMAGE =
+  "/images/erp-crew-management.webp";
+
+const HERO_SLIDER_IMAGES: Record<number, string> = {
+  1: "/images/ERP_software_website.png",
+  2: "/images/ERP_Solution_Experts.png",
+  3: "/images/ERP_Dashboard_Software.png",
+  4: "/images/ERP_Crew_management.png",
+  5: "/images/Best_Crew_Management_Software.png",
+};
+
+/* ------------------------------------------------------------------
+ * Hero Slider Alt Text
+ *
+ * Mapping is based on API "order".
+ * ------------------------------------------------------------------ */
+
+const HERO_SLIDER_ALT_TEXTS: Record<number, string> = {
+  1: "Digital Transaction Management Assistant",
+  2: "From ERP Data to Decision Intelligence",
+  3: "AI-Driven Transaction Processing",
+  4: "AI-Powered Data Insights",
+  5: "Smart AI Approval Assistant",
+};
+
+/* ------------------------------------------------------------------
+ * Default Hero Slide
+ * ------------------------------------------------------------------ */
 
 const DEFAULT_SLIDE: HeroSlide = {
   image: DEFAULT_HERO_IMAGE,
-  image_alt_text: "AI-Powered Data Insights — KDS ERP Crew",
-  heading: ["AI-Powered Data", "Insights"],
+
+  image_alt_text: "ERP Crew Management",
+
+  heading: [
+    "AI-Powered Data",
+    "Insights",
+  ],
+
   description:
     "Unlock meaningful business intelligence with AI-driven analytics, interactive dashboards, and real-time performance monitoring.",
+
   stats: [
-    { value: "100+", number: "100+", label: "Data Connectors", icon: false },
-    { value: "21+", number: "21+", label: "Business Functions", icon: false },
-    { value: "10+", number: "10+", label: "Analytics Modules", icon: false },
-    { value: "", number: "", label: "Always-On Decision Intelligence Assistant", icon: true },
+    {
+      value: "100+",
+      number: "100+",
+      label: "Data Connectors",
+      icon: false,
+    },
+    {
+      value: "21+",
+      number: "21+",
+      label: "Business Functions",
+      icon: false,
+    },
+    {
+      value: "10+",
+      number: "10+",
+      label: "Analytics Modules",
+      icon: false,
+    },
+    {
+      value: "",
+      number: "",
+      label:
+        "Always-On Decision Intelligence Assistant",
+      icon: true,
+    },
   ],
+
   buttons: [
-    { text: "Agent Highlights", url: "#highlights" },
-    { text: "Complete AI Agent Catalogue", url: "#catalogue" },
-    { text: "Back to Key Dynamic Solutions", url: "https://keydynamicssolutions.com/" },
+    {
+      text: "Agent Highlights",
+      url: "#highlights",
+    },
+    {
+      text: "Complete AI Agent Catalogue",
+      url: "#catalogue",
+    },
+    {
+      text: "Back to Key Dynamic Solutions",
+      url: "https://keydynamicssolutions.com/",
+    },
   ],
 };
 
-/* ------------------------------------------------------------------ */
-/* Static CTA buttons                                                  */
-/* These are the same on every slide (matches the approved design),   */
-/* so they are NOT part of per-slide data and never fade/refresh when */
-/* the slide changes.                                                  */
-/* ------------------------------------------------------------------ */
+/* ------------------------------------------------------------------
+ * Static CTA Buttons
+ * ------------------------------------------------------------------ */
 
 const STATIC_BUTTONS = [
-  { text: "Agent Highlights", url: "#highlights" },
-  { text: "Complete AI Agent Catalogue", url: "#catalogue" },
-  { text: "Back to Key Dynamic Solutions", url: "https://keydynamicssolutions.com/" },
+  {
+    text: "Agent Highlights",
+    url: "#highlights",
+  },
+  {
+    text: "Complete AI Agent Catalogue",
+    url: "#catalogue",
+  },
+  {
+    text: "Back to Key Dynamic Solutions",
+    url: "https://keydynamicssolutions.com/",
+  },
 ];
 
-/* ------------------------------------------------------------------ */
-/* Helpers                                                             */
-/* ------------------------------------------------------------------ */
+/* ------------------------------------------------------------------
+ * Helpers
+ * ------------------------------------------------------------------ */
 
 function parseStatValue(value: string) {
-  const match = String(value || "").match(/^(\d+)(.*)$/);
+  const match = String(value || "").match(
+    /^(\d+)(.*)$/
+  );
 
-  if (!match) return null;
+  if (!match) {
+    return null;
+  }
 
   return {
     number: Number(match[1]),
@@ -57,66 +141,122 @@ function parseStatValue(value: string) {
   };
 }
 
-function mapHeroSlide(slide: any): HeroSlide {
-  const stats = (slide.stats || []).map((stat: any) => {
-    const number = String(stat.number || "").trim();
-    const isNumeric = /^\d/.test(number);
+/* ------------------------------------------------------------------
+ * Map API Hero Slide
+ *
+ * IMPORTANT:
+ *
+ * Image is intentionally NOT taken from API.
+ *
+ * API provides:
+ * - heading
+ * - description
+ * - stats
+ * - order
+ *
+ * Local frontend provides:
+ * - image
+ * - alt text
+ * ------------------------------------------------------------------ */
 
-    return isNumeric
-      ? {
-          value: number,
-          number,
-          label: stat.label || "",
-          icon: false,
-        }
-      : {
-          value: "",
-          number: "",
-          label: stat.label || "",
-          icon: true,
-        };
-  });
+function mapHeroSlide(slide: any): HeroSlide {
+  const stats = (slide.stats || []).map(
+    (stat: any) => {
+      const number = String(
+        stat.number || ""
+      ).trim();
+
+      const isNumeric = /^\d/.test(number);
+
+      return isNumeric
+        ? {
+            value: number,
+            number,
+            label: stat.label || "",
+            icon: false,
+          }
+        : {
+            value: "",
+            number: "",
+            label: stat.label || "",
+            icon: true,
+          };
+    }
+  );
 
   return {
     ...slide,
 
-    image:
-      slide.image ||
-      slide.background_image ||
-      slide.image_url ||
-      DEFAULT_HERO_IMAGE,
+    /*
+     * API image is ignored intentionally.
+     * Local image is selected during render
+     * using slide.order.
+     */
+    image: DEFAULT_HERO_IMAGE,
 
-    image_alt_text: slide.image_alt_text || "",
+    /*
+     * API alt text is also not used for the
+     * actual local image.
+     */
+    image_alt_text:
+      slide.image_alt_text || "",
 
-    // Heading is split on "|" so admins control exactly where the
-    // line break falls (e.g. "Smart AI Approval|Assistant").
-    heading: (slide.heading || "")
+    /*
+     * Heading is split using "|".
+     *
+     * Example:
+     *
+     * Smart AI Approval|Assistant
+     *
+     * becomes:
+     *
+     * Smart AI Approval
+     * Assistant
+     */
+    heading: String(
+      slide.heading || ""
+    )
       .split("|")
-      .map((line: string) => line.trim())
+      .map((line: string) =>
+        line.trim()
+      )
       .filter(Boolean),
 
-    description: slide.description || "",
+    description:
+      slide.description || "",
 
     stats,
 
-    // Buttons are intentionally NOT taken from per-slide data anymore.
-    // They are static across all slides (see STATIC_BUTTONS above).
+    /*
+     * Buttons are static across all slides.
+     */
     buttons: STATIC_BUTTONS,
   };
 }
 
-/**
- * Handles:
- * { success, data: [...] }
- * and
- * plain-array API responses.
- */
-function extractSlidesArray(response: any): any[] {
+/* ------------------------------------------------------------------
+ * Extract API Slides
+ *
+ * Supports:
+ *
+ * { success: true, data: [...] }
+ *
+ * and:
+ *
+ * [...]
+ * ------------------------------------------------------------------ */
+
+function extractSlidesArray(
+  response: any
+): any[] {
   if (Array.isArray(response)) {
     return response;
   }
 
-  if (response && Array.isArray(response.data)) {
+  if (
+    response &&
+    Array.isArray(response.data)
+  ) {
     if (response.success === false) {
       return [];
     }
@@ -127,9 +267,9 @@ function extractSlidesArray(response: any): any[] {
   return [];
 }
 
-/* ------------------------------------------------------------------ */
-/* Icons                                                               */
-/* ------------------------------------------------------------------ */
+/* ------------------------------------------------------------------
+ * Icons
+ * ------------------------------------------------------------------ */
 
 const SparklesIcon = () => (
   <svg
@@ -142,6 +282,7 @@ const SparklesIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
+    aria-hidden="true"
   >
     <path d="m12 3-1.912 5.813a2 2 0 0 1-1.275 1.275L3 12l5.813 1.912a2 2 0 0 1 1.275 1.275L12 21l1.912-5.813a2 2 0 0 1 1.275-1.275L21 12l-5.813-1.912a2 2 0 0 1-1.275-1.275L12 3Z" />
     <path d="M5 3v4" />
@@ -162,6 +303,7 @@ const BookOpenIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
+    aria-hidden="true"
   >
     <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
     <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
@@ -179,6 +321,7 @@ const ArrowLeftIcon = () => (
     strokeWidth="2"
     strokeLinecap="round"
     strokeLinejoin="round"
+    aria-hidden="true"
   >
     <path d="m12 19-7-7 7-7" />
     <path d="M19 12H5" />
@@ -197,8 +340,13 @@ const CheckCircleIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className="text-white"
+    aria-hidden="true"
   >
-    <circle cx="12" cy="12" r="10" />
+    <circle
+      cx="12"
+      cy="12"
+      r="10"
+    />
     <path d="m9 12 2 2 4-4" />
   </svg>
 );
@@ -215,6 +363,7 @@ const ChevronLeftIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className="text-gray-700"
+    aria-hidden="true"
   >
     <path d="m15 18-6-6 6-6" />
   </svg>
@@ -232,14 +381,15 @@ const ChevronRightIcon = () => (
     strokeLinecap="round"
     strokeLinejoin="round"
     className="text-gray-700"
+    aria-hidden="true"
   >
     <path d="m9 18 6-6-6-6" />
   </svg>
 );
 
-/* ------------------------------------------------------------------ */
-/* Button styles                                                       */
-/* ------------------------------------------------------------------ */
+/* ------------------------------------------------------------------
+ * Button Styles
+ * ------------------------------------------------------------------ */
 
 const BTN_STYLES = [
   {
@@ -261,185 +411,115 @@ const BTN_STYLES = [
 
 const AUTOPLAY_MS = 5500;
 
-/* ------------------------------------------------------------------ */
-/* Component                                                           */
-/* ------------------------------------------------------------------ */
+/* ------------------------------------------------------------------
+ * Hero Slider
+ * ------------------------------------------------------------------ */
 
 export default function HeroSlider() {
   /*
-   * IMPORTANT:
-   * Start with the local image instead of an empty array.
+   * Start with default local slide.
    *
-   * This means the hero can render immediately without
-   * waiting for the API.
+   * This means an image is visible immediately.
    */
-  const [slides, setSlides] = useState<HeroSlide[]>([
-    DEFAULT_SLIDE,
-  ]);
+  const [slides, setSlides] =
+    useState<HeroSlide[]>([
+      DEFAULT_SLIDE,
+    ]);
 
-  const [current, setCurrent] = useState(0);
+  const [current, setCurrent] =
+    useState(0);
 
-  const [loadFailed, setLoadFailed] = useState(false);
+  const [displayedIndex, setDisplayedIndex] =
+    useState(0);
 
-  const [displayedIndex, setDisplayedIndex] = useState(0);
+  const [textVisible, setTextVisible] =
+    useState(true);
 
-  const [textVisible, setTextVisible] = useState(true);
+  const [statsVisible, setStatsVisible] =
+    useState(true);
 
-  const [statsVisible, setStatsVisible] = useState(true);
+  const [animated, setAnimated] =
+    useState<Record<string, string>>({});
 
-  const [animated, setAnimated] = useState<Record<string, string>>({});
+  const headerRef =
+    useRef<HTMLElement | null>(null);
 
-  const headerRef = useRef<HTMLElement | null>(null);
-
-  const [headerHeight, setHeaderHeight] = useState(86);
-
-  /* ---------------------------------------------------------------- */
-  /* Preload default hero image                                       */
-  /* ---------------------------------------------------------------- */
-
-  useEffect(() => {
-    /*
-     * layout.tsx already preloads this image.
-     * This is an additional browser-level preload protection.
-     */
-
-    const existingPreload = document.querySelector(
-      `link[rel="preload"][as="image"][href="${DEFAULT_HERO_IMAGE}"]`
-    );
-
-    if (existingPreload) {
-      return;
-    }
-
-    const preload = document.createElement("link");
-
-    preload.rel = "preload";
-    preload.as = "image";
-    preload.href = DEFAULT_HERO_IMAGE;
-
-    document.head.appendChild(preload);
-
-    return () => {
-      /*
-       * Don't remove preload if another component/layout
-       * has already created it.
-       */
-    };
-  }, []);
-
-  /* ---------------------------------------------------------------- */
-  /* Load slides from API                                             */
-  /* ---------------------------------------------------------------- */
+  /* ----------------------------------------------------------------
+   * Load Hero Content From API
+   *
+   * IMPORTANT:
+   *
+   * API is used for content only.
+   *
+   * Images are NOT taken from API.
+   * ---------------------------------------------------------------- */
 
   useEffect(() => {
     let cancelled = false;
 
-    /*
-     * API loads in background.
-     *
-     * The DEFAULT_SLIDE is already visible while this request runs.
-     */
-
     apiGet<any>("/api/hero-slides")
       .then((response) => {
-        if (cancelled) return;
+        if (cancelled) {
+          return;
+        }
 
-        const raw = extractSlidesArray(response);
+        const raw =
+          extractSlidesArray(response);
 
         if (!raw.length) {
           console.warn(
-            "HeroSlider: no slides returned from /api/hero-slides",
-            response
+            "HeroSlider: no slides returned from /api/hero-slides"
           );
-
-          /*
-           * Don't remove the default slide.
-           * It should remain visible if API returns nothing.
-           */
-          setLoadFailed(true);
 
           return;
         }
 
-        const mapped = raw.map(mapHeroSlide);
+        /*
+         * IMPORTANT:
+         *
+         * Sort by API order before mapping.
+         *
+         * This guarantees:
+         *
+         * order 1 -> local image 1
+         * order 2 -> local image 2
+         * order 3 -> local image 3
+         * order 4 -> local image 4
+         * order 5 -> local image 5
+         */
+        const mapped = raw
+          .slice()
+          .sort(
+            (a: any, b: any) =>
+              Number(a.order || 0) -
+              Number(b.order || 0)
+          )
+          .map(mapHeroSlide);
 
         /*
-         * ------------------------------------------------------------
-         * Preload first API image
-         * ------------------------------------------------------------
+         * Replace default slide with API content.
+         *
+         * Images remain controlled by
+         * HERO_SLIDER_IMAGES.
          */
-
-        const firstImage = assetUrl(
-          mapped[0]?.image ||
-            mapped[0]?.background_image ||
-            mapped[0]?.image_url
-        );
-
-        if (firstImage) {
-          const existingPreload = document.querySelector(
-            `link[rel="preload"][as="image"][href="${firstImage}"]`
-          );
-
-          if (!existingPreload) {
-            const preload = document.createElement("link");
-
-            preload.rel = "preload";
-            preload.as = "image";
-            preload.href = firstImage;
-
-            document.head.appendChild(preload);
-          }
-        }
-
-        /*
-         * ------------------------------------------------------------
-         * Preload second API image
-         * ------------------------------------------------------------
-         */
-
-        const secondImage = assetUrl(
-          mapped[1]?.image ||
-            mapped[1]?.background_image ||
-            mapped[1]?.image_url
-        );
-
-        if (secondImage) {
-          const existingPreload = document.querySelector(
-            `link[rel="preload"][as="image"][href="${secondImage}"]`
-          );
-
-          if (!existingPreload) {
-            const preload = document.createElement("link");
-
-            preload.rel = "preload";
-            preload.as = "image";
-            preload.href = secondImage;
-
-            document.head.appendChild(preload);
-          }
-        }
-
-        /*
-         * Replace default local slide with real API slides.
-         */
-
         setSlides(mapped);
 
         setCurrent(0);
-
         setDisplayedIndex(0);
-
-        setLoadFailed(false);
       })
       .catch((error) => {
-        if (cancelled) return;
+        if (cancelled) {
+          return;
+        }
 
-        console.error("Hero slider API error:", error);
+        console.error(
+          "Hero slider API error:",
+          error
+        );
 
         /*
-         * Keep local default image visible.
+         * Keep DEFAULT_SLIDE.
          */
-        setLoadFailed(true);
       });
 
     return () => {
@@ -447,28 +527,25 @@ export default function HeroSlider() {
     };
   }, []);
 
-  /* ---------------------------------------------------------------- */
-  /* Track real header height                                         */
-  /* ---------------------------------------------------------------- */
+  /* ----------------------------------------------------------------
+   * Track Real Header Height
+   * ---------------------------------------------------------------- */
 
   useEffect(() => {
-    const header = document.querySelector("header");
+    const header =
+      document.querySelector("header");
 
     headerRef.current = header;
 
-    if (!header) return;
+    if (!header) {
+      return;
+    }
 
     const apply = () => {
-      const height = header.getBoundingClientRect().height;
+      const height =
+        header.getBoundingClientRect()
+          .height;
 
-      setHeaderHeight(height);
-
-      /*
-       * Match the reference Hero Slider: expose the real header
-       * height as a CSS custom property so the hero section's
-       * height calc() (var(--header-h, ...)) reflects the actual
-       * rendered header instead of only ever using the fallback.
-       */
       document.documentElement.style.setProperty(
         "--header-h",
         `${height}px`
@@ -477,54 +554,72 @@ export default function HeroSlider() {
 
     apply();
 
-    if (typeof ResizeObserver !== "undefined") {
-      const ro = new ResizeObserver(() => apply());
+    if (
+      typeof ResizeObserver !==
+      "undefined"
+    ) {
+      const ro =
+        new ResizeObserver(() => {
+          apply();
+        });
 
       ro.observe(header);
 
-      return () => ro.disconnect();
+      return () => {
+        ro.disconnect();
+      };
     }
   }, []);
 
-  /* ---------------------------------------------------------------- */
-  /* Autoplay                                                          */
-  /* ---------------------------------------------------------------- */
+  /* ----------------------------------------------------------------
+   * Autoplay
+   * ---------------------------------------------------------------- */
 
   useEffect(() => {
-    if (slides.length < 2) return;
+    if (slides.length < 2) {
+      return;
+    }
 
-    const timer = window.setInterval(() => {
-      setCurrent(
-        (value) => (value + 1) % slides.length
-      );
-    }, AUTOPLAY_MS);
+    const timer =
+      window.setInterval(() => {
+        setCurrent(
+          (value) =>
+            (value + 1) %
+            slides.length
+        );
+      }, AUTOPLAY_MS);
 
     return () => {
       window.clearInterval(timer);
     };
   }, [slides.length]);
 
-  /* ---------------------------------------------------------------- */
-  /* Crossfade                                                         */
-  /* ---------------------------------------------------------------- */
+  /* ----------------------------------------------------------------
+   * Crossfade
+   * ---------------------------------------------------------------- */
 
   useEffect(() => {
-    if (current === displayedIndex) return;
+    if (
+      current === displayedIndex
+    ) {
+      return;
+    }
 
-    const fadeTimer = window.setTimeout(() => {
-      setTextVisible(false);
-      setStatsVisible(false);
-    }, 0);
-
-    const swapTimer = window.setTimeout(() => {
-      setDisplayedIndex(current);
-
-      setTextVisible(true);
-
+    const fadeTimer =
       window.setTimeout(() => {
-        setStatsVisible(true);
-      }, 120);
-    }, 300);
+        setTextVisible(false);
+        setStatsVisible(false);
+      }, 0);
+
+    const swapTimer =
+      window.setTimeout(() => {
+        setDisplayedIndex(current);
+        setTextVisible(true);
+
+        window.setTimeout(() => {
+          setStatsVisible(true);
+        }, 120);
+      }, 300);
 
     return () => {
       window.clearTimeout(fadeTimer);
@@ -532,86 +627,123 @@ export default function HeroSlider() {
     };
   }, [current, displayedIndex]);
 
-  /* ---------------------------------------------------------------- */
-  /* Current slide                                                     */
-  /* ---------------------------------------------------------------- */
+  /* ----------------------------------------------------------------
+   * Current Slide
+   * ---------------------------------------------------------------- */
 
-  const slide = slides[displayedIndex];
+  const slide =
+    slides[displayedIndex];
 
-  /* ---------------------------------------------------------------- */
-  /* Reset count-up                                                    */
-  /* ---------------------------------------------------------------- */
+  /* ----------------------------------------------------------------
+   * Reset Count-Up
+   * ---------------------------------------------------------------- */
 
   useEffect(() => {
-    const resetTimer = window.setTimeout(() => {
-      setAnimated({});
-    }, 0);
+    const resetTimer =
+      window.setTimeout(() => {
+        setAnimated({});
+      }, 0);
 
     return () => {
       window.clearTimeout(resetTimer);
     };
   }, [displayedIndex]);
 
-  /* ---------------------------------------------------------------- */
-  /* Count-up animation                                                */
-  /* ---------------------------------------------------------------- */
+  /* ----------------------------------------------------------------
+   * Count-Up Animation
+   * ---------------------------------------------------------------- */
 
   useEffect(() => {
-    if (!slide?.stats || !statsVisible) return;
+    if (
+      !slide?.stats ||
+      !statsVisible
+    ) {
+      return;
+    }
 
-    const animationFrames: number[] = [];
+    const animationFrames: number[] =
+      [];
 
-    slide.stats.forEach((stat: any, index: number) => {
-      if (stat.icon) return;
-
-      const raw = stat.number || stat.value || "";
-
-      const parsed = parseStatValue(raw);
-
-      if (!parsed) return;
-
-      const start = performance.now();
-
-      const animate = (now: number) => {
-        const progress = Math.min(
-          (now - start) / 1200,
-          1
-        );
-
-        const eased =
-          1 - Math.pow(1 - progress, 3);
-
-        const value = Math.round(
-          parsed.number * eased
-        );
-
-        setAnimated((previous) => ({
-          ...previous,
-          [String(index)]: `${value}${parsed.suffix}`,
-        }));
-
-        if (progress < 1) {
-          animationFrames.push(
-            requestAnimationFrame(animate)
-          );
+    slide.stats.forEach(
+      (stat: any, index: number) => {
+        if (stat.icon) {
+          return;
         }
-      };
 
-      animationFrames.push(
-        requestAnimationFrame(animate)
-      );
-    });
+        const raw =
+          stat.number ||
+          stat.value ||
+          "";
+
+        const parsed =
+          parseStatValue(raw);
+
+        if (!parsed) {
+          return;
+        }
+
+        const start =
+          performance.now();
+
+        const animate = (
+          now: number
+        ) => {
+          const progress =
+            Math.min(
+              (now - start) / 1200,
+              1
+            );
+
+          const eased =
+            1 -
+            Math.pow(
+              1 - progress,
+              3
+            );
+
+          const value =
+            Math.round(
+              parsed.number *
+                eased
+            );
+
+          setAnimated(
+            (previous) => ({
+              ...previous,
+              [String(index)]:
+                `${value}${parsed.suffix}`,
+            })
+          );
+
+          if (progress < 1) {
+            animationFrames.push(
+              requestAnimationFrame(
+                animate
+              )
+            );
+          }
+        };
+
+        animationFrames.push(
+          requestAnimationFrame(
+            animate
+          )
+        );
+      }
+    );
 
     return () => {
-      animationFrames.forEach((frame) =>
-        cancelAnimationFrame(frame)
+      animationFrames.forEach(
+        (frame) => {
+          cancelAnimationFrame(frame);
+        }
       );
     };
   }, [slide, statsVisible]);
 
-  /* ---------------------------------------------------------------- */
-  /* Safety fallback                                                   */
-  /* ---------------------------------------------------------------- */
+  /* ----------------------------------------------------------------
+   * Safety Fallback
+   * ---------------------------------------------------------------- */
 
   if (!slide) {
     return (
@@ -629,31 +761,42 @@ export default function HeroSlider() {
     );
   }
 
-  /* ---------------------------------------------------------------- */
-  /* Heading / buttons                                                 */
-  /* ---------------------------------------------------------------- */
+  /* ----------------------------------------------------------------
+   * Heading
+   * ---------------------------------------------------------------- */
 
-  const heading = Array.isArray(slide.heading)
-    ? slide.heading
-    : [slide.heading || ""];
+  const heading =
+    Array.isArray(slide.heading)
+      ? slide.heading
+      : [slide.heading || ""];
 
-  // Buttons are static across every slide, not per-slide data.
-  const buttons = STATIC_BUTTONS;
+  /* ----------------------------------------------------------------
+   * Buttons
+   * ---------------------------------------------------------------- */
 
-  /* ---------------------------------------------------------------- */
-  /* Navigation                                                        */
-  /* ---------------------------------------------------------------- */
+  const buttons =
+    STATIC_BUTTONS;
+
+  /* ----------------------------------------------------------------
+   * Navigation
+   * ---------------------------------------------------------------- */
 
   const nextSlide = () => {
-    if (slides.length < 2) return;
+    if (slides.length < 2) {
+      return;
+    }
 
     setCurrent(
-      (value) => (value + 1) % slides.length
+      (value) =>
+        (value + 1) %
+        slides.length
     );
   };
 
   const previousSlide = () => {
-    if (slides.length < 2) return;
+    if (slides.length < 2) {
+      return;
+    }
 
     setCurrent(
       (value) =>
@@ -662,59 +805,88 @@ export default function HeroSlider() {
     );
   };
 
-  /* ---------------------------------------------------------------- */
-  /* Render                                                            */
-  /* ---------------------------------------------------------------- */
+  /* ----------------------------------------------------------------
+   * Render
+   * ---------------------------------------------------------------- */
 
   return (
     <section
-        id="hero-section"
-        className="relative overflow-clip flex flex-col"
-        style={{
-          height:
-            "max(44rem, calc(100svh - var(--header-h, 5.375rem) - 45px))",
-          minHeight:
-            "max(44rem, calc(100svh - var(--header-h, 5.375rem) - 45px))",
-        }}
-      >
-      {/* ------------------------------------------------------------ */}
-      {/* Background                                                    */}
-      {/* ------------------------------------------------------------ */}
+      id="hero-section"
+      className="relative flex flex-col overflow-clip"
+      style={{
+        height:
+          "max(44rem, calc(100svh - var(--header-h, 5.375rem) - 45px))",
+
+        minHeight:
+          "max(44rem, calc(100svh - var(--header-h, 5.375rem) - 45px))",
+      }}
+    >
+      {/* ==========================================================
+          BACKGROUND SLIDER
+      =========================================================== */}
 
       <div className="absolute inset-0 bg-[#051895]">
-        {slides.map((s: any, i: number) => {
-          /*
-           * API image OR local fallback.
-           */
+        {slides.map(
+          (s: any, i: number) => {
+            /*
+             * IMPORTANT:
+             *
+             * Use API order for local image mapping.
+             *
+             * API example:
+             *
+             * order: 1
+             * order: 2
+             * order: 3
+             * ...
+             */
 
-          const rawImage =
-            s.image ||
-            s.background_image ||
-            s.image_url;
+            const slideOrder =
+              Number(s.order) ||
+              i + 1;
 
-          const bgImage = rawImage
-            ? assetUrl(rawImage)
-            : DEFAULT_HERO_IMAGE;
+            const bgImage =
+              HERO_SLIDER_IMAGES[
+                slideOrder
+              ] ||
+              DEFAULT_HERO_IMAGE;
 
-          const isActive =
-            i === displayedIndex;
+            /*
+             * Local alt text is also mapped
+             * using API order.
+             */
 
-          return (
-            <div
-              key={i}
-              className="hero-bg-layer pointer-events-none absolute inset-0 transition-opacity duration-700 opacity"
-              style={{
-                zIndex: isActive ? 1 : 0,
-                opacity: isActive ? 1 : 0,
-              }}
-            >
-              {bgImage && (
+            const altText =
+              HERO_SLIDER_ALT_TEXTS[
+                slideOrder
+              ] ||
+              "KDS ERP Crew";
+
+            const isActive =
+              i === displayedIndex;
+
+            return (
+              <div
+                key={
+                  s.id ??
+                  `${slideOrder}-${i}`
+                }
+                className="hero-bg-layer pointer-events-none absolute inset-0 opacity transition-opacity duration-700"
+                style={{
+                  zIndex:
+                    isActive
+                      ? 1
+                      : 0,
+
+                  opacity:
+                    isActive
+                      ? 1
+                      : 0,
+                }}
+              >
                 <img
                   src={bgImage}
-                  alt={
-                    s.image_alt_text ||
-                    "ERP Crew Management"
-                  }
+                  alt={altText}
                   loading={
                     i === 0
                       ? "eager"
@@ -725,56 +897,57 @@ export default function HeroSlider() {
                       ? "high"
                       : "auto"
                   }
-                                 decoding="async"
+                  decoding="async"
                   className="hero-background-image h-full w-full object-cover object-top"
                   style={{
-                    /*
-                     * Match the reference Hero Slider's slow
-                     * Ken-Burns zoom on the active slide. The
-                     * transform/opacity transition durations come
-                     * from the .hero-bg-layer img rule in globals.css
-                     * (transform 6s ease-out, opacity .7s ease).
-                     */
-                    transform: isActive
-                      ? "scale(1.03)"
-                      : "scale(1)",
+                    transform:
+                      isActive
+                        ? "scale(1.03)"
+                        : "scale(1)",
                   }}
                 />
-              )}
-            </div>
-          );
-        })}
+              </div>
+            );
+          }
+        )}
 
-        {/* Readability overlay */}
+        {/* Readability Overlay */}
 
         <div className="absolute inset-0 bg-black/35" />
       </div>
 
-      {/* ------------------------------------------------------------ */}
-      {/* Content                                                       */}
-      {/* ------------------------------------------------------------ */}
+      {/* ==========================================================
+          CONTENT
+      =========================================================== */}
 
       <div className="relative z-10 mx-auto flex w-full max-w-screen-2xl flex-1 flex-col px-4 pt-7 sm:px-6 sm:pt-10 md:px-10 md:pt-14">
         <div className="hero-content-stack mt-8 flex max-w-5xl flex-1 flex-col justify-end gap-7 pb-16 sm:mt-12 sm:gap-8 sm:pb-20 md:mt-20 md:gap-10 md:pb-[85px]">
 
-          {/* ---------------------------------------------------------- */}
-          {/* Text (heading + description) — this is the ONLY part that */}
-          {/* fades/refreshes when the slide changes.                    */}
-          {/* ---------------------------------------------------------- */}
+          {/* ======================================================
+              TEXT
+          ======================================================= */}
 
           <div
             id="hero-text"
             className="hero-copy transition-all duration-300"
             style={{
-              opacity: textVisible ? 1 : 0,
-              transform: textVisible
-                ? "translateY(0)"
-                : "translateY(16px)",
+              opacity:
+                textVisible
+                  ? 1
+                  : 0,
+
+              transform:
+                textVisible
+                  ? "translateY(0)"
+                  : "translateY(16px)",
             }}
           >
             <h1 className="max-h-[none] max-w-[20ch] overflow-hidden break-words text-[2rem] font-bold leading-[1.08] tracking-tight text-white sm:text-[2.35rem] md:max-h-[2.6em] md:max-w-[24ch] md:text-[3.1875rem]">
               {heading.map(
-                (line, index) => (
+                (
+                  line,
+                  index
+                ) => (
                   <span
                     key={index}
                     className="block"
@@ -785,20 +958,20 @@ export default function HeroSlider() {
               )}
             </h1>
 
-                       <p className="max-h-[none] max-w-[40ch] overflow-hidden break-words text-sm leading-relaxed text-white/90 sm:text-base md:max-h-[4.5em] md:max-w-[52ch] md:text-lg">
+            <p className="max-h-[none] max-w-[40ch] overflow-hidden break-words text-sm leading-relaxed text-white/90 sm:text-base md:max-h-[4.5em] md:max-w-[52ch] md:text-lg">
               {slide.description}
             </p>
           </div>
 
-          {/* ---------------------------------------------------------- */}
-          {/* Controls (buttons + stats) — moved OUTSIDE hero-copy so    */}
-          {/* the buttons never fade/refresh on slide change.            */}
-          {/* Only the stats grid still fades (per-slide data).          */}
-          {/* ---------------------------------------------------------- */}
+          {/* ======================================================
+              CONTROLS
+          ======================================================= */}
 
           <div className="hero-controls mt-7 flex w-full min-w-0 max-w-full flex-col gap-7 sm:mt-8 sm:w-fit sm:gap-8 md:mt-10 md:gap-10">
 
-            {/* Buttons — static, no fade */}
+            {/* ====================================================
+                CTA BUTTONS
+            ===================================================== */}
 
             <div className="hero-cta-row flex min-h-[44px] w-full max-w-full flex-col items-stretch gap-2.5 sm:w-fit sm:flex-row sm:items-center sm:gap-3">
               {buttons.map(
@@ -824,10 +997,13 @@ export default function HeroSlider() {
                   const style =
                     BTN_STYLES[index] ||
                     BTN_STYLES[
-                      BTN_STYLES.length - 1
+                      BTN_STYLES.length -
+                        1
                     ];
 
-                  const { Icon } = style;
+                  const {
+                    Icon,
+                  } = style;
 
                   return (
                     <a
@@ -847,7 +1023,9 @@ export default function HeroSlider() {
                       style={{
                         backgroundColor:
                           style.bg,
-                        color: style.text,
+
+                        color:
+                          style.text,
                       }}
                     >
                       <Icon />
@@ -859,18 +1037,22 @@ export default function HeroSlider() {
               )}
             </div>
 
-            {/* Stats — still fades per-slide (data differs per slide) */}
+            {/* ====================================================
+                STATS
+            ===================================================== */}
 
             <div
               className="hero-stats-grid grid w-full min-w-0 grid-cols-2 gap-3 transition-all duration-500 md:grid-cols-4 md:gap-4"
               style={{
-                opacity: statsVisible
-                  ? 1
-                  : 0,
+                opacity:
+                  statsVisible
+                    ? 1
+                    : 0,
 
-                transform: statsVisible
-                  ? "translateY(0)"
-                  : "translateY(12px)",
+                transform:
+                  statsVisible
+                    ? "translateY(0)"
+                    : "translateY(12px)",
               }}
             >
               {(slide.stats || []).map(
@@ -886,14 +1068,16 @@ export default function HeroSlider() {
                   return (
                     <div
                       key={index}
-                      className="min-w-0 min-h-[92px] overflow-hidden rounded-xl border border-white/20 bg-white/10 p-3 text-white backdrop-blur sm:min-h-[110px] sm:p-4 md:min-h-[132px]"
+                      className="min-h-[92px] min-w-0 overflow-hidden rounded-xl border border-white/20 bg-white/10 p-3 text-white backdrop-blur sm:min-h-[110px] sm:p-4 md:min-h-[132px]"
                     >
                       <div className="flex h-8 items-center text-xl font-bold sm:text-2xl md:text-3xl">
                         {stat.icon ? (
                           <CheckCircleIcon />
                         ) : (
                           animated[
-                            String(index)
+                            String(
+                              index
+                            )
                           ] || raw
                         )}
                       </div>
@@ -910,13 +1094,16 @@ export default function HeroSlider() {
         </div>
       </div>
 
-      {/* ------------------------------------------------------------ */}
-      {/* Previous Button                                                */}
-      {/* ------------------------------------------------------------ */}
+      {/* ==========================================================
+          PREVIOUS BUTTON
+      =========================================================== */}
 
       {slides.length > 1 && (
         <button
-          onClick={previousSlide}
+          type="button"
+          onClick={
+            previousSlide
+          }
           aria-label="Previous slide"
           className="absolute left-2 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/80 p-1.5 shadow-md backdrop-blur transition hover:bg-white sm:left-3 sm:p-2 md:left-6"
         >
@@ -924,12 +1111,13 @@ export default function HeroSlider() {
         </button>
       )}
 
-      {/* ------------------------------------------------------------ */}
-      {/* Next Button                                                    */}
-      {/* ------------------------------------------------------------ */}
+      {/* ==========================================================
+          NEXT BUTTON
+      =========================================================== */}
 
       {slides.length > 1 && (
         <button
+          type="button"
           onClick={nextSlide}
           aria-label="Next slide"
           className="absolute right-2 top-1/2 z-20 -translate-y-1/2 rounded-full bg-white/80 p-1.5 shadow-md backdrop-blur transition hover:bg-white sm:right-3 sm:p-2 md:right-6"
@@ -938,39 +1126,42 @@ export default function HeroSlider() {
         </button>
       )}
 
-      {/* ------------------------------------------------------------ */}
-      {/* Dots                                                           */}
-      {/* ------------------------------------------------------------ */}
+      {/* ==========================================================
+          DOTS
+      =========================================================== */}
 
       {slides.length > 1 && (
         <div className="absolute bottom-5 left-1/2 z-20 flex -translate-x-1/2 gap-2">
-          {slides.map((_, index) => (
-            <button
-              key={index}
-              onClick={() =>
-                setCurrent(index)
-              }
-              aria-label={`Go to slide ${
-                index + 1
-              }`}
-              className="h-2.5 rounded-full transition-all duration-300"
-              style={{
-                width:
-                  index ===
-                  displayedIndex
-                    ? "2rem"
-                    : "0.625rem",
+          {slides.map(
+            (_, index) => (
+              <button
+                type="button"
+                key={index}
+                onClick={() =>
+                  setCurrent(index)
+                }
+                aria-label={`Go to slide ${
+                  index + 1
+                }`}
+                className="h-2.5 rounded-full transition-all duration-300"
+                style={{
+                  width:
+                    index ===
+                    displayedIndex
+                      ? "2rem"
+                      : "0.625rem",
 
-                backgroundColor:
-                  index ===
-                  displayedIndex
-                    ? "#051895"
-                    : "rgba(5,24,149,0.3)",
-              }}
-            />
-          ))}
+                  backgroundColor:
+                    index ===
+                    displayedIndex
+                      ? "#051895"
+                      : "rgba(5,24,149,0.3)",
+                }}
+              />
+            )
+          )}
         </div>
       )}
     </section>
   );
-} 
+}

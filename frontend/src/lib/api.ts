@@ -33,3 +33,11 @@ export function assetUrl(value?: string | null): string {
   if (!value.startsWith("/")) return `/images/${value}`;
   return value;
 }
+
+/** Resolve Laravel Storage filenames returned by Filament/media fields. */
+export function storageAssetUrl(value?: string | null): string {
+  if (!value) return "";
+  if (/^https?:\/\//i.test(value) || value.startsWith("/")) return assetUrl(value);
+  const base = process.env.NEXT_PUBLIC_LARAVEL_API_URL || "http://127.0.0.1:8000";
+  return `${base.replace(/\/$/, "")}/storage/${value}`;
+}

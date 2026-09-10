@@ -1,0 +1,96 @@
+@media (max-width: 767px) {
+  #hero-section {
+    height: max(
+      44rem,
+      calc(100svh - var(--header-h, 7rem) - 1rem)
+    ) !important;
+
+    min-height: max(
+      44rem,
+      calc(100svh - var(--header-h, 7rem) - 1rem)
+    ) !important;
+  }
+
+  .hero-background-image {
+    object-position: left top;
+  }
+
+  #hero-section > .relative.z-10 {
+    padding: 1.25rem 1rem 0;
+  }
+
+  .hero-content-stack {
+    width: 100%;
+    max-width: none;
+    margin-top: 1.25rem;
+    gap: 1.5rem;
+    padding-bottom: 3.5rem !important;
+  }
+
+  .hero-copy {
+    gap: 1rem;
+  }
+
+  #hero-heading {
+    max-width: none;
+    font-size: clamp(2rem, 9vw, 2.55rem);
+    line-height: 1.08;
+  }
+
+  #hero-desc {
+    max-width: none;
+    min-height: 0;
+    font-size: 0.95rem;
+    line-height: 1.5;
+  }
+
+  .hero-controls {
+    width: 100%;
+    gap: 1.5rem;
+  }
+
+  .hero-cta-row {
+    width: 100%;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.6rem;
+  }
+
+  .hero-cta-row > * {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .hero-stats-grid {
+    gap: 0.5rem;
+  }
+
+  .hero-stats-grid > * {
+    padding: 0.7rem;
+  }
+
+  .hero-stats-grid > * > div:first-child {
+    font-size: 1.25rem;
+  }
+
+  .hero-stats-grid > * > div:last-child {
+    margin-top: 0.35rem;
+    font-size: 0.68rem;
+    line-height: 1.35;
+  }
+
+  #hero-prev,
+  #hero-next {
+    top: 42%;
+    padding: 0.4rem;
+  }
+
+  #hero-prev {
+    left: 0.5rem;
+  }
+
+  #hero-next {
+    right: 0.5rem;
+  }
+}

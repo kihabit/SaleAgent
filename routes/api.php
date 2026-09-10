@@ -15,6 +15,12 @@ use App\Http\Controllers\Api\BottomSliderController;
 use App\Http\Controllers\Api\BottomStepSliderController;
 use App\Http\Controllers\Api\ConsultationController;
 use App\Http\Controllers\Api\PageController;
+use App\Http\Controllers\Api\AiPoweredBusinessSectionController;
+use App\Http\Controllers\Api\AgentsActionSectionController;
+use App\Http\Controllers\Api\FaqSectionController;
+use App\Http\Controllers\Api\CrewAcademySectionController;
+use App\Http\Controllers\Api\AiOpportunitySectionController;
+use App\Http\Controllers\Api\AgentLibraryListSectionController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -33,6 +39,12 @@ Route::get('/catalogue-settings', [CatalogueSettingController::class, 'index']);
 Route::get('/bottom-sliders', [BottomSliderController::class, 'index']);
 Route::get('/bottom-step-sliders', [BottomStepSliderController::class, 'index']);
 Route::get('/footer-socials', [App\Http\Controllers\Api\FooterSocialController::class, 'index']);
+Route::get('/ai-powered-business-section', [AiPoweredBusinessSectionController::class, 'index']);
+Route::get('/agents-action-section', [AgentsActionSectionController::class, 'index']);
 
 Route::post('/consultation', [ConsultationController::class, 'store']);
 Route::get('/pages/{slug}', [PageController::class, 'show']);
+Route::get('/faq-section', [FaqSectionController::class, 'index']);
+Route::get('/crew-academy-section', [CrewAcademySectionController::class, 'index']);
+Route::get('/ai-opportunity-section', [AiOpportunitySectionController::class, 'index']);
+Route::get('/agent-library-list-section', [AgentLibraryListSectionController::class, 'index']);

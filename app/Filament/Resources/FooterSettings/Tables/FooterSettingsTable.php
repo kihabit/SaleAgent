@@ -27,6 +27,11 @@ class FooterSettingsTable
                     ->searchable(),
                 TextColumn::make('connect_heading')
                     ->searchable(),
+                TextColumn::make('contact_email')
+                    ->searchable()
+                    ->toggleable(),
+                TextColumn::make('contact_phone')
+                    ->toggleable(),
                 TextColumn::make('copyright_text')
                     ->searchable(),
                 TextColumn::make('created_at')
