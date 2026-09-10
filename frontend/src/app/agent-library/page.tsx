@@ -133,7 +133,7 @@ export default function AgentLibraryPage() {
     <>
       <main>
         <section id="agent-library-hero" className="agent-library-hero-section">
-          <div className="agent-library-hero-bg"><img className="agent-library-hero-image" src={assetUrl("/images/agent-library-hero-banner.png")} alt={settings.hero_image_alt || ""} width={1024} height={410} fetchPriority="high" /></div>
+          <div className="agent-library-hero-bg"><img className="agent-library-hero-image" src={settings.hero_image ? storageAssetUrl(settings.hero_image) : assetUrl("/images/agent-library-hero-banner.png")} alt={settings.hero_image_alt || ""} width={1024} height={410} fetchPriority="high" /></div>
           <div className="agent-library-hero-overlay" />
           <div className="agent-library-hero-content">
             <div className="agent-library-hero-copy">
@@ -176,7 +176,7 @@ export default function AgentLibraryPage() {
                         <div className="catalogue-agent-icon-stack"><span className="catalogue-agent-icon catalogue-agent-icon-navy"><CpuIcon /></span><span className="catalogue-agent-icon catalogue-agent-icon-teal"><SparkIcon /></span><span className="catalogue-agent-icon catalogue-agent-icon-orange"><ChartIcon /></span></div>
                         <h2 className="catalogue-agent-card-title">{agent.name || `AI Agent ${index + 1}`}</h2>
                         <p className="catalogue-agent-card-description">{agent.description || "Intelligent automation for your business workflow."}</p>
-                        {agent.has_demo ? <button type="button" className="catalogue-agent-action" onClick={() => setSelected({ agent, category: cat })}>Try this agent <ArrowIcon /></button> : <Link className="catalogue-agent-action" href={`/agent-library#catalogue`}>Explore agent <ArrowIcon /></Link>}
+                        {agent.has_demo ? <button type="button" className="catalogue-agent-action" onClick={() => setSelected({ agent, category: cat })}>View Demo <PlayIcon /></button> : <Link className="catalogue-agent-action" href={`/agent-library#catalogue`}>Explore Agent <ArrowIcon /></Link>}
                       </article>;
                     })}
                   </div>
