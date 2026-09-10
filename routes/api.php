@@ -21,6 +21,7 @@ use App\Http\Controllers\Api\FaqSectionController;
 use App\Http\Controllers\Api\CrewAcademySectionController;
 use App\Http\Controllers\Api\AiOpportunitySectionController;
 use App\Http\Controllers\Api\AgentLibraryListSectionController;
+use App\Http\Controllers\Api\FooterLinkController;
 
 Route::get('/user', function (Request $request) {
     return $request->user();
@@ -48,3 +49,4 @@ Route::get('/faq-section', [FaqSectionController::class, 'index']);
 Route::get('/crew-academy-section', [CrewAcademySectionController::class, 'index']);
 Route::get('/ai-opportunity-section', [AiOpportunitySectionController::class, 'index']);
 Route::get('/agent-library-list-section', [AgentLibraryListSectionController::class, 'index']);
+Route::get('/footer-links', [FooterLinkController::class, 'index']);

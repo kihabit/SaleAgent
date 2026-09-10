@@ -20,12 +20,14 @@ class FooterSocialForm
                     'X'         => 'X (Twitter)',
                     'YouTube'   => 'YouTube',
                     'Instagram' => 'Instagram',
+                    'Pinterest' => 'Pinterest',
+                    'Medium'    => 'Medium',
                 ])
                 ->required(),
 
             TextInput::make('icon')
                 ->label('Icon Name')
-                ->placeholder('linkedin, facebook, x-twitter, youtube, instagram')
+                ->placeholder('linkedin, facebook, x-twitter, youtube, instagram, pinterest, medium')
                 ->maxLength(255),
 
             TextInput::make('url')

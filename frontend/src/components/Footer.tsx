@@ -79,24 +79,49 @@ function LocationIcon() {
   );
 }
 
-const agentLinks = ["O2C", "P2P", "Supply Chain", "Finance", "Platform", "Insurance", "Manufacturing", "Retail & CPG", "Healthcare", "Trade Finance", "BFSI"];
+type FooterLinkItem = { label: string; url: string; is_external?: boolean };
+type FooterLinksResponse = { agent_library?: FooterLinkItem[]; quick_links?: FooterLinkItem[] };
+
+/** Turns the "Designed by KDS" portion of the copyright text into a link to the KDS website. */
+function renderCopyrightWithKdsLink(text: string) {
+  const marker = "Designed by KDS";
+  const idx = text.indexOf(marker);
+  if (idx === -1) return text;
+  return (
+    <>
+      {text.slice(0, idx)}
+      Designed by{" "}
+      <a href="https://keydynamicssolutions.com/" target="_blank" rel="noopener noreferrer" style={{ textDecoration: "underline" }}>
+        KDS
+      </a>
+      {text.slice(idx + marker.length)}
+    </>
+  );
+}
 
 /* ---------- component ---------- */
 
 export default function Footer() {
   const [settings, setSettings] = useState<FooterSettings>({});
   const [loaded, setLoaded] = useState(false);
+  const [links, setLinks] = useState<FooterLinksResponse>({});
 
   useEffect(() => {
     apiGet<FooterSettings>("/api/footer-settings")
       .then((data) => setSettings(data || {}))
       .catch(() => setSettings({}))
       .finally(() => setLoaded(true));
+
+    apiGet<FooterLinksResponse>("/api/footer-links")
+      .then((data) => setLinks(data || {}))
+      .catch(() => setLinks({}));
   }, []);
 
   const logo = assetUrl(settings.logo_image) || "/images/kds-logo-full.png";
   const socials: Social[] = settings.socials || [];
   const addresses = settings.contact_addresses || [];
+  const agentLinks = links.agent_library || [];
+  const quickLinks = links.quick_links || [];
 
   return (
     <>
@@ -113,27 +138,31 @@ export default function Footer() {
               </a>
             </div>
 
-            {/* Agent Library (static nav) */}
+            {/* Agent Library — dynamic from /api/footer-links */}
             <div>
               <h2 className="site-footer-heading">Agent Library</h2>
               <ul className="site-footer-links">
-                {agentLinks.map((label) => (
-                  <li key={label}>
-                    <Link href="/agent-library#catalogue">{label}</Link>
-                  </li>
-                ))}
+                {agentLinks.map((item, i) =>
+                  item.is_external ? (
+                    <li key={`al-${i}`}><a href={item.url} target="_blank" rel="noopener noreferrer">{item.label}</a></li>
+                  ) : (
+                    <li key={`al-${i}`}><Link href={item.url}>{item.label}</Link></li>
+                  )
+                )}
               </ul>
             </div>
 
-            {/* Quick links (static nav) */}
+            {/* Quick links — dynamic from /api/footer-links */}
             <div>
               <h2 className="site-footer-heading">Quick links</h2>
               <ul className="site-footer-links">
-                <li><Link href="/about-us">About us</Link></li>
-                <li><a href="https://keydynamicssolutions.com/" target="_blank" rel="noopener noreferrer">Blog</a></li>
-                <li><a href="https://keydynamicssolutions.com/" target="_blank" rel="noopener noreferrer">Case Studies</a></li>
-                <li><a href="https://keydynamicssolutions.com/" target="_blank" rel="noopener noreferrer">Privacy policy</a></li>
-                <li><Link href="/agent-library#catalogue">Agent Library</Link></li>
+                {quickLinks.map((item, i) =>
+                  item.is_external ? (
+                    <li key={`ql-${i}`}><a href={item.url} target="_blank" rel="noopener noreferrer">{item.label}</a></li>
+                  ) : (
+                    <li key={`ql-${i}`}><Link href={item.url}>{item.label}</Link></li>
+                  )
+                )}
               </ul>
             </div>
 
@@ -235,7 +264,7 @@ export default function Footer() {
       <section className="site-footer-social-bar" aria-label="Social links and copyright">
         <div className="site-footer-social-inner">
           <p className="site-footer-social-copy">
-            {settings.copyright_text || "© 2026 – All Rights Reserved Key Dynamics Solutions PVT LTD | Designed by KDS"}
+            {renderCopyrightWithKdsLink(settings.copyright_text || "© 2026 – All Rights Reserved Key Dynamics Solutions PVT LTD | Designed by KDS")}
           </p>
           <nav className="site-footer-social-links" aria-label="KDS social media">
             {socials.map((s, i) => {
