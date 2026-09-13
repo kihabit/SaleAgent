@@ -1,11 +1,10 @@
-"use client";
-
-import { useEffect, useMemo, useState } from "react";
-import Link from "next/link";
 import Footer from "@/components/Footer";
-import DemoModal from "@/components/DemoModal";
-import { apiGet, assetUrl, storageAssetUrl } from "@/lib/api";
+import CatalogueInteractive from "./CatalogueInteractive";
+import { assetUrl, storageAssetUrl } from "@/lib/api";
+import Link from "next/link";
 import type { Agent, AgentCategory, CatalogueSettings } from "@/types";
+
+const API_BASE = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
 
 type CatalogueSettingsExtended = CatalogueSettings & {
   build_heading?: string;
@@ -39,11 +38,25 @@ function extractObject<T>(response: any): T | null {
   if (response.data && typeof response.data === "object" && !Array.isArray(response.data)) return response.data as T;
   return !Object.prototype.hasOwnProperty.call(response, "success") ? response as T : null;
 }
-async function fetchAllPages<T>(path: string, maxPages = 20): Promise<T[]> {
-  const all: T[] = [];
-  for (let page = 1; page <= maxPages; page += 1) {
-    const response = await apiGet<any>(`${path}${path.includes("?") ? "&" : "?"}page=${page}&per_page=100`);
-    const batch = extractArray<T>(response);
+
+async function fetchJson(path: string) {
+  try {
+    const res = await fetch(`${API_BASE}${path}`, {
+      headers: { Accept: "application/json" },
+      next: { revalidate: 3600 },
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+async function fetchAllAgents(): Promise<Agent[]> {
+  const all: Agent[] = [];
+  for (let page = 1; page <= 20; page += 1) {
+    const response = await fetchJson(`/api/agents?page=${page}&per_page=100`);
+    const batch = extractArray<Agent>(response);
     if (!batch.length) break;
     all.push(...batch);
     const meta = response?.meta || response?.pagination;
@@ -54,18 +67,12 @@ async function fetchAllPages<T>(path: string, maxPages = 20): Promise<T[]> {
   return all;
 }
 
+/* ---- Icons used on the server-rendered part (Hero, Build CTA, AI Opportunity) ---- */
 const ArrowIcon = () => <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M5 12h14"/><path d="m13 6 6 6-6 6"/></svg>;
-const SearchIcon = () => <svg className="catalogue-intro-search-icon" width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>;
-const CpuIcon = () => <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v4M15 1v4M9 19v4M15 19v4M19 9h4M19 14h4M1 9h4M1 14h4"/></svg>;
 const SparkIcon = () => <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M12 3v18M3 12h18"/><path d="m5.6 5.6 12.8 12.8M18.4 5.6 5.6 18.4"/></svg>;
-const ChartIcon = () => <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 20h18"/><path d="M5 17V9h4v8M10 17V5h4v12M15 17v-6h4v6"/><path d="m5 6 4-3 3 2 6-3"/></svg>;
-const WorkflowIcon = () => <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/><path d="M9 6h3a3 3 0 0 1 3 3v6"/></svg>;
-
-/* Hero feature icons — original design uses 30x30, distinct sizing from catalogue card icons above */
 const HeroCpuIcon = () => <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="5" y="5" width="14" height="14" rx="2"/><path d="M9 9h6v6H9z"/><path d="M9 1v4M15 1v4M9 19v4M15 19v4M19 9h4M19 14h4M1 9h4M1 14h4"/></svg>;
 const HeroWorkflowIcon = () => <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><rect x="3" y="3" width="6" height="6" rx="1"/><rect x="15" y="15" width="6" height="6" rx="1"/><path d="M9 6h3a3 3 0 0 1 3 3v6"/></svg>;
 const HeroChartIcon = () => <svg width="30" height="30" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><path d="M3 20h18"/><path d="M5 17V9h4v8M10 17V5h4v12M15 17v-6h4v6"/><path d="m5 6 4-3 3 2 6-3"/></svg>;
-const PlayIcon = () => <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="m10 8 6 4-6 4z"/></svg>;
 
 const FEATURE_ICONS: Record<string, () => JSX.Element> = {
   cpu: HeroCpuIcon,
@@ -78,8 +85,7 @@ function FeatureIcon({ icon }: { icon?: string }) {
   return <Comp />;
 }
 
-/* Splits the hero description at "automate" and "deliver" to match the original 3-line layout,
-   regardless of whether the text comes from the CMS or the fallback default. */
+/* Splits the hero description at "automate" and "deliver" to match the original 3-line layout */
 function renderHeroDescription(text: string) {
   const m = text.match(/^(.*?automate)\s+(.*?deliver)\s+(.*)$/i);
   if (!m) return text;
@@ -94,46 +100,33 @@ function renderHeroDescription(text: string) {
   );
 }
 
-export default function AgentLibraryPage() {
-  const [settings, setSettings] = useState<CatalogueSettingsExtended>({});
-  const [categories, setCategories] = useState<AgentCategory[]>([]);
-  const [agents, setAgents] = useState<Agent[]>([]);
-  const [filter, setFilter] = useState("All");
-  const [query, setQuery] = useState("");
-  const [selected, setSelected] = useState<{ agent: Agent; category: string } | null>(null);
-  const [error, setError] = useState(false);
-  const [crewAcademy, setCrewAcademy] = useState<CrewAcademySection>({});
-  const [aiOpp, setAiOpp] = useState<AiOpportunitySection>({});
-  const [intro, setIntro] = useState<CatalogueIntroSection>({});
+export const revalidate = 900;
 
-  useEffect(() => {
-    Promise.allSettled([apiGet<any>("/api/catalogue-settings"), apiGet<any>("/api/agent-categories"), fetchAllPages<Agent>("/api/agents")]).then(([s, c, a]) => {
-      if (s.status === "fulfilled") setSettings(extractObject<CatalogueSettingsExtended>(s.value) || {});
-      if (c.status === "fulfilled") setCategories(extractArray<AgentCategory>(c.value));
-      if (a.status === "fulfilled") setAgents(a.value.map((agent) => ({ ...agent, category: agent.category || undefined })));
-      else setError(true);
-    });
-    apiGet<any>("/api/crew-academy-section").then((r) => setCrewAcademy(extractObject<CrewAcademySection>(r) || {})).catch(() => undefined);
-    apiGet<any>("/api/ai-opportunity-section").then((r) => setAiOpp(extractObject<AiOpportunitySection>(r) || {})).catch(() => undefined);
-    apiGet<any>("/api/agent-library-list-section").then((r) => setIntro(extractObject<CatalogueIntroSection>(r) || {})).catch(() => undefined);
-  }, []);
+export default async function AgentLibraryPage() {
+  const [settingsRes, categoriesRes, agentsRaw, crewAcademyRes, aiOppRes, introRes] = await Promise.all([
+    fetchJson("/api/catalogue-settings"),
+    fetchJson("/api/agent-categories"),
+    fetchAllAgents(),
+    fetchJson("/api/crew-academy-section"),
+    fetchJson("/api/ai-opportunity-section"),
+    fetchJson("/api/agent-library-list-section"),
+  ]);
 
-  const categoriesWithCounts = useMemo(() => categories.map((cat) => {
-    const label = cat.slug || cat.name;
-    return { cat, label, count: agents.filter((a) => (a.category?.slug || a.category?.name) === label).length };
-  }).filter((entry) => entry.label && entry.count > 0), [categories, agents]);
-
-  const filtered = useMemo(() => agents.filter((agent) => {
-    const category = agent.category?.slug || agent.category?.name || "";
-    const q = query.trim().toLowerCase();
-    return (filter === "All" || category === filter) && (!q || String(agent.name || "").toLowerCase().includes(q) || String(agent.description || "").toLowerCase().includes(q));
-  }), [agents, filter, query]);
+  const settings = extractObject<CatalogueSettingsExtended>(settingsRes) || {};
+  const categories = extractArray<AgentCategory>(categoriesRes);
+  const agents = agentsRaw.map((agent) => ({ ...agent, category: agent.category || undefined }));
+  const crewAcademy = extractObject<CrewAcademySection>(crewAcademyRes) || {};
+  const aiOpp = extractObject<AiOpportunitySection>(aiOppRes) || {};
+  const intro = extractObject<CatalogueIntroSection>(introRes) || {};
 
   return (
     <>
       <main>
+   
         <section id="agent-library-hero" className="agent-library-hero-section">
-          <div className="agent-library-hero-bg"><img className="agent-library-hero-image" src={settings.hero_image ? storageAssetUrl(settings.hero_image) : assetUrl("/images/agent-library-hero-banner.png")} alt={settings.hero_image_alt || ""} width={1024} height={410} fetchPriority="high" /></div>
+          <div className="agent-library-hero-bg">
+            <img className="agent-library-hero-image" src={assetUrl("/images/agent-library-hero-banner.png")} alt="" width={1024} height={410} fetchPriority="high" />
+          </div>
           <div className="agent-library-hero-overlay" />
           <div className="agent-library-hero-content">
             <div className="agent-library-hero-copy">
@@ -149,43 +142,16 @@ export default function AgentLibraryPage() {
           </div>
         </section>
 
-        <section id="catalogue" className="catalogue-section">
-          <div className="catalogue-container">
-            <div className="catalogue-intro">
-              <h2 className="catalogue-intro-title">{intro.heading || "The KDS ERP Crew Agent Library"}</h2>
-              <p className="catalogue-intro-copy">{intro.description || "Explore the complete KDS ERP Crew AI Agent Library, featuring intelligent AI agents for Microsoft Dynamics 365 across Finance, Sales, Procurement, Supply Chain, Manufacturing, Retail, Healthcare, BFSI, Insurance, and more. Each agent is designed to automate business processes, enhance productivity, and deliver enterprise-grade AI automation."}</p>
-              <div className="catalogue-intro-search"><div className="catalogue-intro-search-inner"><SearchIcon /><input value={query} onChange={(e) => setQuery(e.target.value)} type="search" placeholder={intro.search_placeholder || "Search"} aria-label="Search AI agents" /></div></div>
-            </div>
+      
+        <CatalogueInteractive
+          categories={categories}
+          agents={agents}
+          introHeading={intro.heading}
+          introDescription={intro.description}
+          introSearchPlaceholder={intro.search_placeholder}
+        />
 
-            <div className="catalogue-layout">
-              <aside id="catalogue-filter-sticky" className="catalogue-category-sidebar" aria-label="Browse agents by category">
-                <h3 className="catalogue-category-title">Browse by Category</h3>
-                <div id="filter-bar">
-                  <button type="button" className={`catalogue-filter-btn ${filter === "All" ? "catalogue-filter-active" : ""}`} onClick={() => setFilter("All")}><span>All Agents</span><span className="catalogue-filter-arrow">→</span></button>
-                  {categoriesWithCounts.map(({ cat, label, count }) => <button type="button" key={cat.id} className={`catalogue-filter-btn ${filter === label ? "catalogue-filter-active" : ""}`} onClick={() => setFilter(label)}><span>{cat.name || label}</span><span className="catalogue-filter-arrow">→</span><span className="filter-count">{count}</span></button>)}
-                </div>
-              </aside>
-
-              <div className="catalogue-results">
-                <div className="catalogue-results-header"><p id="catalogue-count"><strong>{filtered.length}</strong> AI agents {filter !== "All" ? `in ${filter}` : "available"}{query ? ` matching “${query}”` : ""}</p></div>
-                {error && !agents.length ? <div className="catalogue-empty-state">Could not load agents. Please refresh and try again.</div> : filtered.length ? (
-                  <div id="catalogue-grid" className="catalogue-agent-grid">
-                    {filtered.map((agent, index) => {
-                      const cat = agent.category?.slug || agent.category?.name || "Agent";
-                      return <article className="catalogue-agent-card" key={agent.id}>
-                        <div className="catalogue-agent-icon-stack"><span className="catalogue-agent-icon catalogue-agent-icon-navy"><CpuIcon /></span><span className="catalogue-agent-icon catalogue-agent-icon-teal"><SparkIcon /></span><span className="catalogue-agent-icon catalogue-agent-icon-orange"><ChartIcon /></span></div>
-                        <h2 className="catalogue-agent-card-title">{agent.name || `AI Agent ${index + 1}`}</h2>
-                        <p className="catalogue-agent-card-description">{agent.description || "Intelligent automation for your business workflow."}</p>
-                        {agent.has_demo ? <button type="button" className="catalogue-agent-action" onClick={() => setSelected({ agent, category: cat })}>View Demo <PlayIcon /></button> : <Link className="catalogue-agent-action" href={`/agent-library#catalogue`}>Explore Agent <ArrowIcon /></Link>}
-                      </article>;
-                    })}
-                  </div>
-                ) : <div id="catalogue-empty" className="catalogue-empty-state">No agents match your filter.</div>}
-              </div>
-            </div>
-          </div>
-        </section>
-
+      
         <section id="build-your-first-agent" className="agent-library-build-cta">
           <div className="agent-library-build-cta-inner">
             <div className="agent-library-build-cta-copy">
@@ -194,10 +160,13 @@ export default function AgentLibraryPage() {
               <p className="agent-library-build-cta-lead">{crewAcademy.subheading || "Start building intelligent automation for your business."}</p>
               <p className="agent-library-build-cta-description">{crewAcademy.description || "Learn how to create, customize, and deploy AI agents that can automate tasks, streamline workflows, and support smarter business decisions."}</p>
             </div>
-            <div className="agent-library-build-cta-image-wrap"><img className="agent-library-build-cta-image" src={crewAcademy.image ? storageAssetUrl(crewAcademy.image) : "/images/build-first-ai-agent-dashboard.png"} alt={crewAcademy.image_alt || "KDS ERP Crew AI agent dashboard showing automation performance and agent cards"} loading="lazy" /></div>
+            <div className="agent-library-build-cta-image-wrap">
+              <img className="agent-library-build-cta-image" src={crewAcademy.image ? storageAssetUrl(crewAcademy.image) : "/images/build-first-ai-agent-dashboard.png"} alt={crewAcademy.image_alt || "KDS ERP Crew AI agent dashboard showing automation performance and agent cards"} loading="lazy" />
+            </div>
           </div>
         </section>
 
+       
         <section id="ai-opportunity-guide" className="agent-library-ai-start">
           <div className="agent-library-ai-start-panel"><div className="agent-library-ai-start-inner">
             <div className="agent-library-ai-start-copy">
@@ -226,11 +195,10 @@ export default function AgentLibraryPage() {
             </div>
           </div></div>
         </section>
-
       </main>
 
-      <DemoModal agent={selected?.agent || null} category={selected?.category} onClose={() => setSelected(null)} />
       <Footer />
     </>
   );
 }
+

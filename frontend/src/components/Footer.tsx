@@ -1,9 +1,29 @@
-"use client";
-
-import { useEffect, useState } from "react";
 import Link from "next/link";
-import { apiGet, assetUrl } from "@/lib/api";
+import { assetUrl } from "@/lib/api";
 import type { FooterSettings, Social } from "@/types";
+
+const API_BASE = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
+
+/* ---------- server-side fetch helpers ---------- */
+
+async function fetchJson(path: string) {
+  try {
+    const res = await fetch(`${API_BASE}${path}`, {
+      headers: { Accept: "application/json" },
+      next: { revalidate: 900 }, // 
+    });
+    if (!res.ok) return null;
+    return await res.json();
+  } catch {
+    return null;
+  }
+}
+
+function extractObject<T>(response: any): T | null {
+  if (!response || response.success === false) return null;
+  if (response.data && typeof response.data === "object" && !Array.isArray(response.data)) return response.data as T;
+  return !Object.prototype.hasOwnProperty.call(response, "success") ? response as T : null;
+}
 
 /* ---------- helpers ---------- */
 
@@ -79,9 +99,6 @@ function LocationIcon() {
   );
 }
 
-type FooterLinkItem = { label: string; url: string; is_external?: boolean };
-type FooterLinksResponse = { agent_library?: FooterLinkItem[]; quick_links?: FooterLinkItem[] };
-
 /** Turns the "Designed by KDS" portion of the copyright text into a link to the KDS website. */
 function renderCopyrightWithKdsLink(text: string) {
   const marker = "Designed by KDS";
@@ -99,23 +116,19 @@ function renderCopyrightWithKdsLink(text: string) {
   );
 }
 
-/* ---------- component ---------- */
+type FooterLinkItem = { label: string; url: string; is_external?: boolean };
+type FooterLinksResponse = { agent_library?: FooterLinkItem[]; quick_links?: FooterLinkItem[] };
 
-export default function Footer() {
-  const [settings, setSettings] = useState<FooterSettings>({});
-  const [loaded, setLoaded] = useState(false);
-  const [links, setLinks] = useState<FooterLinksResponse>({});
+/* ---------- component (Server Component — fetched once on the server, fast + cached) ---------- */
 
-  useEffect(() => {
-    apiGet<FooterSettings>("/api/footer-settings")
-      .then((data) => setSettings(data || {}))
-      .catch(() => setSettings({}))
-      .finally(() => setLoaded(true));
+export default async function Footer() {
+  const [settingsRes, linksRes] = await Promise.all([
+    fetchJson("/api/footer-settings"),
+    fetchJson("/api/footer-links"),
+  ]);
 
-    apiGet<FooterLinksResponse>("/api/footer-links")
-      .then((data) => setLinks(data || {}))
-      .catch(() => setLinks({}));
-  }, []);
+  const settings = extractObject<FooterSettings>(settingsRes) || {};
+  const links = extractObject<FooterLinksResponse>(linksRes) || (linksRes as FooterLinksResponse) || {};
 
   const logo = assetUrl(settings.logo_image) || "/images/kds-logo-full.png";
   const socials: Social[] = settings.socials || [];
@@ -138,7 +151,7 @@ export default function Footer() {
               </a>
             </div>
 
-            {/* Agent Library — dynamic from /api/footer-links */}
+            {/* Agent Library — dynamic */}
             <div>
               <h2 className="site-footer-heading">Agent Library</h2>
               <ul className="site-footer-links">
@@ -152,7 +165,7 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Quick links — dynamic from /api/footer-links */}
+            {/* Quick links — dynamic */}
             <div>
               <h2 className="site-footer-heading">Quick links</h2>
               <ul className="site-footer-links">
@@ -166,7 +179,7 @@ export default function Footer() {
               </ul>
             </div>
 
-            {/* Contact details — fully dynamic */}
+            {/* Contact details */}
             <div className="site-footer-contact">
               <h2 className="site-footer-heading">{settings.contact_heading || "Contact details"}</h2>
               <ul className="site-footer-contact-list">
@@ -195,7 +208,6 @@ export default function Footer() {
 
         <div className="mx-auto max-w-screen-2xl">
           <div className="footer-inner">
-            {/* Left: About (repeated block, matches original design) */}
             <div style={{ maxWidth: "32rem" }}>
               <div className="flex items-center">
                 <img src={logo} alt={settings.logo_alt_text || "KDS ERP Crew"} style={{ height: "3.75rem", objectFit: "contain" }} />
@@ -208,7 +220,6 @@ export default function Footer() {
               </p>
             </div>
 
-            {/* Right: Want to know more + Connect */}
             <div className="footer-right">
               <p className="text-hero-foreground" style={{ fontSize: "0.875rem", fontWeight: 600 }}>
                 {settings.info_heading || "Want to know more about KDS?"}
@@ -260,7 +271,6 @@ export default function Footer() {
         </div>
       </footer>
 
-      {/* Bottom social bar — matches original static export */}
       <section className="site-footer-social-bar" aria-label="Social links and copyright">
         <div className="site-footer-social-inner">
           <p className="site-footer-social-copy">

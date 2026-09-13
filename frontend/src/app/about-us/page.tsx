@@ -1,9 +1,7 @@
-"use client";
-
-import { useEffect, useState } from "react";
-
 import Footer from "@/components/Footer";
-import { apiGet } from "@/lib/api";
+import CmsContent from "./CmsContent";
+
+const API_BASE = process.env.NEXT_PUBLIC_LARAVEL_API_URL;
 
 interface PageData {
   title: string;
@@ -12,50 +10,38 @@ interface PageData {
   content: string;
 }
 
-export default function AboutPage() {
-  const [page, setPage] = useState<PageData | null>(null);
-  const [error, setError] = useState(false);
+export const revalidate = 900; // 
 
-  useEffect(() => {
-   apiGet<PageData>("/api/pages/about-us")
-      .then(setPage)
-      .catch((err) => {
-        console.error(err);
-        setError(true);
-      });
-  }, []);
-
-  // Re-run any <script> tags inside the CMS HTML content
-  // (scripts inside dangerouslySetInnerHTML don't execute automatically)
-  useEffect(() => {
-    if (!page) return;
-
-    const container = document.getElementById("cms-page-content");
-    if (!container) return;
-
-    const scripts = container.querySelectorAll("script");
-    scripts.forEach((oldScript) => {
-      const newScript = document.createElement("script");
-      Array.from(oldScript.attributes).forEach((attr) =>
-        newScript.setAttribute(attr.name, attr.value)
-      );
-      newScript.textContent = oldScript.textContent;
-      oldScript.parentNode?.replaceChild(newScript, oldScript);
+async function getPageData(): Promise<PageData | null> {
+  try {
+    const res = await fetch(`${API_BASE}/api/pages/about-us`, {
+      headers: { Accept: "application/json" },
+      next: { revalidate: 3600 },
     });
-  }, [page]);
+    if (!res.ok) return null;
+    const json = await res.json();
+    // apiGet jaisa hi unwrap logic (agar { success, data } format hai)
+    if (json && typeof json === "object" && "success" in json) {
+      return json.success ? json.data : null;
+    }
+    return json;
+  } catch {
+    return null;
+  }
+}
+
+export default async function AboutPage() {
+  const page = await getPageData();
 
   return (
     <>
-     
       <main>
-        {error && (
+        {!page && (
           <p style={{ padding: "3rem", textAlign: "center", color: "#b91c1c" }}>
             Unable to load page content.
           </p>
         )}
-        {page && (
-          <div id="cms-page-content" dangerouslySetInnerHTML={{ __html: page.content }} />
-        )}
+        {page && <CmsContent html={page.content} />}
       </main>
       <Footer />
     </>
